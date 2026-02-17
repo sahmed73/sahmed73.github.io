@@ -1,5 +1,3 @@
-# Shihab Ahmed
-
 PhD Candidate – Mechanical Engineering  
 University of California, Merced  
 
