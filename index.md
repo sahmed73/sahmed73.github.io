@@ -1,40 +1,18 @@
-PhD Candidate – Mechanical Engineering  
-University of California, Merced  
-
----
-
-## Research Focus
-
-My research integrates reactive molecular dynamics and machine learning to understand oxidation mechanisms and design high-performance antioxidant additives for lubricants and energy applications.
-
----
-
-## Core Areas
-
-- Reactive Molecular Dynamics (ReaxFF & ML Potentials)
-- Thermo-oxidation Mechanisms
-- Generative Models for Antioxidant Design
-- Scientific Machine Learning
-- High-Performance Computing Workflows
-
----
-
-## Navigation
-
-- [Publications](publications.md)
-- [About Me](about.md)
 ---
 layout: home
-title: Shihab Ahmed
 ---
 
-# Shihab Ahmed
+<div class="hero">
+  <div class="hero-copy">
+    <p class="eyebrow">PhD Candidate · Mechanical Engineering · UC Merced</p>
+    <h1>Modeling the chemistry of materials that last.</h1>
+    <p class="hero-intro">I study how molecules react, degrade, and protect materials. My research combines reactive molecular dynamics, machine learning, and high-performance computing to understand thermo-oxidation and design better antioxidant additives.</p>
+    <div class="hero-links"><a href="publications.md" class="btn">View publications</a> <a href="about.md" class="text-link">About my research →</a></div>
+  </div>
+  <div class="portrait-placeholder" aria-label="Profile photo placeholder"><span>SA</span><small>profile photo</small></div>
+</div>
 
-### PhD Candidate · Mechanical Engineering · UC Merced
-
-I study how molecules react, degrade, and protect materials. My research combines reactive molecular dynamics, machine learning, and high-performance computing to understand thermo-oxidation and design better antioxidant additives.
-
-[View my publications](publications.md){: .btn} [Connect on LinkedIn](https://www.linkedin.com/in/shihab73/){: .btn .btn-secondary}
+<div class="research-note"><span class="note-mark">✦</span><span>Computational tribology · Antioxidant chemistry · Scientific machine learning</span></div>
 
 ## Research
 

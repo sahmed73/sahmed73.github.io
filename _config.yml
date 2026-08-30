@@ -9,6 +9,10 @@ author:
 header_pages:
   - about.md
   - publications.md
+  - blog.md
+
+plugins:
+  - jekyll-feed
 
 minima:
   skin: dark
