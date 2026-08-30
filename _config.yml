@@ -2,9 +2,8 @@ theme: minima
 title: Shihab Ahmed
 description: PhD Candidate in Mechanical Engineering studying molecular simulation, oxidation chemistry, and scientific machine learning.
 
-author:
-  name: Shihab Ahmed
-  email: ""
+author: Shihab Ahmed
+email: sahmed73@ucmerced.edu
 
 header_pages:
   - about.md
