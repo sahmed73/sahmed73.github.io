@@ -7,7 +7,7 @@ layout: home
     <p class="eyebrow">PhD Candidate · Mechanical Engineering · UC Merced</p>
     <h1>Modeling the chemistry of materials that last.</h1>
     <p class="hero-intro">I study how molecules react, degrade, and protect materials. My research combines reactive molecular dynamics, machine learning, and high-performance computing to understand thermo-oxidation and design better antioxidant additives.</p>
-    <div class="hero-links"><a href="publications.md" class="btn">View publications</a> <a href="about.md" class="text-link">About my research →</a></div>
+    <div class="hero-links"><a href="{{ '/publications/' | relative_url }}" class="btn">View publications</a> <a href="{{ '/about/' | relative_url }}" class="text-link">About my research →</a></div>
   </div>
   <div class="portrait-placeholder" aria-label="Profile photo placeholder"><span>SA</span><small>profile photo</small></div>
 </div>
@@ -51,7 +51,7 @@ My work sits at the intersection of computational chemistry, tribology, and scie
 **Tracking thermo-oxidation reaction products and pathways of modified lignin structures from reactive molecular dynamics simulations**<br>
 *The Journal of Physical Chemistry A* · 2024
 
-[Read the paper](https://doi.org/10.1021/acs.jpca.4c00964) · [See all publications](publications.md)
+[Read the paper](https://doi.org/10.1021/acs.jpca.4c00964) · [See all publications]({{ '/publications/' | relative_url }})
 
 ## Currently thinking about
 
