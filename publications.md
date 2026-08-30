@@ -1,3 +1,9 @@
+---
+layout: page
+title: Publications
+permalink: /publications/
+---
+
 ## 2024
 
 **Ahmed, S.**, Eder, S. J., Dörr, N., Martini, A.  

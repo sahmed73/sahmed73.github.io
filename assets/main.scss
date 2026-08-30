@@ -1,0 +1,51 @@
+---
+---
+
+@import "minima";
+
+:root {
+  --ink: #eef3f0;
+  --muted: #aab8b3;
+  --accent: #7ee0bc;
+  --accent-warm: #f5b971;
+  --panel: #16211f;
+  --line: rgba(238, 243, 240, .13);
+}
+
+body {
+  background: #0d1514;
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  line-height: 1.7;
+}
+
+.site-header { border-top: 4px solid var(--accent); border-bottom: 1px solid var(--line); }
+.site-title, .site-nav .page-link { color: var(--ink) !important; }
+.site-title { font-weight: 700; letter-spacing: -.03em; }
+.page-content { padding: 76px 0 110px; }
+.wrapper { max-width: 980px; }
+h1, h2, h3 { color: var(--ink); letter-spacing: -.035em; line-height: 1.15; }
+h1 { font-size: clamp(2.8rem, 8vw, 5.7rem); max-width: 800px; margin-bottom: 18px; }
+h2 { font-size: 2rem; margin-top: 70px; }
+h3 { font-size: 1.15rem; }
+p { color: var(--muted); }
+a { color: var(--accent); }
+.post-title { display: none; }
+.post-header { margin-bottom: 0; }
+.post-content > p:first-of-type { font-size: 1.22rem; max-width: 760px; color: #d6e2dd; }
+.btn { display: inline-block; margin: 18px 10px 0 0; padding: 9px 17px; border: 1px solid var(--accent); border-radius: 999px; color: #0d1514 !important; background: var(--accent); font-weight: 700; text-decoration: none; }
+.btn-secondary { color: var(--accent) !important; background: transparent; }
+.research-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 28px; }
+.research-card { background: var(--panel); border: 1px solid var(--line); border-radius: 5px; padding: 24px; min-height: 170px; }
+.research-card h3 { margin: 12px 0 8px; }
+.research-card p { font-size: .96rem; margin: 0; }
+.card-number { color: var(--accent-warm); font-family: monospace; font-size: .8rem; letter-spacing: .1em; }
+.post-content blockquote { border-left-color: var(--accent); }
+.site-footer { border-top: 1px solid var(--line); }
+.footer-heading, .contact-list, .social-media-list { color: var(--muted); }
+
+@media (max-width: 650px) {
+  .page-content { padding: 42px 0 70px; }
+  .research-grid { grid-template-columns: 1fr; }
+  h1 { font-size: 3.1rem; }
+}

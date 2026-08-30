@@ -1,6 +1,14 @@
 theme: minima
 title: Shihab Ahmed
-description: PhD Candidate | Molecular Simulation | Scientific Machine Learning
+description: PhD Candidate in Mechanical Engineering studying molecular simulation, oxidation chemistry, and scientific machine learning.
+
+author:
+  name: Shihab Ahmed
+  email: ""
+
+header_pages:
+  - about.md
+  - publications.md
 
 minima:
   skin: dark
