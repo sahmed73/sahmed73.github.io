@@ -63,9 +63,14 @@ My work sits at the intersection of computational chemistry, tribology, and scie
   </div>
 </div>
 
-## Selected publication
+## Selected publications
 
-**Tracking Thermo-Oxidation Reaction Products and Pathways of Modified Lignin Structures from Reactive Molecular Dynamics Simulations**<br>
+**Reactive MD screening of antioxidants for substituent-dependent phenoxyl radical stability**<br>
+*ACS Omega* · 2026
+
+[Read the paper](https://doi.org/10.1021/acsomega.6c00592)
+
+**Tracking thermo-oxidation reaction products and pathways of modified lignin structures from reactive molecular dynamics simulations**<br>
 *The Journal of Physical Chemistry A* · 2024
 
 [Read the paper](https://doi.org/10.1021/acs.jpca.4c00964) · [See all publications](publications.md)

@@ -4,22 +4,22 @@
 @import "minima";
 
 :root {
-  --ink: #eef3f0;
-  --muted: #aab8b3;
+  --ink: #19312c;
+  --muted: #53655f;
   --accent: #7ee0bc;
-  --accent-warm: #f5b971;
-  --panel: #16211f;
-  --line: rgba(238, 243, 240, .13);
+  --accent-warm: #a86927;
+  --panel: #eaf1ed;
+  --line: rgba(25, 49, 44, .16);
 }
 
 body {
-  background: #0d1514;
+  background: #f5f7f4;
   color: var(--ink);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   line-height: 1.7;
 }
 
-.site-header { border-top: 4px solid var(--accent); border-bottom: 1px solid var(--line); }
+.site-header { background: #f5f7f4; border-top: 4px solid var(--accent); border-bottom: 1px solid var(--line); }
 .site-title, .site-nav .page-link { color: var(--ink) !important; }
 .site-title { font-weight: 700; letter-spacing: -.03em; }
 .page-content { padding: 76px 0 110px; }
@@ -32,8 +32,8 @@ p { color: var(--muted); }
 a { color: var(--accent); }
 .post-title { display: none; }
 .post-header { margin-bottom: 0; }
-.post-content > p:first-of-type { font-size: 1.22rem; max-width: 760px; color: #d6e2dd; }
-.btn { display: inline-block; margin: 18px 10px 0 0; padding: 9px 17px; border: 1px solid var(--accent); border-radius: 999px; color: #0d1514 !important; background: var(--accent); font-weight: 700; text-decoration: none; }
+.post-content > p:first-of-type { font-size: 1.22rem; max-width: 760px; color: #304a43; }
+.btn { display: inline-block; margin: 18px 10px 0 0; padding: 9px 17px; border: 1px solid #4eaf8c; border-radius: 999px; color: #19312c !important; background: var(--accent); font-weight: 700; text-decoration: none; }
 .btn-secondary { color: var(--accent) !important; background: transparent; }
 .research-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 28px; }
 .research-card { background: var(--panel); border: 1px solid var(--line); border-radius: 5px; padding: 24px; min-height: 170px; }

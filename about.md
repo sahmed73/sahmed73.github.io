@@ -8,6 +8,8 @@ I’m Shihab Ahmed, a PhD researcher in computational tribology at the Universit
 
 My research uses molecular simulation and artificial intelligence to understand antioxidant chemistry, reaction mechanisms, and the degradation of lubricants and energy-relevant materials. I’m interested in the space where fundamental molecular insight becomes a better engineering material.
 
+I am a PhD Candidate and Graduate Student Researcher in the Martini Research Group at UC Merced. My current work includes generative AI frameworks based on GANs and diffusion models, large-scale reactive molecular dynamics, and literature-mining pipelines for lubricant-relevant compounds. I also collaborate with the Austrian Competence Center for Tribology (AC2T).
+
 ### Research toolkit
 
 - Reactive molecular dynamics with ReaxFF
