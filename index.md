@@ -5,7 +5,7 @@ layout: home
 <div class="hero">
   <div class="hero-copy">
     <p class="eyebrow">Computational tribology · UC Merced</p>
-    <h1>Modeling the chemistry of materials that last.</h1>
+    <h1>Designing antioxidant additives for lubricants that last.</h1>
     <p class="hero-intro">I study how molecules react, degrade, and protect materials. My research combines reactive molecular dynamics, machine learning, and high-performance computing to understand thermo-oxidation and design better antioxidant additives.</p>
     <div class="hero-links"><a href="{{ '/research/' | relative_url }}" class="btn">Explore my research</a> <a href="{{ '/publications/' | relative_url }}" class="text-link">View publications <span aria-hidden="true">→</span></a></div>
   </div>
