@@ -9,7 +9,7 @@ layout: home
     <p class="hero-intro">I study how molecules react, degrade, and protect materials. My research combines reactive molecular dynamics, machine learning, and high-performance computing to understand thermo-oxidation and design better antioxidant additives.</p>
     <div class="hero-links"><a href="{{ '/research/' | relative_url }}" class="btn">Explore my research</a> <a href="{{ '/publications/' | relative_url }}" class="text-link">View publications <span aria-hidden="true">→</span></a></div>
   </div>
-  <div class="portrait-frame"><img src="{{ '/assets/profile.png?v=2' | relative_url }}" alt="Portrait of Shihab Ahmed"></div>
+  <div class="portrait-frame"><img src="{{ '/assets/profile-off-white.png?v=1' | relative_url }}" alt="Portrait of Shihab Ahmed"></div>
 </div>
 
 <div class="research-note"><span class="note-mark">✦</span><span>Computational tribology · Antioxidant chemistry · Scientific machine learning</span></div>
