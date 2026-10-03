@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="460" height="330" viewBox="0 0 460 330" fill="none">
+  <defs><pattern id="grid" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".8" fill="#82a79a" opacity=".24"/></pattern></defs>
+  <rect width="460" height="330" fill="url(#grid)"/>
+  <g stroke="#b9d7b6" stroke-width="2"><path d="M130 106 183 136 183 196 130 226 77 196 77 136Z"/><path d="m130 116 44 25m0 49-44 26m-44-25v-49"/><path d="M130 106V69m53 67 35-20m-141 80-31 18"/></g>
+  <g fill="#e7f1d9" font-family="Georgia,serif" font-size="24"><text x="120" y="59">OH</text><text x="223" y="119">R</text><text x="23" y="231">R</text></g>
+  <circle cx="130" cy="162" r="109" stroke="#b9d7b6" stroke-dasharray="3 8" opacity=".25"/>
+  <path d="M255 162h51m-8-7 8 7-8 7" stroke="#c5da91" stroke-width="1.5"/>
+  <g fill="#b9d7b6"><circle cx="342" cy="129" r="7"/><circle cx="390" cy="162" r="10"/><circle cx="346" cy="199" r="7"/></g>
+  <g stroke="#b9d7b6" stroke-width="1.5"><path d="m349 133 33 23m-30 38 30-24m-38-33 2 55"/><circle cx="369" cy="164" r="59" opacity=".25"/></g>
+  <g fill="#c1d0bf" font-family="monospace" font-size="10" letter-spacing="1.5"><text x="47" y="299">MOLECULAR STRUCTURE</text><text x="293" y="259">REACTION INSIGHT</text><text x="314" y="278">↓</text><text x="299" y="299">DESIGN CHOICES</text></g>
+</svg>

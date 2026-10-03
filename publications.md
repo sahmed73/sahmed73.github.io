@@ -9,7 +9,7 @@ permalink: /publications/
 ## 2026
 
 <div class="publication-detail">
-  <p class="publication-year">ACS Omega · Volume 11, Issue 27</p>
+  <p class="publication-year">ACS Omega · Volume 11, Issue 10 · 16886–16894</p>
   <h2>Reactive MD screening of antioxidants for substituent-dependent phenoxyl radical stability</h2>
   <p><strong>Ahmed, S.</strong>, Eder, S. J., Iqbal, M. M., Dörr, N., & Martini, A.</p>
   <a class="btn btn-small" href="https://doi.org/10.1021/acsomega.6c00592">View publication <span aria-hidden="true">↗</span></a>

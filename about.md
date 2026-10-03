@@ -1,6 +1,7 @@
 ---
 layout: page
 title: About my research
+nav_title: About
 permalink: /about/
 ---
 

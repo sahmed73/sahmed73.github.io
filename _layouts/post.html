@@ -1,0 +1,20 @@
+---
+layout: default
+---
+<article class="essay">
+  <header class="essay-header">
+    <a class="text-link" href="{{ '/blog/' | relative_url }}"><span aria-hidden="true">←</span> Molecular Perspectives</a>
+    <p class="eyebrow">Short review · {{ page.topic }}</p>
+    <h1>{{ page.title }}</h1>
+    <p class="essay-deck">{{ page.description }}</p>
+    <div class="essay-meta"><span>Shihab Ahmed</span><time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%B %-d, %Y' }}</time><span>{{ page.reading_time }} min read</span></div>
+  </header>
+  <div class="essay-body">{{ content }}</div>
+  <aside class="essay-end" aria-label="Continue reading">
+    <p class="eyebrow">Continue exploring</p>
+    {% for post in site.posts %}{% unless post.url == page.url %}
+      <h2><a href="{{ post.url | relative_url }}">{{ post.title }} <span aria-hidden="true">→</span></a></h2>
+    {% endunless %}{% endfor %}
+    <p>Interested in these questions? <a href="mailto:{{ site.email }}">Let’s connect.</a></p>
+  </aside>
+</article>

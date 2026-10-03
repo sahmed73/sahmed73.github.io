@@ -1,99 +1,61 @@
 ---
-layout: home
+layout: default
+title: Molecular science for better materials
+description: Shihab Ahmed is a PhD candidate at UC Merced studying antioxidant chemistry, reactive molecular dynamics, and AI for lubricant design.
+image: /assets/profile-off-white.png
 ---
 
-<div class="hero">
+<section class="hero" aria-labelledby="hero-title">
   <div class="hero-copy">
-    <p class="eyebrow">Computational tribology · UC Merced</p>
-    <h1>Designing antioxidant additives for lubricants that last.</h1>
-    <p class="hero-intro">I study how molecules react, degrade, and protect materials. My research combines reactive molecular dynamics, machine learning, and high-performance computing to understand thermo-oxidation and design better antioxidant additives.</p>
-    <div class="hero-links"><a href="{{ '/research/' | relative_url }}" class="btn">Explore my research</a> <a href="{{ '/publications/' | relative_url }}" class="text-link">View publications <span aria-hidden="true">→</span></a></div>
+    <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> Computational tribology · UC Merced</p>
+    <h1 id="hero-title">Small molecules.<br><em>Lasting impact.</em></h1>
+    <p class="hero-name">I’m Shihab Ahmed, a PhD candidate turning molecular insight into better material design.</p>
+    <p class="hero-intro">I combine reactive molecular dynamics and machine learning to understand how lubricants degrade—and how antioxidant molecules can help them last longer.</p>
+    <div class="hero-links"><a href="{{ '/research/' | relative_url }}" class="btn">Explore my research <span aria-hidden="true">↗</span></a><a href="mailto:sahmed73@ucmerced.edu" class="text-link">Let’s connect <span aria-hidden="true">→</span></a></div>
+    <p class="hero-affiliation">Martini Research Group <span aria-hidden="true">/</span> University of California, Merced</p>
   </div>
-  <div class="portrait-frame"><img src="{{ '/assets/profile-off-white.png?v=1' | relative_url }}" alt="Portrait of Shihab Ahmed"></div>
-</div>
+  <figure class="portrait-panel">
+    <div class="portrait-frame"><img src="{{ '/assets/profile-off-white.png' | relative_url }}" alt="Shihab Ahmed" width="1254" height="1254" fetchpriority="high"></div>
+    <figcaption><div><strong>Shihab Ahmed</strong><span>PhD Candidate · Computational Researcher</span></div><span class="portrait-mark" aria-hidden="true">↗</span></figcaption>
+    <span class="portrait-label" aria-hidden="true">CHEMISTRY × COMPUTATION</span>
+  </figure>
+</section>
 
-<div class="research-note"><span class="note-mark">✦</span><span>Computational tribology · Antioxidant chemistry · Scientific machine learning</span></div>
+<div class="expertise-strip" aria-label="Research areas"><span>Reactive molecular dynamics</span><span>Antioxidant chemistry</span><span>AI for molecular design</span><span>High-performance computing</span></div>
 
-<div class="section-heading">
-  <div>
-    <p class="eyebrow">Research</p>
-    <h2>From molecular mechanisms to material design.</h2>
+<section class="research-overview" aria-labelledby="research-heading">
+  <div class="section-heading"><div><p class="eyebrow">01 / The research</p><h2 id="research-heading">Understanding chemistry.<br>Designing what comes next.</h2></div><p>Friction, wear, and lubricant lifetime begin with molecular interactions. My work connects those interactions to questions that matter in engineering.</p></div>
+  <div class="research-grid">
+    <article class="research-card"><span class="card-number">01 — UNDERSTAND</span><h3>Follow the<br> reaction.</h3><p>Use reactive molecular dynamics to track bonds, chemical products, and the pathways behind thermo-oxidation.</p><p class="card-tools">ReaxFF · Reaction tracking</p></article>
+    <article class="research-card"><span class="card-number">02 — EXPLAIN</span><h3>Find what<br> protects.</h3><p>Study how molecular structure influences phenoxyl radical stability and the chemistry of antioxidant additives.</p><p class="card-tools">Antioxidants · Structure–property relationships</p></article>
+    <article class="research-card"><span class="card-number">03 — DESIGN</span><h3>Explore better<br> molecules.</h3><p>Investigate generative models and machine-learned potentials to connect chemical insight with candidate discovery.</p><p class="card-tools">Generative AI · Scientific machine learning</p></article>
   </div>
-  <a href="{{ '/research/' | relative_url }}" class="text-link">See the full research program <span aria-hidden="true">→</span></a>
-</div>
+  <a href="{{ '/research/' | relative_url }}" class="text-link section-link">Inside my research <span aria-hidden="true">→</span></a>
+</section>
 
-My work sits at the intersection of computational chemistry, tribology, and scientific machine learning.
+<section class="research-feature" aria-labelledby="feature-heading">
+  <div class="feature-copy"><p class="eyebrow">The question connecting my work</p><h2 id="feature-heading">What makes a molecule<br><em>a better protector?</em></h2><p>To design useful additives, we need to understand both the molecule and what happens to it. I connect atomistic reaction mechanisms with the search for compounds that can resist oxidation.</p><a href="{{ '/about/' | relative_url }}" class="text-link">More about my approach <span aria-hidden="true">↗</span></a></div>
+  <figure class="feature-figure"><img src="{{ '/assets/molecular-pathway.svg' | relative_url }}" alt="Conceptual pathway from an antioxidant molecule through reaction analysis to molecular design" width="460" height="330" loading="lazy"><figcaption>From chemical structure to design insight · conceptual illustration</figcaption></figure>
+</section>
 
-<div class="research-grid">
-  <div class="research-card">
-    <span class="card-number">01</span>
-    <h3>Reactive molecular dynamics</h3>
-    <p>Using ReaxFF and machine-learned potentials to follow chemical reactions at atomistic resolution.</p>
+<section aria-labelledby="publications-heading">
+  <div class="section-heading"><div><p class="eyebrow">02 / Selected publications</p><h2 id="publications-heading">Research, in print.</h2></div><a href="{{ '/publications/' | relative_url }}" class="text-link">All publications <span aria-hidden="true">→</span></a></div>
+  <div class="publication-list">
+    <article class="publication-item"><div><p class="publication-year">2026</p><p class="publication-venue">ACS Omega</p></div><div><h3><a href="https://doi.org/10.1021/acsomega.6c00592">Reactive MD screening of antioxidants for substituent-dependent phenoxyl radical stability</a></h3><p>Connecting antioxidant structure with radical stability through reactive molecular simulation.</p><p class="publication-authors"><strong>S. Ahmed</strong>, S. J. Eder, M. M. Iqbal, N. Dörr &amp; A. Martini</p></div><a href="https://doi.org/10.1021/acsomega.6c00592" class="paper-link" aria-label="Read the antioxidant screening paper">↗</a></article>
+    <article class="publication-item"><div><p class="publication-year">2024</p><p class="publication-venue">The Journal of<br>Physical Chemistry A</p></div><div><h3><a href="https://doi.org/10.1021/acs.jpca.4c00964">Tracking thermo-oxidation reaction products and pathways of modified lignin structures from reactive molecular dynamics simulations</a></h3><p>A tracking approach that turns complex reactive trajectories into identifiable products and reaction pathways.</p><p class="publication-authors"><strong>S. Ahmed</strong>, S. J. Eder, N. Dörr &amp; A. Martini</p></div><a href="https://doi.org/10.1021/acs.jpca.4c00964" class="paper-link" aria-label="Read the thermo-oxidation pathways paper">↗</a></article>
   </div>
-  <div class="research-card">
-    <span class="card-number">02</span>
-    <h3>Thermo-oxidation</h3>
-    <p>Mapping reaction products and pathways that control the lifetime of lubricants and functional materials.</p>
-  </div>
-  <div class="research-card">
-    <span class="card-number">03</span>
-    <h3>AI for molecular design</h3>
-    <p>Exploring generative models to discover high-performance antioxidant additives and molecular candidates.</p>
-  </div>
-  <div class="research-card">
-    <span class="card-number">04</span>
-    <h3>Scientific computing</h3>
-    <p>Building reproducible, high-performance workflows for large-scale molecular simulation and analysis.</p>
-  </div>
-</div>
+</section>
 
-<div class="section-heading">
-  <div>
-    <p class="eyebrow">Selected work</p>
-    <h2>Publications</h2>
-  </div>
-  <a href="{{ '/publications/' | relative_url }}" class="text-link">All publications <span aria-hidden="true">→</span></a>
-</div>
-
-<div class="publication-list">
-  <article class="publication-item">
-    <p class="publication-year">2026 · ACS Omega</p>
-    <h3>Reactive MD screening of antioxidants for substituent-dependent phenoxyl radical stability</h3>
-    <a href="https://doi.org/10.1021/acsomega.6c00592" class="text-link">Read the paper <span aria-hidden="true">↗</span></a>
-  </article>
-  <article class="publication-item">
-    <p class="publication-year">2024 · The Journal of Physical Chemistry A</p>
-    <h3>Tracking thermo-oxidation reaction products and pathways of modified lignin structures from reactive molecular dynamics simulations</h3>
-    <a href="https://doi.org/10.1021/acs.jpca.4c00964" class="text-link">Read the paper <span aria-hidden="true">↗</span></a>
-  </article>
-</div>
-
-<div class="section-heading">
-  <div>
-    <p class="eyebrow">Writing</p>
-    <h2>Notes, ideas, and useful things.</h2>
-  </div>
-  <a href="{{ '/blog/' | relative_url }}" class="text-link">Browse all writing <span aria-hidden="true">→</span></a>
-</div>
-
-<div class="post-list post-list-home">
-  {% if site.posts.size > 0 %}
-    {% for post in site.posts limit:3 %}
+<section aria-labelledby="perspectives-heading">
+  <div class="section-heading"><div><p class="eyebrow">03 / Molecular Perspectives</p><h2 id="perspectives-heading">A closer look at the science.</h2></div><a href="{{ '/blog/' | relative_url }}" class="text-link">Read the reviews <span aria-hidden="true">→</span></a></div>
+  <div class="post-list post-list-home">
+    {% for post in site.posts limit:2 %}
       <article class="post-card">
-        <p class="post-date">{{ post.date | date: "%B %-d, %Y" }}{% if post.category %} · {{ post.category }}{% endif %}</p>
-        <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
-        <p>{{ post.excerpt | strip_html | truncate: 150 }}</p>
+        <a class="post-art {{ post.visual }}" href="{{ post.url | relative_url }}" tabindex="-1" aria-hidden="true"><span class="art-kicker">MOLECULAR PERSPECTIVES / {{ post.series_number }}</span><span class="art-title">{{ post.cover_title }}</span><span class="art-bottom">{{ post.topic }} <span>↗</span></span></a>
+        <div class="post-card-copy"><p class="post-date">Short review · {{ post.reading_time }} min read</p><h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3><p>{{ post.description }}</p><a class="text-link" href="{{ post.url | relative_url }}">Read the review <span aria-hidden="true">→</span></a></div>
       </article>
     {% endfor %}
-  {% else %}
-    <div class="empty-note">
-      <p>The first essay is on its way.</p>
-      <p class="small-muted">This will be a home for research notes, practical guides, observations, and interests beyond the lab.</p>
-    </div>
-  {% endif %}
-</div>
+  </div>
+</section>
 
-<div class="closing-note">
-  <p class="eyebrow">Currently thinking about</p>
-  <p>How can we connect atomistic reaction mechanisms to practical material design—and make molecular simulation more predictive, scalable, and useful for engineering decisions?</p>
-</div>
+<section class="contact-panel" aria-labelledby="contact-heading"><div><p class="eyebrow">Research &amp; internship opportunities</p><h2 id="contact-heading">Let’s put molecular<br>insight to work.</h2><p>Interested in molecular simulation, lubricant chemistry, or AI for materials? I’d welcome a conversation about research roles, internships, and collaborations.</p></div><div class="contact-actions"><a class="btn" href="mailto:sahmed73@ucmerced.edu">Get in touch <span aria-hidden="true">↗</span></a><a href="https://www.linkedin.com/in/shihab73/" class="text-link">Connect on LinkedIn <span aria-hidden="true">↗</span></a></div></section>

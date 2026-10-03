@@ -1,6 +1,10 @@
 theme: minima
 title: Shihab Ahmed
-description: Computational researcher studying molecular simulation, oxidation chemistry, tribology, and scientific machine learning.
+description: Shihab Ahmed — PhD candidate at UC Merced connecting reactive molecular dynamics, antioxidant chemistry, and AI for lubricant design.
+url: https://sahmed73.github.io
+baseurl: ""
+lang: en
+timezone: America/Los_Angeles
 
 author: Shihab Ahmed
 email: sahmed73@ucmerced.edu
@@ -13,6 +17,12 @@ header_pages:
 
 plugins:
   - jekyll-feed
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - scripts
 
 github_username: sahmed73
 linkedin_username: shihab73
