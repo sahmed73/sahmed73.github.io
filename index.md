@@ -48,7 +48,7 @@ I'm open to research internships and collaborations in molecular simulation or m
 
 <p><a href="{{ '/publications/' | relative_url }}">All publications, abstracts, and talks</a></p>
 
-## Writing
+## Blog
 
 <ul class="posts">
 {%- for post in site.posts limit:3 %}

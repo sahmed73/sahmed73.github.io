@@ -2,14 +2,14 @@
 layout: default
 ---
 <article class="essay">
-  <p class="back"><a href="{{ '/blog/' | relative_url }}">← Writing</a></p>
+  <p class="back"><a href="{{ '/blog/' | relative_url }}">← Blog</a></p>
   <h1>{{ page.title }}</h1>
   <p class="meta">{{ page.author | default: site.author }} · <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%B %-d, %Y' }}</time> · {{ page.reading_time }} min read</p>
   {{ content }}
   {%- assign others = site.posts | where_exp: "post", "post.url != page.url" %}
   {%- if others.size > 0 %}
-  <aside class="essay-end" aria-label="More writing">
-    <p>More writing:</p>
+  <aside class="essay-end" aria-label="More posts">
+    <p>More posts:</p>
     <ul>
     {%- for post in others %}
       <li><a href="{{ post.url | relative_url }}">{{ post.title }}</a></li>
