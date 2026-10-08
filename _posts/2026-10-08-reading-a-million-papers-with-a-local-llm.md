@@ -65,13 +65,13 @@ Newer models make this optional. Qwen 2.5 and Qwen 3 accept 32K tokens or more, 
 
 ## Llama 3 8B, 70B, or Qwen 3?
 
-The full runs used Llama 3 8B. To see how much the model matters, I ran the same two pipeline steps with three models on a small test: two abstracts to score (one of my own antioxidant papers and an invented food-science abstract) and one paragraph that names three lubricant antioxidants and vitamin E.
+The full runs used Llama 3 8B. To see how much the model matters, I ran the same two pipeline steps with three models on a small test: two abstracts to score (one of my own antioxidant papers and an invented food-science abstract) and one paragraph that names three lubricant antioxidants and vitamin E. Scores are listed as antioxidant paper / food-science paper.
 
-| Model | Antioxidant paper | Food-science paper | Compounds found | GPU memory |
-|---|---|---|---|---|
-| Llama 3 8B | 9 | 2 | the 3 antioxidants | 6 GB |
-| Llama 3 70B | 10 | 4 | the 3 antioxidants | 41 GB |
-| Qwen 3 30B-A3B | 9 | 2 | the 3, plus their abbreviations as separate entries | 21 GB |
+| Model | Scores | Compounds extracted | GPU memory |
+|---|---|---|---|
+| Llama 3 8B | 9 / 2 | the 3 antioxidants | 6 GB |
+| Llama 3 70B | 10 / 4 | the 3 antioxidants | 41 GB |
+| Qwen 3 30B-A3B | 9 / 2 | the 3 antioxidants, plus BHT and PANA as separate entries | 21 GB |
 
 All three separated the relevant paper from the irrelevant one and ignored vitamin E. This is a quick check, not a benchmark: three inputs cannot show which model is more accurate over thousands of papers. It does show that the 70B model, nine times larger, gave no visible advantage on this task, while the 8B model was several times faster.
 

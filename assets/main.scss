@@ -95,6 +95,7 @@ pre, code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-si
 .essay table { width: 100%; border-collapse: collapse; margin: 1.5em 0; font-size: .9em; }
 .essay th, .essay td { text-align: left; padding: 6px 8px 6px 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
 .essay th { font-weight: 600; }
+.essay td:first-child, .essay td:nth-child(2), .essay td:last-child, .essay th:last-child { white-space: nowrap; }
 .essay-end { margin-top: 3em; padding-top: 1em; border-top: 1px solid var(--rule); }
 .essay-end p { margin-bottom: .3em; }
 
@@ -148,4 +149,5 @@ pre, code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-si
   .intro { flex-direction: column; align-items: flex-start; gap: 16px; }
   .photo { width: 120px; height: 120px; }
   .news li, .talks li, .posts li { grid-template-columns: 1fr; gap: 0; margin-bottom: .9em; }
+  .essay table { display: block; overflow-x: auto; font-size: .85em; }
 }
