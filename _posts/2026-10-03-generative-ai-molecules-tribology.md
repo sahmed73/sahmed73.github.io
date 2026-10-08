@@ -7,9 +7,6 @@ date: 2026-10-03 08:00:00 -0700
 category: Short reviews
 topic: Generative molecular design
 reading_time: 6
-series_number: "01"
-cover_title: "New molecules.<br>Better questions."
-visual: generative
 ---
 
 A lubricant has a demanding job: keep surfaces moving while its molecules face heat, oxygen, and mechanical stress. Choosing an additive therefore means asking several questions at once. Can it slow oxidation? Will it mix with the base oil? What happens to it during use?

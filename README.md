@@ -26,7 +26,18 @@ reference coverage, page headings, and image alt attributes. Review the homepage
 and an article at desktop and mobile widths as well. Push the reviewed changes
 to the repository's publishing branch to update GitHub Pages.
 
-## Publish a Molecular Perspective
+## Update content
+
+Most updates are edits to data files; the pages render from them.
+
+- `_data/news.yml`: dated news items, newest first (Markdown allowed).
+- `_data/publications.yml`: journal articles with abstract, PDF, DOI, and BibTeX.
+  `selected: true` also lists a paper on the homepage.
+- `_data/talks.yml`: talks and posters.
+- `_config.yml`: set `google_scholar` (profile URL) or `cv` (e.g.
+  `/assets/Shihab_Ahmed_CV.pdf`) to show those links; leave empty to hide them.
+
+## Publish a review
 
 Create `_posts/YYYY-MM-DD-title.md` using an existing review as a template:
 
@@ -40,13 +51,10 @@ date: YYYY-MM-DD 08:00:00 -0700
 category: Short reviews
 topic: Molecular science
 reading_time: 6
-series_number: "03"
-cover_title: "A brief cover title."
-visual: generative
 ---
 ```
 
-Use `generative` or `potential` for the cover treatment. Add linked inline
+Add linked inline
 citations and a References section with matching `ref-1`, `ref-2`, etc. IDs.
 Separate published findings from proposed applications. Reading time is an
 editorial estimate; update it when revising the article.

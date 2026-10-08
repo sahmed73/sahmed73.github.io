@@ -4,22 +4,35 @@ title: Publications
 permalink: /publications/
 ---
 
-<p class="page-intro">Peer-reviewed work on reactive molecular simulation, oxidation chemistry, and the molecular origins of material performance.</p>
+{% if site.google_scholar != "" %}Also on [Google Scholar]({{ site.google_scholar }}) and [ORCID](https://orcid.org/{{ site.orcid }}).{% else %}Also on [ORCID](https://orcid.org/{{ site.orcid }}).{% endif %}
 
-## 2026
+## Journal articles
 
-<div class="publication-detail">
-  <p class="publication-year">ACS Omega · Volume 11, Issue 10 · 16886–16894</p>
-  <h2>Reactive MD screening of antioxidants for substituent-dependent phenoxyl radical stability</h2>
-  <p><strong>Ahmed, S.</strong>, Eder, S. J., Iqbal, M. M., Dörr, N., & Martini, A.</p>
-  <a class="btn btn-small" href="https://doi.org/10.1021/acsomega.6c00592">View publication <span aria-hidden="true">↗</span></a>
-</div>
+<ol class="pubs">
+{%- for pub in site.data.publications %}
+  {% include publication.html pub=pub full=true %}
+{%- endfor %}
+</ol>
 
-## 2024
+## Conference papers
 
-<div class="publication-detail">
-  <p class="publication-year">The Journal of Physical Chemistry A · Volume 128, Issue 27 · 5398–5407</p>
-  <h2>Tracking thermo-oxidation reaction products and pathways of modified lignin structures from reactive molecular dynamics simulations</h2>
-  <p><strong>Ahmed, S.</strong>, Eder, S. J., Dörr, N., & Martini, A.</p>
-  <a class="btn btn-small" href="https://doi.org/10.1021/acs.jpca.4c00964">View publication <span aria-hidden="true">↗</span></a>
-</div>
+<ol class="pubs">
+  <li class="pub">
+    <p class="pub-title">Fabrication of a cost-effective prosthetic arm using electroencephalography signal</p>
+    <p class="pub-authors"><strong>S. Ahmed</strong>, S. Saha, M. A. Ali, and A. Bhattacharjee</p>
+    <p class="pub-venue"><em>International Conference on Industrial &amp; Mechanical Engineering and Operations Management</em>, Dhaka, Bangladesh (2020)</p>
+  </li>
+  <li class="pub">
+    <p class="pub-title">Fabrication of a cost-effective prosthetic arm using electromyography signal</p>
+    <p class="pub-authors">A. Mitra, <strong>S. Ahmed</strong>, S. Saha, and M. A. Ali</p>
+    <p class="pub-venue"><em>5th International Conference on Engineering, Research, Innovation and Education (ICERIE)</em>, Sylhet, Bangladesh (2019)</p>
+  </li>
+</ol>
+
+## Talks and posters
+
+<ul class="talks">
+{%- for talk in site.data.talks %}
+  <li><span class="date">{{ talk.date }}</span><span>{{ talk.title }}. {{ talk.event }}, {{ talk.place }}. <span class="kind">{{ talk.kind }}</span></span></li>
+{%- endfor %}
+</ul>

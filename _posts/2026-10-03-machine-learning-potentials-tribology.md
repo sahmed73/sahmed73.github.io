@@ -7,9 +7,6 @@ date: 2026-10-03 07:00:00 -0700
 category: Short reviews
 topic: Machine-learning interatomic potentials
 reading_time: 6
-series_number: "02"
-cover_title: "Atomic forces.<br>Sliding surfaces."
-visual: potential
 ---
 
 At a sliding contact, molecules can be compressed, stretched, and transformed. Understanding this chemistry matters when we want to explain how a lubricant works, how a protective film develops, or why a surface begins to wear.

@@ -31,8 +31,10 @@ class Page(HTMLParser):
 
 root = Path(sys.argv[1] if len(sys.argv) > 1 else "_site").resolve()
 assert (root / "index.html").is_file(), "Build the site first"
-pages = {p.resolve(): Page(p) for p in root.rglob("*.html")}
-assert len(pages) >= 7, "Expected homepage, four pages, and two reviews"
+pages = {p.resolve(): Page(p) for p in root.rglob("*.html")
+         if 'http-equiv="refresh"' not in p.read_text()}
+assert (root / "about/index.html").is_file(), "Missing /about/ redirect"
+assert len(pages) >= 6, "Expected homepage, three pages, and two reviews"
 for path, page in pages.items():
     assert page.h1s == 1, f"Expected one H1: {path}"
     assert "main-content" in page.ids, f"Missing skip-link target: {path}"

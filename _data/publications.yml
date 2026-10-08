@@ -1,0 +1,81 @@
+# Journal articles, newest first. "selected: true" also lists the paper on the homepage.
+# Both abstracts are reproduced from the published articles (CC BY 4.0).
+
+- title: Reactive MD screening of antioxidants for substituent-dependent phenoxyl radical stability
+  authors: S. Ahmed, S. J. Eder, M. M. Iqbal, N. Dörr, and A. Martini
+  venue: ACS Omega
+  volume: 11
+  issue: 10
+  pages: 16886–16894
+  year: 2026
+  doi: 10.1021/acsomega.6c00592
+  pdf: https://pubs.acs.org/doi/pdf/10.1021/acsomega.6c00592
+  selected: true
+  abstract: >-
+    Oxidation limits the performance and lifetime of lubricants, and phenolic antioxidants
+    are commonly used to slow this process by scavenging hydrocarbon peroxyl radicals. The
+    performance of phenolic antioxidants is largely determined by the stability of the
+    antioxidant radical that remains after hydrogen donation. To explore the relationship
+    between antioxidant chemical structure and radical stability, we used REACTER-based
+    reactive molecular dynamics simulations to model the reverse hydrogen transfer reaction
+    from polyalphaolefin hydroperoxides to phenoxyl radicals. Simulations were run for 718
+    distinct single-ring phenoxyl radicals with varied substituent types and positions in a
+    polyalphaolefin hydroperoxide environment. Reaction rates were obtained from the time
+    evolution of hydrogen transfer events, where lower reaction rates correspond to higher
+    radical stability and better antioxidant performance. Analysis of diffusivity, hydrogen
+    bonding, and steric hindrance showed that strong hydrogen bonding and high steric
+    hindrance around the phenoxyl oxygen atom decreased the reaction rate, while faster
+    diffusion increased it. A multivariate linear model confirmed that hydrogen bonding was
+    the dominant contributor to radical stability in the low reaction rate region. These
+    results highlight the molecular features that influence antioxidant behavior and
+    demonstrate that reactive simulations offer an efficient route for screening and
+    designing antioxidant molecules.
+  bibtex: |-
+    @article{ahmed2026reactive,
+      title   = {Reactive {MD} Screening of Antioxidants for Substituent-Dependent Phenoxyl Radical Stability},
+      author  = {Ahmed, Shihab and Eder, Stefan J. and Iqbal, Mohamed Musthafa and D{\"o}rr, Nicole and Martini, Ashlie},
+      journal = {ACS Omega},
+      volume  = {11},
+      number  = {10},
+      pages   = {16886--16894},
+      year    = {2026},
+      doi     = {10.1021/acsomega.6c00592}
+    }
+
+- title: Tracking thermo-oxidation reaction products and pathways of modified lignin structures from reactive molecular dynamics simulations
+  authors: S. Ahmed, S. J. Eder, N. Dörr, and A. Martini
+  venue: The Journal of Physical Chemistry A
+  volume: 128
+  issue: 27
+  pages: 5398–5407
+  year: 2024
+  doi: 10.1021/acs.jpca.4c00964
+  pdf: https://pubs.acs.org/doi/pdf/10.1021/acs.jpca.4c00964
+  selected: true
+  abstract: >-
+    Thermo-oxidation of biomass is an important process that occurs through a variety of
+    reaction pathways depending on the chemical nature of the molecules and reaction
+    conditions. These processes can be modeled using reactive molecular dynamics to study
+    chemical reactions and the evolution of converted molecules over time. The advantage of
+    this approach is that many molecules can be modeled, but it is challenging to use the
+    large amount of data obtained from such a simulation to determine reaction products and
+    pathways. In this study, we developed a tracking approach to identify the reaction
+    pathways of the dominant reaction products from reactive molecular dynamics simulations.
+    We demonstrated the approach for thermo-oxidation reactions of modified model lignin
+    compounds. For two modified lignin structures, we tracked the evolving chemical species
+    to find the most common reaction products. Subsequently, we monitored specific bonds to
+    determine the individual steps in the reaction process. This combined approach of
+    reactive molecular dynamics and tracking enabled us to identify the most likely
+    thermo-oxidation pathways. The methodology can be used to investigate the
+    thermo-oxidative pathways of a wider range of chemical compounds.
+  bibtex: |-
+    @article{ahmed2024tracking,
+      title   = {Tracking Thermo-Oxidation Reaction Products and Pathways of Modified Lignin Structures from Reactive Molecular Dynamics Simulations},
+      author  = {Ahmed, Shihab and Eder, Stefan J. and D{\"o}rr, Nicole and Martini, Ashlie},
+      journal = {The Journal of Physical Chemistry A},
+      volume  = {128},
+      number  = {27},
+      pages   = {5398--5407},
+      year    = {2024},
+      doi     = {10.1021/acs.jpca.4c00964}
+    }

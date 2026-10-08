@@ -1,61 +1,57 @@
 ---
 layout: default
-title: Molecular science for better materials
-description: Shihab Ahmed is a PhD candidate at UC Merced studying antioxidant chemistry, reactive molecular dynamics, and AI for lubricant design.
-image: /assets/profile-off-white.png
+title: Shihab Ahmed
+description: Shihab Ahmed is a PhD candidate in mechanical engineering at UC Merced who uses reactive molecular dynamics and machine learning to study lubricant oxidation and antioxidant additives.
+image: /assets/profile.jpg
+redirect_from: /about/
 ---
 
-<section class="hero" aria-labelledby="hero-title">
-  <div class="hero-copy">
-    <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> Computational tribology · UC Merced</p>
-    <h1 id="hero-title">Small molecules.<br><em>Lasting impact.</em></h1>
-    <p class="hero-name">I’m Shihab Ahmed, a PhD candidate turning molecular insight into better material design.</p>
-    <p class="hero-intro">I combine reactive molecular dynamics and machine learning to understand how lubricants degrade—and how antioxidant molecules can help them last longer.</p>
-    <div class="hero-links"><a href="{{ '/research/' | relative_url }}" class="btn">Explore my research <span aria-hidden="true">↗</span></a><a href="mailto:sahmed73@ucmerced.edu" class="text-link">Let’s connect <span aria-hidden="true">→</span></a></div>
-    <p class="hero-affiliation">Martini Research Group <span aria-hidden="true">/</span> University of California, Merced</p>
+<div class="intro">
+  <img class="photo" src="{{ '/assets/profile.jpg' | relative_url }}" alt="Shihab Ahmed" width="480" height="480">
+  <div>
+    <h1>Shihab Ahmed</h1>
+    <p>PhD Candidate, Mechanical Engineering<br>University of California, Merced</p>
+    <p class="links">
+      <a href="mailto:{{ site.email }}">Email</a>
+      {%- if site.cv != "" %} · <a href="{{ site.cv | relative_url }}">CV</a>{% endif %}
+      {%- if site.google_scholar != "" %} · <a href="{{ site.google_scholar }}">Google Scholar</a>{% endif %}
+      · <a href="https://orcid.org/{{ site.orcid }}">ORCID</a>
+      · <a href="https://github.com/{{ site.github_username }}">GitHub</a>
+      · <a href="https://www.linkedin.com/in/{{ site.linkedin_username }}/">LinkedIn</a>
+    </p>
   </div>
-  <figure class="portrait-panel">
-    <div class="portrait-frame"><img src="{{ '/assets/profile-off-white.png' | relative_url }}" alt="Shihab Ahmed" width="1254" height="1254" fetchpriority="high"></div>
-    <figcaption><div><strong>Shihab Ahmed</strong><span>PhD Candidate · Computational Researcher</span></div><span class="portrait-mark" aria-hidden="true">↗</span></figcaption>
-    <span class="portrait-label" aria-hidden="true">CHEMISTRY × COMPUTATION</span>
-  </figure>
-</section>
+</div>
 
-<div class="expertise-strip" aria-label="Research areas"><span>Reactive molecular dynamics</span><span>Antioxidant chemistry</span><span>AI for molecular design</span><span>High-performance computing</span></div>
+I'm a PhD candidate in the [Martini Research Group](https://engineering.ucmerced.edu/content/ashlie-martini) at UC Merced, working with Prof. Ashlie Martini. I study how lubricants oxidize and how antioxidant additives slow that down, using reactive molecular dynamics and machine learning. I also collaborate with the Austrian Competence Center for Tribology (AC2T).
 
-<section class="research-overview" aria-labelledby="research-heading">
-  <div class="section-heading"><div><p class="eyebrow">01 / The research</p><h2 id="research-heading">Understanding chemistry.<br>Designing what comes next.</h2></div><p>Friction, wear, and lubricant lifetime begin with molecular interactions. My work connects those interactions to questions that matter in engineering.</p></div>
-  <div class="research-grid">
-    <article class="research-card"><span class="card-number">01 — UNDERSTAND</span><h3>Follow the<br> reaction.</h3><p>Use reactive molecular dynamics to track bonds, chemical products, and the pathways behind thermo-oxidation.</p><p class="card-tools">ReaxFF · Reaction tracking</p></article>
-    <article class="research-card"><span class="card-number">02 — EXPLAIN</span><h3>Find what<br> protects.</h3><p>Study how molecular structure influences phenoxyl radical stability and the chemistry of antioxidant additives.</p><p class="card-tools">Antioxidants · Structure–property relationships</p></article>
-    <article class="research-card"><span class="card-number">03 — DESIGN</span><h3>Explore better<br> molecules.</h3><p>Investigate generative models and machine-learned potentials to connect chemical insight with candidate discovery.</p><p class="card-tools">Generative AI · Scientific machine learning</p></article>
-  </div>
-  <a href="{{ '/research/' | relative_url }}" class="text-link section-link">Inside my research <span aria-hidden="true">→</span></a>
-</section>
+My most recent paper used reactive simulations to screen 718 phenoxyl radicals and found that, among the most stable ones, hydrogen bonding around the phenoxyl oxygen is the main factor. Right now I'm working on generative models (GANs and graph diffusion) that propose new antioxidant candidates, and on a pipeline that uses large language models to pull known lubricant antioxidants out of the literature.
 
-<section class="research-feature" aria-labelledby="feature-heading">
-  <div class="feature-copy"><p class="eyebrow">The question connecting my work</p><h2 id="feature-heading">What makes a molecule<br><em>a better protector?</em></h2><p>To design useful additives, we need to understand both the molecule and what happens to it. I connect atomistic reaction mechanisms with the search for compounds that can resist oxidation.</p><a href="{{ '/about/' | relative_url }}" class="text-link">More about my approach <span aria-hidden="true">↗</span></a></div>
-  <figure class="feature-figure"><img src="{{ '/assets/molecular-pathway.svg' | relative_url }}" alt="Conceptual pathway from an antioxidant molecule through reaction analysis to molecular design" width="460" height="330" loading="lazy"><figcaption>From chemical structure to design insight · conceptual illustration</figcaption></figure>
-</section>
+Before UC Merced, I studied mechanical engineering at BUET, worked as an assistant manager in power plant commissioning at Bangladesh-India Friendship Power Company, and taught part-time at Daffodil International University.
 
-<section aria-labelledby="publications-heading">
-  <div class="section-heading"><div><p class="eyebrow">02 / Selected publications</p><h2 id="publications-heading">Research, in print.</h2></div><a href="{{ '/publications/' | relative_url }}" class="text-link">All publications <span aria-hidden="true">→</span></a></div>
-  <div class="publication-list">
-    <article class="publication-item"><div><p class="publication-year">2026</p><p class="publication-venue">ACS Omega</p></div><div><h3><a href="https://doi.org/10.1021/acsomega.6c00592">Reactive MD screening of antioxidants for substituent-dependent phenoxyl radical stability</a></h3><p>Connecting antioxidant structure with radical stability through reactive molecular simulation.</p><p class="publication-authors"><strong>S. Ahmed</strong>, S. J. Eder, M. M. Iqbal, N. Dörr &amp; A. Martini</p></div><a href="https://doi.org/10.1021/acsomega.6c00592" class="paper-link" aria-label="Read the antioxidant screening paper">↗</a></article>
-    <article class="publication-item"><div><p class="publication-year">2024</p><p class="publication-venue">The Journal of<br>Physical Chemistry A</p></div><div><h3><a href="https://doi.org/10.1021/acs.jpca.4c00964">Tracking thermo-oxidation reaction products and pathways of modified lignin structures from reactive molecular dynamics simulations</a></h3><p>A tracking approach that turns complex reactive trajectories into identifiable products and reaction pathways.</p><p class="publication-authors"><strong>S. Ahmed</strong>, S. J. Eder, N. Dörr &amp; A. Martini</p></div><a href="https://doi.org/10.1021/acs.jpca.4c00964" class="paper-link" aria-label="Read the thermo-oxidation pathways paper">↗</a></article>
-  </div>
-</section>
+I'm open to research internships and collaborations in molecular simulation or machine learning for chemistry. Email is the best way to reach me.
 
-<section aria-labelledby="perspectives-heading">
-  <div class="section-heading"><div><p class="eyebrow">03 / Molecular Perspectives</p><h2 id="perspectives-heading">A closer look at the science.</h2></div><a href="{{ '/blog/' | relative_url }}" class="text-link">Read the reviews <span aria-hidden="true">→</span></a></div>
-  <div class="post-list post-list-home">
-    {% for post in site.posts limit:2 %}
-      <article class="post-card">
-        <a class="post-art {{ post.visual }}" href="{{ post.url | relative_url }}" tabindex="-1" aria-hidden="true"><span class="art-kicker">MOLECULAR PERSPECTIVES / {{ post.series_number }}</span><span class="art-title">{{ post.cover_title }}</span><span class="art-bottom">{{ post.topic }} <span>↗</span></span></a>
-        <div class="post-card-copy"><p class="post-date">Short review · {{ post.reading_time }} min read</p><h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3><p>{{ post.description }}</p><a class="text-link" href="{{ post.url | relative_url }}">Read the review <span aria-hidden="true">→</span></a></div>
-      </article>
-    {% endfor %}
-  </div>
-</section>
+## News
 
-<section class="contact-panel" aria-labelledby="contact-heading"><div><p class="eyebrow">Research &amp; internship opportunities</p><h2 id="contact-heading">Let’s put molecular<br>insight to work.</h2><p>Interested in molecular simulation, lubricant chemistry, or AI for materials? I’d welcome a conversation about research roles, internships, and collaborations.</p></div><div class="contact-actions"><a class="btn" href="mailto:sahmed73@ucmerced.edu">Get in touch <span aria-hidden="true">↗</span></a><a href="https://www.linkedin.com/in/shihab73/" class="text-link">Connect on LinkedIn <span aria-hidden="true">↗</span></a></div></section>
+<ul class="news">
+{%- for item in site.data.news %}
+  <li><span class="date">{{ item.date }}</span><span>{{ item.text | markdownify | remove: '<p>' | remove: '</p>' | strip }}</span></li>
+{%- endfor %}
+</ul>
+
+## Selected publications
+
+<ol class="pubs">
+{%- for pub in site.data.publications %}{% if pub.selected %}
+  {% include publication.html pub=pub %}
+{%- endif %}{% endfor %}
+</ol>
+
+<p><a href="{{ '/publications/' | relative_url }}">All publications, abstracts, and talks</a></p>
+
+## Writing
+
+<ul class="posts">
+{%- for post in site.posts limit:3 %}
+  <li><span class="date">{{ post.date | date: "%b %Y" }}</span><a href="{{ post.url | relative_url }}">{{ post.title }}</a></li>
+{%- endfor %}
+</ul>

@@ -1,6 +1,6 @@
 theme: minima
 title: Shihab Ahmed
-description: Shihab Ahmed — PhD candidate at UC Merced connecting reactive molecular dynamics, antioxidant chemistry, and AI for lubricant design.
+description: Shihab Ahmed is a PhD candidate in mechanical engineering at UC Merced who uses reactive molecular dynamics and machine learning to study lubricant oxidation and antioxidant additives.
 url: https://sahmed73.github.io
 baseurl: ""
 lang: en
@@ -10,13 +10,13 @@ author: Shihab Ahmed
 email: sahmed73@ucmerced.edu
 
 header_pages:
-  - research.md
   - publications.md
+  - research.md
   - blog.md
-  - about.md
 
 plugins:
   - jekyll-feed
+  - jekyll-redirect-from
 
 exclude:
   - Gemfile
@@ -26,3 +26,7 @@ exclude:
 
 github_username: sahmed73
 linkedin_username: shihab73
+orcid: 0009-0006-8230-9141
+# Leave empty to hide the link.
+google_scholar: ""
+cv: ""

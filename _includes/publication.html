@@ -1,0 +1,11 @@
+{%- assign pub = include.pub -%}
+<li class="pub">
+  <p class="pub-title"><a href="https://doi.org/{{ pub.doi }}">{{ pub.title }}</a></p>
+  <p class="pub-authors">{{ pub.authors | replace: "S. Ahmed", "<strong>S. Ahmed</strong>" }}</p>
+  <p class="pub-venue"><em>{{ pub.venue }}</em>{% if pub.volume %} {{ pub.volume }}{% if pub.issue %}({{ pub.issue }}){% endif %}{% endif %}{% if pub.pages %}, {{ pub.pages }}{% endif %} ({{ pub.year }})</p>
+  {%- if include.full %}
+  <p class="pub-links"><a href="{{ pub.pdf }}">PDF</a> · <a href="https://doi.org/{{ pub.doi }}">DOI</a></p>
+  <p class="pub-abstract"><span class="label">Abstract.</span> {{ pub.abstract }}</p>
+  <details class="pub-bibtex"><summary>BibTeX</summary><pre><code>{{ pub.bibtex | escape }}</code></pre></details>
+  {%- endif %}
+</li>

@@ -4,39 +4,26 @@ title: Research
 permalink: /research/
 ---
 
-<p class="page-intro">I use molecular simulation and machine learning to understand how materials change through chemical reaction—and how that understanding can guide better molecular design.</p>
+Lubricants break down by oxidation, and antioxidant additives are added to slow that process. I use simulations and machine learning to understand which molecular features make an antioxidant work, with the longer-term goal of designing better ones.
 
-<div class="research-story">
-  <p class="eyebrow">01 · Reactive molecular dynamics</p>
-  <h2>Watching chemistry unfold atom by atom</h2>
-  <p>Reactive molecular dynamics makes it possible to follow bond breaking and formation inside complex material systems. I use ReaxFF and machine-learned interatomic potentials to study mechanisms that are difficult to isolate experimentally.</p>
-  <p class="research-question"><strong>Guiding question</strong><br>Which atomistic events determine whether a material degrades or remains stable?</p>
-</div>
+## Antioxidant radical stability
 
-<div class="research-story">
-  <p class="eyebrow">02 · Oxidation and antioxidant chemistry</p>
-  <h2>Understanding degradation—and how to slow it</h2>
-  <p>Oxidation limits the lifetime of lubricants and many functional materials. My work maps reaction products and pathways, then examines how molecular structure changes antioxidant performance.</p>
-  <p class="research-question"><strong>Guiding question</strong><br>How does molecular structure control radical stability and protection against oxidation?</p>
-</div>
+A phenolic antioxidant donates a hydrogen atom to a peroxyl radical and becomes a phenoxyl radical itself. How stable that radical is largely decides how well the antioxidant performs. I used REACTER-based reactive molecular dynamics to measure the reverse hydrogen-transfer rate for 718 single-ring phenoxyl radicals in a polyalphaolefin hydroperoxide environment. Strong hydrogen bonding and steric hindrance around the phenoxyl oxygen lowered the rate, and faster diffusion raised it.
 
-<div class="research-story">
-  <p class="eyebrow">03 · Scientific machine learning</p>
-  <h2>Searching chemical space with physical context</h2>
-  <p>I explore machine-learned potentials and generative models—including GANs and diffusion models—to accelerate simulation and identify promising molecular candidates.</p>
-  <p class="research-question"><strong>Guiding question</strong><br>Can data-driven models propose useful molecules while remaining grounded in chemistry?</p>
-</div>
+Paper: [ACS Omega, 2026](https://doi.org/10.1021/acsomega.6c00592)
 
-<div class="research-story">
-  <p class="eyebrow">04 · Reproducible scientific computing</p>
-  <h2>Turning large simulations into defensible evidence</h2>
-  <p>My research depends on high-performance computing, automated analysis, and reproducible workflows that connect raw trajectories to chemical insight.</p>
-  <p class="research-question"><strong>Guiding question</strong><br>How can computational studies remain scalable, interpretable, and easy to verify?</p>
-</div>
+## Reaction pathways from reactive simulations
 
-<div class="callout">
-  <p class="eyebrow">Collaborate</p>
-  <h2>Interested in molecular simulation, tribology, or AI for materials?</h2>
-  <p>I’m always glad to discuss shared research questions and potential collaborations.</p>
-  <a class="btn" href="mailto:sahmed73@ucmerced.edu">Start a conversation</a>
-</div>
+Reactive MD trajectories contain thousands of bond-breaking and bond-forming events, which makes it hard to say which products form and how. I developed a tracking method that follows the dominant products back through specific bond changes, and used it to identify the most likely thermo-oxidation pathways of modified lignin model compounds.
+
+Paper: [J. Phys. Chem. A, 2024](https://doi.org/10.1021/acs.jpca.4c00964)
+
+## Machine learning for antioxidant design (ongoing)
+
+I'm building generative models, based on GANs and graph diffusion, that propose new phenolic antioxidant structures, with reactive simulations used to check the candidates. Related work trains models to predict antioxidant performance directly from atomistic simulation data. I'm also building a literature-mining pipeline that runs large language models on GPU nodes to collect lubricant-relevant antioxidants reported in published papers.
+
+Talks: TMS Annual Meeting 2026; ÖTG Symposium, Vienna, 2026
+
+## Tools
+
+LAMMPS, ReaxFF, REACTER, ORCA, Gaussian, PyTorch, MACE, and SLURM-based HPC clusters. Most of my simulation workflows are automated with Python and Bash so that thousands of runs can be set up, monitored, and analyzed consistently.
