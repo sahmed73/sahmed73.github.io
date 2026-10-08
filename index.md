@@ -22,7 +22,7 @@ redirect_from: /about/
   </div>
 </div>
 
-I'm a PhD candidate in the [Martini Research Group](https://engineering.ucmerced.edu/content/ashlie-martini) at UC Merced, working with Prof. Ashlie Martini. I study how lubricants oxidize and how antioxidant additives slow that down, using reactive molecular dynamics and machine learning. I also collaborate with the Austrian Competence Center for Tribology (AC2T).
+I'm a PhD candidate in the [Martini Research Group](https://faculty.ucmerced.edu/amartini/) at UC Merced, working with Prof. Ashlie Martini. I study how lubricants oxidize and how antioxidant additives slow that down, using reactive molecular dynamics and machine learning. I also collaborate with the Austrian Competence Center for Tribology (AC2T).
 
 My most recent paper used reactive simulations to screen 718 phenoxyl radicals and found that, among the most stable ones, hydrogen bonding around the phenoxyl oxygen is the main factor. Right now I'm working on generative models (GANs and graph diffusion) that propose new antioxidant candidates, and on a pipeline that uses large language models to pull known lubricant antioxidants out of the literature.
 
