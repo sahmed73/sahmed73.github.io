@@ -1,6 +1,9 @@
 # Newest first. Text is Markdown.
 
 - date: Oct 2026
+  text: Finished writing our generative-AI paper on designing new lubricant antioxidants, now in internal review. The workflow mines the literature with an LLM (Llama 3), generates candidate molecules with a graph diffusion model (DiGress), screens them for synthesizability, toxicity, and O–H bond strength, and evaluates them with reactive molecular dynamics and machine learning.
+
+- date: Oct 2026
   text: Released [llm-literature-mining](https://github.com/sahmed73/llm-literature-mining), an open-source pipeline that uses a locally hosted LLM to screen 1.16 million papers for lubricant antioxidants. For more, read [the blog post](/perspectives/reading-a-million-papers-with-a-local-llm/).
 
 - date: May 2026
