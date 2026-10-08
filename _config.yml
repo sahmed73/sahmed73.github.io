@@ -31,3 +31,5 @@ orcid: 0009-0006-8230-9141
 # Leave empty to hide the link.
 google_scholar: ""
 cv: /assets/Shihab_Ahmed_CV.pdf
+# Private stats page (/stats/) reads visit data from this Cloudflare Worker.
+stats_api: https://site-stats.site-stats.workers.dev

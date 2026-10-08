@@ -5,6 +5,9 @@
   "workers_dev": true,
   "preview_urls": false,
   "vars": {
-    "SITE_HOST": "sahmed73.github.io"
+    "SITE_HOST": "sahmed73.github.io",
+    "DASHBOARD_URL": "https://sahmed73.github.io/stats/",
+    // Pages allowed to read the data (the password is still required).
+    "ALLOWED_ORIGINS": "https://sahmed73.github.io, http://localhost:4000, http://127.0.0.1:4000"
   }
 }

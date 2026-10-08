@@ -69,9 +69,15 @@ stays outside the repository.
 
 ## Private stats dashboard
 
-`workers/site-stats/` is a Cloudflare Worker that serves a password-protected,
-live version of the visit summary at https://site-stats.site-stats.workers.dev.
-Its secrets (`CF_ACCOUNT_ID`, `CF_API_TOKEN`, `DASH_PASSWORD`) live in
-Cloudflare, not in this repository. To change it, edit `src/index.js` and run
-`npx wrangler deploy` from that folder; to change the password, run
-`npx wrangler secret put DASH_PASSWORD`.
+https://sahmed73.github.io/stats/ is a password-protected, live version of the
+visit summary. The page is public but shows only a password box; after the
+password is entered it loads numbers from the Cloudflare Worker in
+`workers/site-stats/`, which checks the password and holds the API token. The
+page is not linked anywhere, is marked `noindex`, and does not load the
+analytics beacon, so checking stats does not count as a visit.
+
+The Worker's secrets (`CF_ACCOUNT_ID`, `CF_API_TOKEN`, `DASH_PASSWORD`) live in
+Cloudflare, not in this repository. To change the Worker, edit `src/index.js`
+and run `npx wrangler deploy` from that folder; to change the password, run
+`npx wrangler secret put DASH_PASSWORD`. If the Worker URL changes, update
+`stats_api` in `_config.yml`.
