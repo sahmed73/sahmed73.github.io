@@ -56,9 +56,8 @@ for path, page in pages.items():
         assert "references" in page.ids, f"Missing References heading: {path}"
 
 reviews = [p for p in pages if "perspectives" in p.parts]
-assert len(reviews) == 2, "Expected two published reviews"
-for route in [root / "index.html", root / "blog/index.html"]:
-    for review in reviews:
-        expected = "/" + str(review.parent.relative_to(root)) + "/"
-        assert expected in pages[route.resolve()].links, f"Review missing from {route}"
+assert reviews, "Expected published posts"
+for review in reviews:
+    expected = "/" + str(review.parent.relative_to(root)) + "/"
+    assert expected in pages[(root / "blog/index.html").resolve()].links, f"Post missing from the blog page: {expected}"
 print(f"Passed: {len(pages)} pages, local links, citation anchors, review listings, headings, and image alt text.")

@@ -20,9 +20,9 @@ Paper: [J. Phys. Chem. A, 2024](https://doi.org/10.1021/acs.jpca.4c00964)
 
 ## Machine learning for antioxidant design (ongoing)
 
-I'm building generative models, based on GANs and graph diffusion, that propose new phenolic antioxidant structures, with reactive simulations used to check the candidates. Related work trains models to predict antioxidant performance directly from atomistic simulation data. I'm also building a literature-mining pipeline that runs large language models on GPU nodes to collect lubricant-relevant antioxidants reported in published papers.
+I'm building generative models, based on GANs and graph diffusion, that propose new phenolic antioxidant structures, with reactive simulations used to check the candidates. Related work trains models to predict antioxidant performance directly from atomistic simulation data. I also built a literature-mining pipeline that runs a local large language model on GPU nodes to screen 1.16 million papers and collect the lubricant antioxidants they report.
 
-Talk: TMS Annual Meeting 2026
+Talk: TMS Annual Meeting 2026 · Code: [llm-literature-mining](https://github.com/sahmed73/llm-literature-mining) · Notes: [Reading a million papers with a local LLM]({{ '/perspectives/reading-a-million-papers-with-a-local-llm/' | relative_url }})
 
 ## Tools
 

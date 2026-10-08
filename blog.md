@@ -2,10 +2,10 @@
 layout: page
 title: Blog
 permalink: /blog/
-description: Short, referenced reviews by Shihab Ahmed on molecular simulation and machine learning in tribology.
+description: Short reviews and project notes by Shihab Ahmed on molecular simulation and machine learning in tribology.
 ---
 
-Short reviews on topics close to my research, with references. Written for researchers and engineers coming from neighboring fields.
+Short reviews and project notes on topics close to my research, with references. Written for researchers and engineers coming from neighboring fields.
 
 <ul class="posts">
 {%- for post in site.posts %}
