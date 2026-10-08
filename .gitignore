@@ -5,3 +5,6 @@ _site/
 .bundle/
 vendor/
 .DS_Store
+.wrangler/
+node_modules/
+.dev.vars

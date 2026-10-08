@@ -23,6 +23,7 @@ exclude:
   - Gemfile.lock
   - README.md
   - scripts
+  - workers
 
 github_username: sahmed73
 linkedin_username: shihab73

@@ -1,0 +1,10 @@
+{
+  "name": "site-stats",
+  "main": "src/index.js",
+  "compatibility_date": "2026-09-01",
+  "workers_dev": true,
+  "preview_urls": false,
+  "vars": {
+    "SITE_HOST": "sahmed73.github.io"
+  }
+}

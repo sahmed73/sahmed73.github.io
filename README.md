@@ -66,3 +66,12 @@ pages, referrers, countries, and devices from Cloudflare Web Analytics (up to
 180 days). It reads `CF_ACCOUNT_ID` and a read-only `CF_API_TOKEN`
 ("Account Analytics: Read") from `~/.config/cloudflare/analytics.env`, which
 stays outside the repository.
+
+## Private stats dashboard
+
+`workers/site-stats/` is a Cloudflare Worker that serves a password-protected,
+live version of the visit summary at https://site-stats.site-stats.workers.dev.
+Its secrets (`CF_ACCOUNT_ID`, `CF_API_TOKEN`, `DASH_PASSWORD`) live in
+Cloudflare, not in this repository. To change it, edit `src/index.js` and run
+`npx wrangler deploy` from that folder; to change the password, run
+`npx wrangler secret put DASH_PASSWORD`.
