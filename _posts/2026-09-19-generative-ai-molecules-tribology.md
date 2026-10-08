@@ -3,7 +3,7 @@ layout: post
 title: "Can generative AI help design better lubricant molecules?"
 description: "From molecular generators to antioxidant discovery: what the methods offer, where tribology fits, and what still needs validation."
 permalink: /perspectives/generative-ai-molecules-tribology/
-date: 2026-10-03 08:00:00 -0700
+date: 2026-09-19 08:00:00 -0700
 category: Short reviews
 topic: Generative molecular design
 reading_time: 6
