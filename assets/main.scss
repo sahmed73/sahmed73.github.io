@@ -96,6 +96,14 @@ pre, code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-si
 .essay th, .essay td { text-align: left; padding: 6px 8px 6px 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
 .essay th { font-weight: 600; }
 .essay td:first-child, .essay td:nth-child(2), .essay td:last-child, .essay th:last-child { white-space: nowrap; }
+.essay table.wrap th, .essay table.wrap td { white-space: normal; }
+.table-scroll { overflow-x: auto; margin: 1.5em 0; }
+.table-scroll table { min-width: 1000px; margin: 0; font-size: .8em; }
+.essay-figure.pair .pair-row { display: flex; gap: 12px; align-items: flex-start; }
+.essay-figure.pair img { width: calc(50% - 6px); max-width: none; margin: 0; }
+.essay pre { background: var(--code-bg); padding: 12px 14px; overflow-x: auto; line-height: 1.45; }
+.essay dt { font-weight: 600; }
+.essay dd { margin: 0 0 .7em 1.2em; }
 .essay-end { margin-top: 3em; padding-top: 1em; border-top: 1px solid var(--rule); }
 .essay-end p { margin-bottom: .3em; }
 
