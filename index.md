@@ -16,6 +16,7 @@ redirect_from: /about/
       {%- if site.cv != "" %} · <a href="{{ site.cv | relative_url }}">CV</a>{% endif %}
       {%- if site.google_scholar != "" %} · <a href="{{ site.google_scholar }}">Google Scholar</a>{% endif %}
       · <a href="https://orcid.org/{{ site.orcid }}">ORCID</a>
+      · <a href="https://www.webofscience.com/wos/author/record/{{ site.web_of_science_id }}">Web of Science</a>
       · <a href="https://github.com/{{ site.github_username }}">GitHub</a>
       · <a href="https://www.linkedin.com/in/{{ site.linkedin_username }}/">LinkedIn</a>
     </p>
