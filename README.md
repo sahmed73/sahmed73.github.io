@@ -85,6 +85,7 @@ password is entered it loads numbers from the Cloudflare Worker in
 `workers/site-stats/`, which checks the password and holds the API token. The
 page is not linked anywhere, is marked `noindex`, and does not load the
 analytics beacon, so checking stats does not count as a visit.
+The stats page also has a browser-only opt-out for future site visits; it does not remove past counts.
 
 The Worker's secrets (`CF_ACCOUNT_ID`, `CF_API_TOKEN`, `DASH_PASSWORD`) live in
 Cloudflare, not in this repository. To change the Worker, edit `src/index.js`

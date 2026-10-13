@@ -7,6 +7,7 @@ no_analytics: true
 ---
 <div class="stats" id="stats" data-api="{{ site.stats_api }}/api/summary">
   <h1>Site stats</h1>
+  <label class="check"><input id="analytics-opt-out" type="checkbox"> Don't count visits from this browser</label>
 
   <form class="stats-login" id="login">
     <p>Private page. Enter the password to see visitor numbers.</p>
@@ -83,6 +84,10 @@ no_analytics: true
 
   state.days = parseInt(stored("localStorage", "stats-days"), 10) || 30;
   state.password = stored("localStorage", "stats-password") || stored("sessionStorage", "stats-password");
+  $("analytics-opt-out").checked = stored("localStorage", "site-analytics-opt-out") === "1";
+  $("analytics-opt-out").addEventListener("change", function () {
+    store("localStorage", "site-analytics-opt-out", this.checked ? "1" : null);
+  });
 
   function showLogin(message) {
     $("dashboard").hidden = true;
