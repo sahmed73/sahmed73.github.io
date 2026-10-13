@@ -30,8 +30,9 @@ to the repository's publishing branch to update GitHub Pages.
 
 The [molecule viewer](https://sahmed73.github.io/molecule-viewer/) is a static page with bundled PAO, ZDDP,
 and ADPA examples. Structure files are read in the browser. SMILES requests a 3D
-structure from PubChem. The prototype's Python RDKit fallback requires a separate
-server and cannot run on GitHub Pages. The ZDDP example uses
+structure from PubChem, then falls back to an RDKit API hosted separately from
+GitHub Pages. The free Render service is defined in `render.yaml`; set `rdkit_api`
+in `_config.yml` to its `/api/smiles-3d` URL after creating it. The ZDDP example uses
 an illustrative four-sulfur arrangement around zinc, not a measured structure.
 Run `node scripts/test_molecule_viewer.mjs` for parser and export checks.
 

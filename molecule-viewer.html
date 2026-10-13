@@ -16,13 +16,13 @@ description: Explore molecules and LAMMPS structures in 3D, customize colors and
       <input id="molecule-file" type="file" accept=".data,.mol,.sdf,.pdb,.xyz">
       <small>Supports LAMMPS <code>.data</code> (full, molecular, atomic, or charge atom style), MOL/SDF, PDB, and XYZ. Local files stay in your browser.</small>
 
-      <form id="molecule-smiles-form">
+      <form id="molecule-smiles-form" data-rdkit-api="{{ site.rdkit_api }}">
         <label for="molecule-smiles">SMILES</label>
         <div class="molecule-input-row">
           <input id="molecule-smiles" type="text" placeholder="CCO" maxlength="500" autocomplete="off" spellcheck="false">
           <button type="submit">Load 3D</button>
         </div>
-        <small>Requests a 3D structure from <a href="https://pubchem.ncbi.nlm.nih.gov/docs/pug-rest">PubChem</a>. Some SMILES may not have an available 3D conformer.</small>
+        <small>Requests a 3D structure from <a href="https://pubchem.ncbi.nlm.nih.gov/docs/pug-rest">PubChem</a>, with an RDKit fallback. The free RDKit service may take about a minute to wake.</small>
       </form>
 
       <div class="molecule-examples" aria-label="Example molecules">
@@ -160,4 +160,4 @@ description: Explore molecules and LAMMPS structures in 3D, customize colors and
   <p class="molecule-help">I built this molecular viewer with help from Codex (GPT-6-Sol). It is currently in beta.</p>
 </div>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/3Dmol/2.0.4/3Dmol-min.js"></script>
-<script type="module" src="{{ '/assets/molecule-viewer.mjs' | relative_url }}?v=1"></script>
+<script type="module" src="{{ '/assets/molecule-viewer.mjs' | relative_url }}?v=2"></script>

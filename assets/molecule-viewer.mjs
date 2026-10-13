@@ -597,8 +597,19 @@ if (typeof document !== 'undefined') {
       if (!response.ok) throw new Error('PubChem did not return a 3D conformer.');
       const text = await response.text();
       if (current === loadId) show(text, 'sdf', 'PubChem 3D structure');
-    } catch (error) {
-      if (current === loadId) message(`PubChem could not provide a 3D structure: ${error.message} Try loading a MOL or SDF file.`, true);
+    } catch (pubchemError) {
+      if (current !== loadId) return;
+      const endpoint = $('molecule-smiles-form').dataset.rdkitApi;
+      if (!endpoint) return message(`PubChem could not provide a 3D structure: ${pubchemError.message} Try loading a MOL or SDF file.`, true);
+      try {
+        message('PubChem unavailable; generating an RDKit conformer… The service may take about a minute to wake.');
+        const response = await fetch(endpoint, {
+          method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({smiles}), signal: AbortSignal.timeout(90000),
+        });
+        const result = await response.json().catch(() => null);
+        if (!response.ok || !result?.sdf) throw new Error(result?.error || 'RDKit is unavailable.');
+        if (current === loadId) show(result.sdf, 'sdf', `RDKit 3D structure (${result.method})`);
+      } catch (error) { if (current === loadId) message(`PubChem and RDKit could not load this SMILES: ${error.message}`, true); }
     }
   });
 

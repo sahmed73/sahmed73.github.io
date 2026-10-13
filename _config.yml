@@ -38,4 +38,4 @@ cv: /assets/Shihab_Ahmed_CV.pdf
 # Private stats page (/stats/) reads visit data from this Cloudflare Worker.
 stats_api: https://site-stats.site-stats.workers.dev
 # Set after deploying the free RDKit service on Render.
-rdkit_api: ""
+rdkit_api: "https://sahmed73-molecule-rdkit.onrender.com/api/smiles-3d"
