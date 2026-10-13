@@ -26,6 +26,15 @@ reference coverage, page headings, and image alt attributes. Review the homepage
 and an article at desktop and mobile widths as well. Push the reviewed changes
 to the repository's publishing branch to update GitHub Pages.
 
+## Molecule viewer
+
+The [molecule viewer](https://sahmed73.github.io/molecule-viewer/) is a static page with bundled PAO, ZDDP,
+and ADPA examples. Structure files are read in the browser. SMILES requests a 3D
+structure from PubChem. The prototype's Python RDKit fallback requires a separate
+server and cannot run on GitHub Pages. The ZDDP example uses
+an illustrative four-sulfur arrangement around zinc, not a measured structure.
+Run `node scripts/test_molecule_viewer.mjs` for parser and export checks.
+
 ## Update content
 
 Most updates are edits to data files; the pages render from them.

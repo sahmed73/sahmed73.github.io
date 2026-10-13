@@ -12,6 +12,7 @@ email: sahmed73@ucmerced.edu
 header_pages:
   - publications.md
   - research.md
+  - molecule-viewer.html
   - blog.md
 
 plugins:

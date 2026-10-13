@@ -31,6 +31,8 @@ Before UC Merced, I studied mechanical engineering at BUET, worked as an assista
 
 I'm open to research internships and collaborations in molecular simulation or machine learning for chemistry. Email is the best way to reach me.
 
+I also built an interactive [molecule viewer]({{ '/molecule-viewer/' | relative_url }}) for exploring molecular structures and LAMMPS data files.
+
 ## News
 
 <ul class="news">

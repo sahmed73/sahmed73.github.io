@@ -1,0 +1,163 @@
+---
+layout: default
+title: Molecule viewer
+nav_title: Molecule viewer
+permalink: /molecule-viewer/
+description: Explore molecules and LAMMPS structures in 3D, customize colors and labels, and export images or rotation animations.
+---
+
+<div class="molecule-tool">
+  <h1>Molecule viewer</h1>
+  <p>Explore a molecule or simulation structure in 3D. Choose a local file, enter a SMILES string, or open an example below.</p>
+
+  <div class="molecule-panel">
+    <div class="molecule-inputs">
+      <label for="molecule-file">Structure file</label>
+      <input id="molecule-file" type="file" accept=".data,.mol,.sdf,.pdb,.xyz">
+      <small>Supports LAMMPS <code>.data</code> (full, molecular, atomic, or charge atom style), MOL/SDF, PDB, and XYZ. Local files stay in your browser.</small>
+
+      <form id="molecule-smiles-form">
+        <label for="molecule-smiles">SMILES</label>
+        <div class="molecule-input-row">
+          <input id="molecule-smiles" type="text" placeholder="CCO" maxlength="500" autocomplete="off" spellcheck="false">
+          <button type="submit">Load 3D</button>
+        </div>
+        <small>Requests a 3D structure from <a href="https://pubchem.ncbi.nlm.nih.gov/docs/pug-rest">PubChem</a>. Some SMILES may not have an available 3D conformer.</small>
+      </form>
+
+      <div class="molecule-examples" aria-label="Example molecules">
+        <span>Examples</span>
+        <button id="molecule-demo" type="button">PAO</button>
+        <button id="molecule-demo-zddp" type="button">ZDDP (dibutyl)</button>
+        <button id="molecule-demo-adpa" type="button">ADPA (dioctyl)</button>
+        <small>ZDDP: zinc bis(O,O-dibutyl dithiophosphate), with illustrative Zn–S geometry. ADPA: 4,4′-dioctyldiphenylamine.</small>
+      </div>
+
+      <fieldset class="molecule-appearance">
+        <legend>Appearance</legend>
+        <label for="molecule-atom-size">Atom size <output id="molecule-atom-size-value">1.0×</output></label>
+        <input id="molecule-atom-size" type="range" min="0.3" max="2" step="0.1" value="1">
+        <label for="molecule-bond-radius">Bond radius <output id="molecule-bond-radius-value">0.14 Å</output></label>
+        <input id="molecule-bond-radius" type="range" min="0.05" max="0.5" step="0.01" value="0.14">
+        <label for="molecule-bond-mode">Bond colors</label>
+        <select id="molecule-bond-mode">
+          <option value="split">Split by atom color</option>
+          <option value="solid">Solid color</option>
+        </select>
+        <label id="molecule-bond-color-row" for="molecule-bond-color" hidden>Solid bond color <input id="molecule-bond-color" type="color" value="#b0b0b0"></label>
+        <p class="molecule-color-heading">Element colors</p>
+        <label for="molecule-element-preset">Color preset</label>
+        <select id="molecule-element-preset">
+          <option value="">Custom / current colors</option>
+          <optgroup label="Original palettes">
+            <option value="classic">Classic CPK</option>
+            <option value="soft">Soft colors</option>
+            <option value="contrast">High contrast</option>
+            <option value="vibrant">Vibrant</option>
+            <option value="earth">Earth tones</option>
+            <option value="deep-blue">Deep blue</option>
+            <option value="sea-glass">Sea glass</option>
+            <option value="forest">Forest</option>
+            <option value="sage">Sage</option>
+            <option value="lavender">Lavender</option>
+          </optgroup>
+          <optgroup label="New palettes">
+            <option value="neon">Neon night</option>
+            <option value="grayscale">Grayscale</option>
+            <option value="sunset">Sunset</option>
+            <option value="citrus">Citrus</option>
+            <option value="berry">Berry</option>
+            <option value="glacier">Glacier</option>
+            <option value="desert">Desert</option>
+            <option value="tropical">Tropical</option>
+            <option value="primary">Primary pop</option>
+            <option value="candy">Candy</option>
+          </optgroup>
+        </select>
+        <small>Presets set C, H, O, and N colors. You can still adjust each element or atom below.</small>
+        <div id="molecule-element-colors">Load a molecule to choose colors.</div>
+        <p id="molecule-selected-label" class="molecule-color-heading">Selected atom: none</p>
+        <small>Click an atom in the viewer to give it its own color.</small>
+        <div class="molecule-picked-row">
+          <label for="molecule-picked-color">Atom color</label>
+          <input id="molecule-picked-color" type="color" value="#808080" disabled>
+          <button id="molecule-picked-reset" type="button" disabled>Use element color</button>
+        </div>
+      </fieldset>
+      <fieldset class="molecule-appearance molecule-label-settings">
+        <legend>Element labels</legend>
+        <label for="molecule-label-scope">Label atoms</label>
+        <select id="molecule-label-scope"><option value="heavy">Heavy atoms</option><option value="all">All atoms, including H</option></select>
+        <label for="molecule-label-size">Font size <output id="molecule-label-size-value">16 px</output></label>
+        <input id="molecule-label-size" type="range" min="10" max="28" step="1" value="16">
+        <div class="molecule-label-colors">
+          <label for="molecule-label-text-color">Text color <input id="molecule-label-text-color" type="color" value="#ffffff"></label>
+          <label for="molecule-label-bg-color">Background <input id="molecule-label-bg-color" type="color" value="#17324d"></label>
+        </div>
+        <label for="molecule-label-opacity">Background opacity <output id="molecule-label-opacity-value">90%</output></label>
+        <input id="molecule-label-opacity" type="range" min="0" max="1" step="0.05" value="0.9">
+        <small>Turn on “Show element labels” beside the viewer. These settings also style the selected atom label.</small>
+      </fieldset>
+      <fieldset id="molecule-box-controls" class="molecule-appearance" hidden>
+        <legend>Simulation box</legend>
+        <label class="molecule-box-check" for="molecule-box"><input id="molecule-box" type="checkbox" checked> Show simulation box</label>
+        <label for="molecule-box-radius">Edge radius <output id="molecule-box-radius-value">0.35 Å</output></label>
+        <input id="molecule-box-radius" type="range" min="0.1" max="1" step="0.05" value="0.35">
+        <label class="molecule-box-color" for="molecule-box-color">Box color <input id="molecule-box-color" type="color" value="#2a6f97"></label>
+      </fieldset>
+    </div>
+
+    <div class="molecule-view">
+      <div id="molecule-stage" class="molecule-stage">
+        <div id="molecule-canvas" role="img" aria-label="Interactive three-dimensional molecular structure"></div>
+        <button id="molecule-fullscreen" type="button" aria-pressed="false">Fullscreen</button>
+      </div>
+      <div class="molecule-view-options">
+      <p id="molecule-status" role="status" aria-live="polite">Load a molecule to begin.</p>
+      <div class="molecule-controls" aria-label="Viewer controls">
+        <label for="molecule-style">Style</label>
+        <select id="molecule-style">
+          <option value="ball-stick">Ball and stick</option>
+          <option value="stick">Stick</option>
+          <option value="sphere">Space filling</option>
+        </select>
+        <button id="molecule-reset" type="button">Fit view</button>
+        <button id="molecule-spin" type="button" aria-pressed="false" disabled>Rotate</button>
+        <label for="molecule-spin-speed">Speed <output id="molecule-spin-speed-value">1.00×</output></label>
+        <input id="molecule-spin-speed" type="range" min="0.25" max="3" step="0.25" value="1" aria-label="Live rotation speed">
+        <button id="molecule-labels" type="button" aria-pressed="false" disabled>Show element labels</button>
+      </div>
+      <small id="molecule-label-note" class="molecule-export-note" hidden>Large structures show up to 120 representative labels. Click any atom to identify it.</small>
+      <div class="molecule-export" aria-label="Image export">
+        <label for="molecule-export-width">Image width</label>
+        <select id="molecule-export-width">
+          <option value="2000">2000 px</option>
+          <option value="4000" selected>4000 px</option>
+          <option value="6000">6000 px</option>
+          <option value="7000">7000 px</option>
+        </select>
+        <button id="molecule-save" type="button" disabled>Save PNG</button>
+        <button id="molecule-save-svg" type="button" disabled>Save SVG</button>
+        <button id="molecule-save-pdf" type="button" disabled>Save PDF</button>
+      </div>
+      <small class="molecule-export-note">SVG and PDF embed the shaded PNG; atoms and bonds are not individually editable. Your browser may limit large image sizes.</small>
+      <fieldset class="molecule-animation">
+        <legend>Rotation animation</legend>
+        <label for="molecule-animation-from">From <input id="molecule-animation-from" type="number" min="-720" max="720" step="1" value="0">°</label>
+        <label for="molecule-animation-to">To <input id="molecule-animation-to" type="number" min="-720" max="720" step="1" value="360">°</label>
+        <label for="molecule-animation-motion">Motion <select id="molecule-animation-motion"><option value="one-way">One way</option><option value="oscillate">Oscillate (back and forth)</option></select></label>
+        <label for="molecule-animation-duration">Duration <input id="molecule-animation-duration" type="number" min="1" max="15" step="0.5" value="9"> s</label>
+        <label for="molecule-animation-width">Width <select id="molecule-animation-width"><option value="640">640 px</option><option value="960" selected>960 px</option></select></label>
+        <button id="molecule-preview" type="button" disabled>Preview</button>
+        <button id="molecule-save-gif" type="button" disabled>Save GIF</button>
+        <button id="molecule-save-video" type="button" disabled>Save video</button>
+        <small>Rotation sweeps right to left across the preview from your current view. Drag the molecule to set its starting orientation. Oscillate reaches “To” halfway through the duration, then returns to “From”. Preview restores your view afterward. Video saves as MP4 when supported, otherwise WebM.</small>
+      </fieldset>
+      </div>
+    </div>
+  </div>
+  <p class="molecule-help">Drag to rotate, scroll or pinch to zoom, and right drag to pan. LAMMPS files need a Masses section or element comments for element colors. Orthogonal simulation boxes are supported.</p>
+  <p class="molecule-help">I built this molecular viewer with help from Codex (GPT-6-Sol). It is currently in beta.</p>
+</div>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/3Dmol/2.0.4/3Dmol-min.js"></script>
+<script type="module" src="{{ '/assets/molecule-viewer.mjs' | relative_url }}?v=1"></script>
