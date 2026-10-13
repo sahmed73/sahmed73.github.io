@@ -7,4 +7,5 @@ vendor/
 .DS_Store
 .wrangler/
 node_modules/
+__pycache__/
 .dev.vars
