@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Machine-learning interatomic potentials, explained from zero"
+author: "Shihab Ahmed — written by AI"
 description: "A beginner-friendly, detailed guide to MLIPs: energy and forces, training data, neural networks, graphs, equivariance, MACE and other architectures, prediction heads, foundation models, and reliable molecular dynamics."
 permalink: /perspectives/machine-learning-interatomic-potentials-explained/
 date: 2026-10-22 00:00:00 -0700
