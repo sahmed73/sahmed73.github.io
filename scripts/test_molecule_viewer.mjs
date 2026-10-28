@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
-import {parseLammps, moleculeStyle, boxEdges, exportDimensions, pngDimensions, imageSvg, animationAngle, scaledLabelStyle, videoBitrate, animationWidths, gifMaxWidth} from '../assets/molecule-viewer.mjs';
+import {parseLammps, moleculeStyle, boxEdges, exportDimensions, pngDimensions, imageSvg, animationAngle, videoBitrate, animationWidths, gifMaxWidth} from '../assets/molecule-viewer.mjs';
+import {moleculeGeometry, lightDirection} from '../assets/molecule-scene.mjs';
 import {GIFEncoder, quantize, applyPalette} from '../assets/gifenc.mjs';
 
 const data = `LAMMPS data file
@@ -64,9 +65,25 @@ assert.throws(() => imageSvg({...png, uri: 'https://example.com/image.png'}), /I
 const oscillate = {from: 0, to: 30, motion: 'oscillate'};
 assert.deepEqual([0, .25, .5, .75, 1].map(progress => animationAngle(progress, oscillate)), [0, 15, 30, 15, 0]);
 assert.deepEqual([0, .5, 1].map(progress => animationAngle(progress, {from: -20, to: 40, motion: 'one-way'})), [-20, 10, 40]);
-const labelStyle = {fontSize: 16, padding: 4, screenOffset: {x: 0, y: -10}, fontColor: '#ffffff', inFront: true};
-assert.deepEqual(scaledLabelStyle(labelStyle, 5), {fontSize: 80, padding: 20, screenOffset: {x: 0, y: -50}, fontColor: '#ffffff', inFront: true});
-assert.deepEqual(scaledLabelStyle(labelStyle, 1), labelStyle);
+const ethene = [
+  {index: 0, elem: 'C', x: 0, y: 0, z: 0, color: '#909090', bonds: [1, 2], bondOrder: [2, 1]},
+  {index: 1, elem: 'C', x: 1.34, y: 0, z: 0, color: '#909090', bonds: [0], bondOrder: [2]},
+  {index: 2, elem: 'O', x: -0.7, y: 1.2, z: 0, color: '#ff0d0d', bonds: [0], bondOrder: [1]},
+];
+const ballStick = moleculeGeometry(ethene, {kind: 'ball-stick', atomSize: 1, bondRadius: 0.14, bondMode: 'split', bondColor: '#b0b0b0'}, {C: 1.7, O: 1.52});
+assert.equal(ballStick.spheres.length, 3);
+assert.ok(Math.abs(ballStick.spheres[0].radius - 1.7 * 0.28) < 1e-12);
+assert.equal(ballStick.cylinders.length, 4); // double C=C as two same-color sticks, C–O split into two colors
+const doubleBond = ballStick.cylinders.filter(cylinder => cylinder.color === '#909090' && Math.abs(cylinder.radius - 0.14 / 2.5) < 1e-12);
+assert.equal(doubleBond.length, 2);
+assert.ok(Math.abs(Math.abs(doubleBond[0].start[1] - doubleBond[1].start[1]) - 2 * 0.14 / 2.5 * 1.5) < 1e-9); // offset in the molecular plane
+const solidSticks = moleculeGeometry(ethene, {kind: 'stick', atomSize: 1, bondRadius: 0.2, bondMode: 'solid', bondColor: '#123456'}, {});
+assert.ok(solidSticks.cylinders.every(cylinder => cylinder.color === '#123456'));
+assert.equal(solidSticks.spheres.length, 3);
+assert.equal(moleculeGeometry(ethene, {kind: 'sphere', atomSize: 2, bondRadius: 0.14, bondMode: 'split', bondColor: '#b0b0b0'}, {}).cylinders.length, 0);
+assert.deepEqual(lightDirection(0, 0).map(v => Math.round(v * 1e12) / 1e12), [0, 0, 1]);
+assert.deepEqual(lightDirection(90, 0).map(v => Math.round(v * 1e12) / 1e12), [1, 0, 0]);
+assert.deepEqual(lightDirection(0, 90).map(v => Math.round(v * 1e12) / 1e12), [0, 1, 0]);
 assert.equal(videoBitrate(640, 360, 24), 8e6);
 assert.equal(videoBitrate(3840, 2160, 30), 37324800);
 assert.equal(videoBitrate(3840, 2160, 60), 74649600);

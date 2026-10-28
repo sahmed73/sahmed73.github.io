@@ -38,6 +38,12 @@ Exports render the 3D canvas itself at the chosen size, and labels scale with
 it. Rotation videos are encoded frame by frame with WebCodecs and packaged as MP4
 by the bundled `mp4-muxer` 5.2.2 (MIT, `assets/mp4-muxer.LICENSE.md`); browsers
 without WebCodecs fall back to real-time recording.
+The optional Studio renderer (`assets/molecule-studio.mjs`) redraws the 3Dmol view
+with three.js r170 from jsDelivr (see the import map in `molecule-viewer.html`) for
+materials, extra lights, shadows, and ambient occlusion; 3Dmol still handles
+loading, picking, and rotation. `assets/molecule-scene.mjs` builds its geometry the
+same way 3Dmol draws each style, and `assets/molecule-labels.mjs` draws the labels
+for both renderers.
 Run `node scripts/test_molecule_viewer.mjs` for parser and export checks.
 
 ## Update content

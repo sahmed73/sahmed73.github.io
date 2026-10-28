@@ -89,7 +89,32 @@ description: Explore molecules and LAMMPS structures in 3D, customize colors and
         <label for="molecule-label-scope">Label atoms</label>
         <select id="molecule-label-scope"><option value="heavy">Heavy atoms</option><option value="all">All atoms, including H</option></select>
         <label for="molecule-label-size">Font size <output id="molecule-label-size-value">16 px</output></label>
-        <input id="molecule-label-size" type="range" min="10" max="28" step="1" value="16">
+        <input id="molecule-label-size" type="range" min="10" max="40" step="1" value="16">
+        <label for="molecule-label-font">Font</label>
+        <select id="molecule-label-font">
+          <option value="sans-serif">Sans-serif (default)</option>
+          <option value="system">System UI (all weights)</option>
+          <option value="arial">Arial</option>
+          <option value="helvetica">Helvetica</option>
+          <option value="georgia">Georgia</option>
+          <option value="times">Times New Roman</option>
+          <option value="courier">Courier New</option>
+          <option value="monospace">Monospace</option>
+        </select>
+        <label for="molecule-label-weight">Font weight</label>
+        <select id="molecule-label-weight">
+          <option value="300">Light</option>
+          <option value="400" selected>Regular</option>
+          <option value="500">Medium</option>
+          <option value="600">Semibold</option>
+          <option value="700">Bold</option>
+          <option value="800">Extra bold</option>
+          <option value="900">Black</option>
+        </select>
+        <small>Fonts without a weight use the closest one; System UI has every weight.</small>
+        <label for="molecule-label-outline">Text outline <output id="molecule-label-outline-value">0 px</output></label>
+        <input id="molecule-label-outline" type="range" min="0" max="6" step="0.5" value="0">
+        <label class="molecule-inline-color" for="molecule-label-outline-color">Outline color <input id="molecule-label-outline-color" type="color" value="#000000"></label>
         <label for="molecule-label-color-mode">Text color</label>
         <select id="molecule-label-color-mode">
           <option value="solid">One color for all labels</option>
@@ -104,6 +129,98 @@ description: Explore molecules and LAMMPS structures in 3D, customize colors and
         <label for="molecule-label-opacity">Background opacity <output id="molecule-label-opacity-value">90%</output></label>
         <input id="molecule-label-opacity" type="range" min="0" max="1" step="0.05" value="0.9">
         <small>Turn on “Show element labels” beside the viewer. These settings also style the selected atom label.</small>
+      </fieldset>
+      <fieldset id="molecule-render-settings" class="molecule-appearance">
+        <legend>Lighting and rendering</legend>
+        <label for="molecule-renderer">Renderer</label>
+        <select id="molecule-renderer">
+          <option value="standard">Standard (fast)</option>
+          <option value="studio">Studio (materials, shadows, occlusion)</option>
+        </select>
+        <small>Studio renders the same view with three.js: glossy or matte materials, several lights, soft shadows, and ambient occlusion. It needs a capable graphics card for large structures.</small>
+
+        <div class="molecule-studio-only" hidden>
+          <p class="molecule-color-heading">Material</p>
+          <label for="molecule-material-preset">Finish</label>
+          <select id="molecule-material-preset">
+            <option value="">Custom</option>
+            <option value="matte">Matte</option>
+            <option value="satin" selected>Satin</option>
+            <option value="plastic">Plastic</option>
+            <option value="glossy">Glossy</option>
+            <option value="mirror">Mirror gloss</option>
+            <option value="metallic">Metallic</option>
+          </select>
+          <label for="molecule-roughness">Roughness (glossy to matte) <output id="molecule-roughness-value">0.5</output></label>
+          <input id="molecule-roughness" type="range" min="0" max="1" step="0.01" value="0.5">
+          <label for="molecule-metalness">Metalness <output id="molecule-metalness-value">0</output></label>
+          <input id="molecule-metalness" type="range" min="0" max="1" step="0.01" value="0">
+          <label for="molecule-clearcoat">Clear coat <output id="molecule-clearcoat-value">0.2</output></label>
+          <input id="molecule-clearcoat" type="range" min="0" max="1" step="0.01" value="0.2">
+          <label for="molecule-reflections">Reflections <output id="molecule-reflections-value">0.08</output></label>
+          <input id="molecule-reflections" type="range" min="0" max="1.5" step="0.01" value="0.08">
+        </div>
+
+        <p class="molecule-color-heading">Main light</p>
+        <label for="molecule-light-brightness">Brightness <output id="molecule-light-brightness-value">1×</output></label>
+        <input id="molecule-light-brightness" type="range" min="0" max="2.5" step="0.05" value="1" data-unit="×">
+        <label for="molecule-light-azimuth">Direction, left to right <output id="molecule-light-azimuth-value">11°</output></label>
+        <input id="molecule-light-azimuth" type="range" min="-180" max="180" step="1" value="11" data-unit="°">
+        <label for="molecule-light-elevation">Direction, below to above <output id="molecule-light-elevation-value">11°</output></label>
+        <input id="molecule-light-elevation" type="range" min="-90" max="90" step="1" value="11" data-unit="°">
+        <label class="molecule-inline-color" for="molecule-light-color">Light color <input id="molecule-light-color" type="color" value="#ffffff"></label>
+
+        <div class="molecule-studio-only" hidden>
+          <p class="molecule-color-heading">More lights</p>
+          <label for="molecule-fill-light">Fill light <output id="molecule-fill-light-value">0.2</output></label>
+          <input id="molecule-fill-light" type="range" min="0" max="2" step="0.05" value="0.2">
+          <label for="molecule-rim-light">Rim light (from behind) <output id="molecule-rim-light-value">0.5</output></label>
+          <input id="molecule-rim-light" type="range" min="0" max="3" step="0.05" value="0.5">
+          <label for="molecule-ambient-light">Ambient light <output id="molecule-ambient-light-value">0.1</output></label>
+          <input id="molecule-ambient-light" type="range" min="0" max="2" step="0.05" value="0.1">
+
+          <p class="molecule-color-heading">Shadows</p>
+          <label class="molecule-box-check" for="molecule-shadows"><input id="molecule-shadows" type="checkbox" checked> Cast shadows</label>
+          <label for="molecule-shadow-softness">Softness <output id="molecule-shadow-softness-value">3</output></label>
+          <input id="molecule-shadow-softness" type="range" min="1" max="10" step="0.5" value="3">
+          <label for="molecule-shadow-strength">Strength <output id="molecule-shadow-strength-value">0.6</output></label>
+          <input id="molecule-shadow-strength" type="range" min="0" max="1" step="0.05" value="0.6">
+          <label class="molecule-box-check" for="molecule-backdrop-shadow"><input id="molecule-backdrop-shadow" type="checkbox"> Drop shadow on a backdrop</label>
+
+          <p class="molecule-color-heading">Ambient occlusion</p>
+          <label class="molecule-box-check" for="molecule-ao"><input id="molecule-ao" type="checkbox" checked> Darken crevices</label>
+          <label for="molecule-ao-radius">Radius <output id="molecule-ao-radius-value">1 Å</output></label>
+          <input id="molecule-ao-radius" type="range" min="0.2" max="4" step="0.1" value="1" data-unit=" Å">
+          <label for="molecule-ao-strength">Strength <output id="molecule-ao-strength-value">1</output></label>
+          <input id="molecule-ao-strength" type="range" min="0" max="1.5" step="0.05" value="1">
+
+          <p class="molecule-color-heading">Exposure</p>
+          <label for="molecule-tone-mapping">Tone mapping</label>
+          <select id="molecule-tone-mapping">
+            <option value="neutral" selected>Neutral (true colors)</option>
+            <option value="agx">AgX (soft highlights)</option>
+            <option value="aces">ACES filmic (high contrast)</option>
+            <option value="none">None</option>
+          </select>
+          <label for="molecule-exposure">Exposure <output id="molecule-exposure-value">0.9</output></label>
+          <input id="molecule-exposure" type="range" min="0.2" max="2.5" step="0.05" value="0.9">
+        </div>
+
+        <p class="molecule-color-heading">Camera and scene</p>
+        <label for="molecule-projection">Projection</label>
+        <select id="molecule-projection">
+          <option value="perspective">Perspective</option>
+          <option value="orthographic">Orthographic</option>
+        </select>
+        <label for="molecule-fov">Field of view <output id="molecule-fov-value">20°</output></label>
+        <input id="molecule-fov" type="range" min="5" max="60" step="1" value="20" data-unit="°">
+        <label class="molecule-box-check" for="molecule-fog"><input id="molecule-fog" type="checkbox" checked> Depth fog (fade distant atoms)</label>
+        <label class="molecule-inline-color" for="molecule-background">Background <input id="molecule-background" type="color" value="#ffffff"></label>
+        <label class="molecule-box-check" for="molecule-transparent"><input id="molecule-transparent" type="checkbox"> Transparent background (PNG)</label>
+        <label class="molecule-box-check" for="molecule-outline"><input id="molecule-outline" type="checkbox"> Outline</label>
+        <label for="molecule-outline-width">Outline width <output id="molecule-outline-width-value">0.1 Å</output></label>
+        <input id="molecule-outline-width" type="range" min="0.02" max="0.5" step="0.01" value="0.1" data-unit=" Å">
+        <label class="molecule-inline-color" for="molecule-outline-color">Outline color <input id="molecule-outline-color" type="color" value="#000000"></label>
       </fieldset>
       <fieldset id="molecule-box-controls" class="molecule-appearance" hidden>
         <legend>Simulation box</legend>
@@ -168,4 +285,5 @@ description: Explore molecules and LAMMPS structures in 3D, customize colors and
   <p class="molecule-help">I built this molecular viewer with help from Codex (GPT-6-Sol). It is currently in beta.</p>
 </div>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/3Dmol/2.0.4/3Dmol-min.js"></script>
-<script type="module" src="{{ '/assets/molecule-viewer.mjs' | relative_url }}?v=3"></script>
+<script type="importmap">{"imports": {"three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"}}</script>
+<script type="module" src="{{ '/assets/molecule-viewer.mjs' | relative_url }}?v=4"></script>

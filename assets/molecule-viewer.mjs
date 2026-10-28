@@ -1,5 +1,7 @@
 import {GIFEncoder, quantize, applyPalette} from './gifenc.mjs';
 import {Muxer, ArrayBufferTarget} from './mp4-muxer.mjs';
+import {drawLabelCanvas} from './molecule-labels.mjs';
+import {moleculeGeometry, lightDirection} from './molecule-scene.mjs';
 
 export const animationWidths = [640, 960, 1280, 1920, 2560, 3840];
 export const videoFrameRates = [24, 30, 60];
@@ -177,16 +179,6 @@ export function exportDimensions(viewWidth, viewHeight, outputWidth) {
   return {width: Math.round(outputWidth), height: Math.round(outputWidth * viewHeight / viewWidth)};
 }
 
-// 3Dmol draws labels at a fixed CSS-pixel size, so exports scale the label texture with the image.
-export function scaledLabelStyle(style, scale) {
-  return {
-    ...style,
-    fontSize: style.fontSize * scale,
-    padding: style.padding * scale,
-    screenOffset: {x: style.screenOffset.x * scale, y: style.screenOffset.y * scale},
-  };
-}
-
 export function videoBitrate(width, height, fps) {
   return Math.round(Math.min(80e6, Math.max(8e6, width * height * fps * 0.15)));
 }
@@ -223,6 +215,8 @@ export async function imagePdf({uri, width, height}) {
   canvas.height = height;
   const context = canvas.getContext('2d', {willReadFrequently: true});
   if (!context) throw new Error('Could not read the PNG image.');
+  context.fillStyle = '#ffffff';
+  context.fillRect(0, 0, width, height);
   context.drawImage(image, 0, 0);
   const rgba = context.getImageData(0, 0, width, height).data;
   const rgb = new Uint8Array(width * height * 3);
@@ -294,8 +288,20 @@ if (typeof document !== 'undefined') {
     primary: {C: '#243b6b', H: '#fff9d6', O: '#e53935', N: '#f4c20d'},
     candy: {C: '#7f6384', H: '#fff3f8', O: '#ff729c', N: '#55b8e5'},
   };
+  const materialPresets = {
+    matte: {roughness: 0.9, metalness: 0, clearcoat: 0, reflections: 0.05},
+    satin: {roughness: 0.5, metalness: 0, clearcoat: 0.2, reflections: 0.08},
+    plastic: {roughness: 0.35, metalness: 0, clearcoat: 0.5, reflections: 0.12},
+    glossy: {roughness: 0.18, metalness: 0, clearcoat: 1, reflections: 0.2},
+    mirror: {roughness: 0.05, metalness: 0, clearcoat: 1, reflections: 0.5},
+    metallic: {roughness: 0.3, metalness: 0.85, clearcoat: 0.3, reflections: 0.6},
+  };
   const atomOverrides = new Map();
   const labelColors = new Map();
+  let studio = null;
+  let studioRequest = null;
+  let studioDirty = false;
+  let lastStudioKey = '';
   let selectedAtom = -1;
   let animationBusy = false;
   let exporting = false;
@@ -332,35 +338,60 @@ if (typeof document !== 'undefined') {
     return $('molecule-label-text-color').value;
   }
 
-  // scale enlarges labels for high-resolution exports; spriteScale undoes the device pixel ratio so the larger texture stays sharp.
-  function updateAtomLabels(scale = 1, spriteScale = 1) {
-    viewer.removeAllLabels();
+  function labelEntries() {
     const enabled = $('molecule-labels').getAttribute('aria-pressed') === 'true';
     const atoms = modelAtoms.map((atom, index) => ({atom, index}));
     const heavyAtoms = atoms.filter(({atom}) => atom.elem !== 'H');
     const eligible = $('molecule-label-scope').value === 'all' || !heavyAtoms.length ? atoms : heavyAtoms;
     // shortcut: sample labels above 120 atoms; use viewport culling if dense structures need every label.
     const stride = Math.max(1, Math.ceil(eligible.length / 120));
-    const labelStyle = scaledLabelStyle({
-      fontSize: Number($('molecule-label-size').value),
-      backgroundColor: $('molecule-label-bg-color').value,
-      backgroundOpacity: Number($('molecule-label-opacity').value),
-      alignment: 'bottomCenter', screenOffset: {x: 0, y: -10}, inFront: true, padding: 4,
-    }, scale);
-    const addLabel = (text, atom) => {
-      const label = viewer.addLabel(text, {...labelStyle, fontColor: labelColor(atom), position: atom}, undefined, true);
-      label.sprite.scale.set(spriteScale, spriteScale, 1);
-    };
+    const entries = [];
     if (enabled) for (let position = 0; position < eligible.length; position += stride) {
       const {atom, index} = eligible[position];
-      if (index === selectedAtom) continue;
-      addLabel(atom.elem, atom);
+      if (index !== selectedAtom) entries.push({text: atom.elem, atom});
     }
     if (selectedAtom >= 0) {
       const atom = modelAtoms[selectedAtom];
-      addLabel(`${atom.elem} ${atom.serial ?? selectedAtom + 1}`, atom);
+      entries.push({text: `${atom.elem} ${atom.serial ?? selectedAtom + 1}`, atom});
     }
     $('molecule-label-note').hidden = !enabled || eligible.length <= 120;
+    return entries;
+  }
+
+  // Label sizes in output pixels; scale is output pixels per CSS pixel.
+  function labelDrawStyle(scale) {
+    return {
+      fontSize: Number($('molecule-label-size').value) * scale,
+      fontFamily: $('molecule-label-font').value,
+      fontWeight: Number($('molecule-label-weight').value),
+      background: $('molecule-label-bg-color').value,
+      backgroundOpacity: Number($('molecule-label-opacity').value),
+      padding: 4 * scale,
+      outlineWidth: Number($('molecule-label-outline').value) * scale,
+      outlineColor: $('molecule-label-outline-color').value,
+      offset: 10 * scale,
+    };
+  }
+
+  const viewerPixelRatio = () => viewer.getCanvas().width / viewer.getCanvas().clientWidth;
+  const screenScale = () => studioOn() ? window.devicePixelRatio || 1 : viewerPixelRatio();
+
+  // Labels are drawn at output resolution (sharp on screen and in exports); pixelRatio is the 3Dmol renderer's, which sizes its sprites.
+  function updateAtomLabels(scale = screenScale(), pixelRatio = viewerPixelRatio()) {
+    viewer.removeAllLabels();
+    const entries = labelEntries();
+    const style = labelDrawStyle(scale);
+    if (studioOn()) {
+      studio.setLabels(entries.map(({text, atom}) => ({text, position: [atom.x, atom.y, atom.z], color: labelColor(atom)})), style);
+      studioDirty = true;
+    } else {
+      for (const {text, atom} of entries) {
+        const label = viewer.addLabel(text, {position: atom, alignment: 'bottomCenter', screenOffset: {x: 0, y: -style.offset}, inFront: true}, undefined, true);
+        drawLabelCanvas(label.canvas, text, {...style, color: labelColor(atom)});
+        label.sprite.material.map.needsUpdate = true;
+        label.sprite.scale.set(1 / pixelRatio, 1 / pixelRatio, 1);
+      }
+    }
     viewer.render();
   }
 
@@ -414,6 +445,7 @@ if (typeof document !== 'undefined') {
   function applyStyle(model) {
     modelAtoms.forEach((atom, index) => { atom.color = atomOverrides.get(index) || elementColors.get(atom.elem); });
     model.setStyle({}, moleculeStyle($('molecule-style').value, Number($('molecule-atom-size').value), Number($('molecule-bond-radius').value), $('molecule-bond-mode').value, $('molecule-bond-color').value));
+    syncStudioScene();
     if ($('molecule-label-color-mode').value === 'atom') updateAtomLabels();
     else viewer.render();
   }
@@ -425,7 +457,126 @@ if (typeof document !== 'undefined') {
       const color = $('molecule-box-color').value;
       for (const edge of boxEdges(box)) viewer.addCylinder({...edge, radius, color});
     }
+    syncStudioScene();
     viewer.render();
+  }
+
+  function renderSettings() {
+    const number = id => Number($(id).value);
+    return {
+      material: {roughness: number('molecule-roughness'), metalness: number('molecule-metalness'), clearcoat: number('molecule-clearcoat'), reflections: number('molecule-reflections')},
+      key: {brightness: number('molecule-light-brightness'), azimuth: number('molecule-light-azimuth'), elevation: number('molecule-light-elevation'), color: $('molecule-light-color').value},
+      fill: number('molecule-fill-light'),
+      rim: number('molecule-rim-light'),
+      ambient: number('molecule-ambient-light'),
+      shadows: {enabled: $('molecule-shadows').checked, softness: number('molecule-shadow-softness'), strength: number('molecule-shadow-strength'), backdrop: $('molecule-backdrop-shadow').checked},
+      ao: {enabled: $('molecule-ao').checked, radius: number('molecule-ao-radius'), intensity: number('molecule-ao-strength')},
+      toneMapping: $('molecule-tone-mapping').value,
+      exposure: number('molecule-exposure'),
+      fog: $('molecule-fog').checked,
+      fov: number('molecule-fov'),
+      projection: $('molecule-projection').value,
+      background: {color: $('molecule-background').value, transparent: $('molecule-transparent').checked},
+      outline: {enabled: $('molecule-outline').checked, width: number('molecule-outline-width'), color: $('molecule-outline-color').value},
+    };
+  }
+
+  // Light direction, brightness, and color, camera, fog, background, and outline also drive the standard 3Dmol renderer.
+  function applyRenderSettings() {
+    if (!viewer) return;
+    const settings = renderSettings();
+    const light = viewer.scene?.children.find(child => child.intensity !== undefined && child.color && child.position);
+    if (light) {
+      light.position.set(...lightDirection(settings.key.azimuth, settings.key.elevation));
+      light.intensity = settings.key.brightness;
+      const value = parseInt(settings.key.color.slice(1), 16);
+      Object.assign(light.color, {r: (value >> 16 & 255) / 255, g: (value >> 8 & 255) / 255, b: (value & 255) / 255});
+    }
+    viewer.setCameraParameters({fov: settings.fov});
+    viewer.setProjection(settings.projection);
+    viewer.config.disableFog = !settings.fog;
+    viewer.setBackgroundColor(settings.background.color, settings.background.transparent ? 0 : 1);
+    viewer.setViewStyle(settings.outline.enabled ? {style: 'outline', color: settings.outline.color, width: settings.outline.width} : {style: 'none'});
+    viewer.render();
+    if (studio) {
+      studio.setSettings(settings);
+      studioDirty = true;
+    }
+  }
+
+  function studioOn() {
+    return !!studio && $('molecule-renderer').value === 'studio';
+  }
+
+  function cameraState() {
+    const camera = viewer.camera;
+    return {
+      view: viewer.getView(), cameraZ: camera.position.z, projection: Array.from(camera.projectionMatrix.elements),
+      near: camera.near, far: camera.far, ortho: !!camera.ortho, fogNear: viewer.scene.fog.near, fogFar: viewer.scene.fog.far,
+    };
+  }
+
+  function studioFrame() {
+    if (!studioOn()) {
+      studioRequest = null;
+      return;
+    }
+    if (!exporting && hasModel) {
+      const state = cameraState();
+      const key = `${state.view.join()}|${state.projection.join()}|${state.fogNear}`;
+      if (studioDirty || key !== lastStudioKey) {
+        studio.render(state);
+        lastStudioKey = key;
+        studioDirty = false;
+      }
+    }
+    studioRequest = requestAnimationFrame(studioFrame);
+  }
+
+  function syncStudioScene() {
+    if (!studioOn()) return;
+    const geometry = moleculeGeometry(modelAtoms, {
+      kind: $('molecule-style').value, atomSize: Number($('molecule-atom-size').value), bondRadius: Number($('molecule-bond-radius').value),
+      bondMode: $('molecule-bond-mode').value, bondColor: $('molecule-bond-color').value,
+    }, window.$3Dmol?.GLModel?.vdwRadii || {});
+    if (box && $('molecule-box').checked) {
+      const radius = Number($('molecule-box-radius').value);
+      const color = $('molecule-box-color').value;
+      for (const {start, end} of boxEdges(box)) geometry.cylinders.push({start: [start.x, start.y, start.z], end: [end.x, end.y, end.z], radius, color});
+    }
+    studio.setScene(geometry);
+    studioDirty = true;
+  }
+
+  function sizeStudio() {
+    if (!studioOn()) return;
+    const container = $('molecule-canvas');
+    studio.setSize(container.clientWidth, container.clientHeight, window.devicePixelRatio || 1);
+    studioDirty = true;
+  }
+
+  async function setRenderer() {
+    const studioMode = $('molecule-renderer').value === 'studio';
+    for (const element of document.querySelectorAll('.molecule-studio-only')) element.hidden = !studioMode;
+    if (studioMode && !studio) {
+      message('Loading the studio renderer…');
+      try {
+        const {createStudio} = await import('./molecule-studio.mjs');
+        studio ??= createStudio($('molecule-canvas'));
+      } catch (error) {
+        $('molecule-renderer').value = 'standard';
+        message(`The studio renderer could not load: ${error.message}`, true);
+        return setRenderer();
+      }
+      message(hasModel ? 'Studio renderer ready.' : 'Load a molecule to begin.');
+    }
+    viewer.getCanvas().style.opacity = studioMode ? '0' : '';
+    if (studio) studio.canvas.hidden = !studioMode;
+    applyRenderSettings();
+    sizeStudio();
+    syncStudioScene();
+    if (hasModel) updateAtomLabels();
+    if (studioMode && !studioRequest) studioRequest = requestAnimationFrame(studioFrame);
   }
 
   // Renders the WebGL canvas itself at the output size (not an upscaled screen copy), keeps its on-screen size, and scales labels to match.
@@ -442,21 +593,24 @@ if (typeof document !== 'undefined') {
       viewer.setHeight(Math.round(size.height / pixelRatio));
       canvas.style.width = `${cssWidth}px`;
       canvas.style.height = `${cssHeight}px`;
-      updateAtomLabels(size.width / cssWidth, 1 / pixelRatio);
+      if (studioOn()) studio.setSize(size.width, size.height, 1);
+      updateAtomLabels(size.width / cssWidth, pixelRatio);
       viewer.setView(view);
       viewer.render();
-      return await render(canvas, size);
+      if (studioOn()) studio.render(cameraState());
+      return await render(studioOn() ? studio.canvas : canvas, size);
     } finally {
       exporting = false;
       viewer.resize();
       viewer.setView(view);
+      sizeStudio();
       updateAtomLabels();
     }
   }
 
   function renderPng(outputWidth) {
-    return withExportSize(outputWidth, () => {
-      const uri = viewer.pngURI();
+    return withExportSize(outputWidth, source => {
+      const uri = studioOn() ? studio.snapshot().toDataURL('image/png') : viewer.pngURI();
       return {uri, ...pngDimensions(uri)};
     });
   }
@@ -516,7 +670,12 @@ if (typeof document !== 'undefined') {
     viewer.setView(view);
     viewer.rotate(-angle, 'vy');
     viewer.render();
-    if (output) output.context.drawImage(output.source, 0, 0, output.canvas.width, output.canvas.height);
+    if (studioOn()) studio.render(cameraState());
+    if (output) {
+      output.context.fillStyle = $('molecule-background').value;
+      output.context.fillRect(0, 0, output.canvas.width, output.canvas.height);
+      output.context.drawImage(output.source, 0, 0, output.canvas.width, output.canvas.height);
+    }
   }
 
   function renderPreview(view, settings) {
@@ -798,13 +957,38 @@ if (typeof document !== 'undefined') {
     showLabelColors();
     if (hasModel) updateAtomLabels();
   });
-  for (const id of ['molecule-label-scope', 'molecule-label-size', 'molecule-label-text-color', 'molecule-label-bg-color', 'molecule-label-opacity']) {
+  for (const id of ['molecule-label-scope', 'molecule-label-size', 'molecule-label-font', 'molecule-label-weight', 'molecule-label-text-color', 'molecule-label-outline', 'molecule-label-outline-color', 'molecule-label-bg-color', 'molecule-label-opacity']) {
     $(id).addEventListener('input', () => {
       $('molecule-label-size-value').textContent = `${$('molecule-label-size').value} px`;
+      $('molecule-label-outline-value').textContent = `${$('molecule-label-outline').value} px`;
       $('molecule-label-opacity-value').textContent = `${Math.round(Number($('molecule-label-opacity').value) * 100)}%`;
       if (hasModel) updateAtomLabels();
     });
   }
+  const renderPanel = $('molecule-render-settings');
+  const showRenderValues = () => {
+    for (const input of renderPanel.querySelectorAll('input[type="range"]')) {
+      const output = $(`${input.id}-value`);
+      if (output) output.textContent = `${input.value}${input.dataset.unit || ''}`;
+    }
+  };
+  renderPanel.addEventListener('input', event => {
+    if (event.target.id === 'molecule-renderer' || event.target.id === 'molecule-material-preset') return;
+    if (['molecule-roughness', 'molecule-metalness', 'molecule-clearcoat', 'molecule-reflections'].includes(event.target.id)) $('molecule-material-preset').value = '';
+    showRenderValues();
+    applyRenderSettings();
+  });
+  $('molecule-material-preset').addEventListener('change', event => {
+    const preset = materialPresets[event.currentTarget.value];
+    if (!preset) return;
+    for (const [name, value] of Object.entries(preset)) $(`molecule-${name}`).value = value;
+    showRenderValues();
+    applyRenderSettings();
+  });
+  $('molecule-renderer').addEventListener('change', setRenderer);
+  new ResizeObserver(() => { if (!exporting) sizeStudio(); }).observe($('molecule-canvas'));
+  showRenderValues();
+  applyRenderSettings();
   const stage = $('molecule-stage');
   $('molecule-fullscreen').addEventListener('click', async () => {
     try {
@@ -816,7 +1000,7 @@ if (typeof document !== 'undefined') {
     const active = document.fullscreenElement === stage;
     $('molecule-fullscreen').textContent = active ? 'Exit fullscreen' : 'Fullscreen';
     $('molecule-fullscreen').setAttribute('aria-pressed', String(active));
-    requestAnimationFrame(() => { viewer?.resize(); viewer?.render(); });
+    requestAnimationFrame(() => { viewer?.resize(); viewer?.render(); sizeStudio(); });
   });
   window.addEventListener('resize', () => { if (!exporting) viewer?.resize(); });
   $('molecule-save').addEventListener('click', async () => {

@@ -154,6 +154,11 @@ pre, code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-si
 .molecule-picked-row button { padding: 3px 6px; }
 .molecule-label-colors { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; margin-bottom: 10px; }
 .molecule-label-colors label { display: flex; align-items: center; gap: 5px; }
+.molecule-inline-color { display: flex !important; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 10px; }
+.molecule-studio-only[hidden] { display: none; }
+#molecule-render-settings .molecule-box-check { display: block; margin: 4px 0 10px; }
+.molecule-studio-canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; border-radius: 4px; }
+.molecule-studio-canvas[hidden] { display: none; }
 .molecule-stage { height: clamp(280px, 55dvh, 500px); flex: none; position: relative; background: white; }
 #molecule-canvas { width: 100%; height: 100%; border: 1px solid var(--rule); border-radius: 4px; position: relative; }
 #molecule-fullscreen { position: absolute; top: 12px; right: 12px; z-index: 2; box-shadow: 0 1px 5px #0002; }
