@@ -233,7 +233,8 @@ export function createStudio(container) {
         texture.colorSpace = THREE.SRGBColorSpace;
         const sprite = new THREE.Sprite(new THREE.SpriteMaterial({map: texture, depthTest: false, depthWrite: false, sizeAttenuation: false, toneMapped: false, transparent: true}));
         sprite.position.set(...entry.position);
-        sprite.center.set(0.5, -style.offset / texture.image.height);
+        // Same placement as the 3Dmol labels: the label's bottom edge sits offset pixels below the atom center.
+        sprite.center.set(0.5, style.offset / texture.image.height);
         sprite.renderOrder = 1;
         labelModel.add(sprite);
         return sprite;

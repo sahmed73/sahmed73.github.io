@@ -298,6 +298,7 @@ if (typeof document !== 'undefined') {
   };
   const atomOverrides = new Map();
   const labelColors = new Map();
+  const hiddenLabelElements = new Set();
   let studio = null;
   let studioRequest = null;
   let studioDirty = false;
@@ -342,7 +343,9 @@ if (typeof document !== 'undefined') {
     const enabled = $('molecule-labels').getAttribute('aria-pressed') === 'true';
     const atoms = modelAtoms.map((atom, index) => ({atom, index}));
     const heavyAtoms = atoms.filter(({atom}) => atom.elem !== 'H');
-    const eligible = $('molecule-label-scope').value === 'all' || !heavyAtoms.length ? atoms : heavyAtoms;
+    const scoped = $('molecule-label-scope').value === 'all' || !heavyAtoms.length ? atoms : heavyAtoms;
+    const perElement = $('molecule-label-color-mode').value === 'element';
+    const eligible = perElement ? scoped.filter(({atom}) => !hiddenLabelElements.has(atom.elem)) : scoped;
     // shortcut: sample labels above 120 atoms; use viewport culling if dense structures need every label.
     const stride = Math.max(1, Math.ceil(eligible.length / 120));
     const entries = [];
@@ -406,18 +409,32 @@ if (typeof document !== 'undefined') {
     if (!elements.length) list.textContent = 'Load a molecule to choose label colors.';
     for (const elem of elements) {
       if (!labelColors.has(elem)) labelColors.set(elem, elementColors.get(elem));
-      const label = document.createElement('label');
+      const row = document.createElement('span');
+      const show = document.createElement('input');
       const input = document.createElement('input');
-      label.textContent = elem;
+      show.type = 'checkbox';
+      show.checked = !hiddenLabelElements.has(elem);
+      show.setAttribute('aria-label', `Show ${elem} labels`);
+      show.title = `Show ${elem} labels`;
       input.type = 'color';
       input.value = labelColors.get(elem);
+      input.disabled = !show.checked;
       input.setAttribute('aria-label', `${elem} label text color`);
+      show.addEventListener('change', () => {
+        if (show.checked) hiddenLabelElements.delete(elem);
+        else hiddenLabelElements.add(elem);
+        input.disabled = !show.checked;
+        if (hasModel) updateAtomLabels();
+      });
       input.addEventListener('input', () => {
         labelColors.set(elem, input.value);
         if (hasModel) updateAtomLabels();
       });
-      label.append(input);
-      list.append(label);
+      const name = document.createElement('label');
+      name.textContent = elem;
+      name.prepend(show);
+      row.append(name, input);
+      list.append(row);
     }
   }
 
@@ -571,7 +588,8 @@ if (typeof document !== 'undefined') {
       message(hasModel ? 'Studio renderer ready.' : 'Load a molecule to begin.');
     }
     viewer.getCanvas().style.opacity = studioMode ? '0' : '';
-    if (studio) studio.canvas.hidden = !studioMode;
+    // three.js sets an inline display on its canvas, which would override the hidden attribute.
+    if (studio) studio.canvas.style.display = studioMode ? 'block' : 'none';
     applyRenderSettings();
     sizeStudio();
     syncStudioScene();
