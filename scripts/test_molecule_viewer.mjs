@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {parseLammps, moleculeStyle, boxEdges, exportDimensions, pngDimensions, imageSvg, animationAngle} from '../assets/molecule-viewer.mjs';
+import {parseLammps, moleculeStyle, boxEdges, exportDimensions, pngDimensions, imageSvg, animationAngle, scaledLabelStyle, videoBitrate, animationWidths, gifMaxWidth} from '../assets/molecule-viewer.mjs';
 import {GIFEncoder, quantize, applyPalette} from '../assets/gifenc.mjs';
 
 const data = `LAMMPS data file
@@ -64,6 +64,14 @@ assert.throws(() => imageSvg({...png, uri: 'https://example.com/image.png'}), /I
 const oscillate = {from: 0, to: 30, motion: 'oscillate'};
 assert.deepEqual([0, .25, .5, .75, 1].map(progress => animationAngle(progress, oscillate)), [0, 15, 30, 15, 0]);
 assert.deepEqual([0, .5, 1].map(progress => animationAngle(progress, {from: -20, to: 40, motion: 'one-way'})), [-20, 10, 40]);
+const labelStyle = {fontSize: 16, padding: 4, screenOffset: {x: 0, y: -10}, fontColor: '#ffffff', inFront: true};
+assert.deepEqual(scaledLabelStyle(labelStyle, 5), {fontSize: 80, padding: 20, screenOffset: {x: 0, y: -50}, fontColor: '#ffffff', inFront: true});
+assert.deepEqual(scaledLabelStyle(labelStyle, 1), labelStyle);
+assert.equal(videoBitrate(640, 360, 24), 8e6);
+assert.equal(videoBitrate(3840, 2160, 30), 37324800);
+assert.equal(videoBitrate(3840, 2160, 60), 74649600);
+assert.equal(videoBitrate(7680, 4320, 60), 80e6);
+assert.ok(animationWidths.includes(3840) && animationWidths.includes(gifMaxWidth));
 const rgba = new Uint8ClampedArray([255, 255, 255, 255, 0, 0, 0, 255]);
 const palette = quantize(rgba, 256);
 const gif = GIFEncoder();

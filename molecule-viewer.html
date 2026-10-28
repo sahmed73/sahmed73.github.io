@@ -90,8 +90,15 @@ description: Explore molecules and LAMMPS structures in 3D, customize colors and
         <select id="molecule-label-scope"><option value="heavy">Heavy atoms</option><option value="all">All atoms, including H</option></select>
         <label for="molecule-label-size">Font size <output id="molecule-label-size-value">16 px</output></label>
         <input id="molecule-label-size" type="range" min="10" max="28" step="1" value="16">
+        <label for="molecule-label-color-mode">Text color</label>
+        <select id="molecule-label-color-mode">
+          <option value="solid">One color for all labels</option>
+          <option value="atom">Match atom colors</option>
+          <option value="element">Choose per element</option>
+        </select>
+        <div id="molecule-label-element-colors" hidden></div>
         <div class="molecule-label-colors">
-          <label for="molecule-label-text-color">Text color <input id="molecule-label-text-color" type="color" value="#ffffff"></label>
+          <label id="molecule-label-text-color-row" for="molecule-label-text-color">Text <input id="molecule-label-text-color" type="color" value="#ffffff"></label>
           <label for="molecule-label-bg-color">Background <input id="molecule-label-bg-color" type="color" value="#17324d"></label>
         </div>
         <label for="molecule-label-opacity">Background opacity <output id="molecule-label-opacity-value">90%</output></label>
@@ -147,11 +154,12 @@ description: Explore molecules and LAMMPS structures in 3D, customize colors and
         <label for="molecule-animation-to">To <input id="molecule-animation-to" type="number" min="-720" max="720" step="1" value="360">°</label>
         <label for="molecule-animation-motion">Motion <select id="molecule-animation-motion"><option value="one-way">One way</option><option value="oscillate">Oscillate (back and forth)</option></select></label>
         <label for="molecule-animation-duration">Duration <input id="molecule-animation-duration" type="number" min="1" max="15" step="0.5" value="9"> s</label>
-        <label for="molecule-animation-width">Width <select id="molecule-animation-width"><option value="640">640 px</option><option value="960" selected>960 px</option></select></label>
+        <label for="molecule-animation-width">Width <select id="molecule-animation-width"><option value="640">640 px</option><option value="960">960 px</option><option value="1280">1280 px</option><option value="1920" selected>1920 px (Full HD)</option><option value="2560">2560 px (QHD)</option><option value="3840">3840 px (4K)</option></select></label>
+        <label for="molecule-animation-fps">Video frame rate <select id="molecule-animation-fps"><option value="24">24 fps</option><option value="30" selected>30 fps</option><option value="60">60 fps</option></select></label>
         <button id="molecule-preview" type="button" disabled>Preview</button>
         <button id="molecule-save-gif" type="button" disabled>Save GIF</button>
         <button id="molecule-save-video" type="button" disabled>Save video</button>
-        <small>Rotation sweeps right to left across the preview from your current view. Drag the molecule to set its starting orientation. Oscillate reaches “To” halfway through the duration, then returns to “From”. Preview restores your view afterward. Video saves as MP4 when supported, otherwise WebM.</small>
+        <small>Rotation sweeps right to left across the preview from your current view. Drag the molecule to set its starting orientation. Oscillate reaches “To” halfway through the duration, then returns to “From”. Preview restores your view afterward. Each frame is rendered at the chosen width, and labels scale with it. Video is encoded frame by frame as MP4 for big screens; height follows the viewer's shape, so widen the window for widescreen output. GIF is limited to 1920 px, 12 fps, and 256 colors.</small>
       </fieldset>
       </div>
     </div>
@@ -160,4 +168,4 @@ description: Explore molecules and LAMMPS structures in 3D, customize colors and
   <p class="molecule-help">I built this molecular viewer with help from Codex (GPT-6-Sol). It is currently in beta.</p>
 </div>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/3Dmol/2.0.4/3Dmol-min.js"></script>
-<script type="module" src="{{ '/assets/molecule-viewer.mjs' | relative_url }}?v=2"></script>
+<script type="module" src="{{ '/assets/molecule-viewer.mjs' | relative_url }}?v=3"></script>

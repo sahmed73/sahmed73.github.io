@@ -1,4 +1,10 @@
 import {GIFEncoder, quantize, applyPalette} from './gifenc.mjs';
+import {Muxer, ArrayBufferTarget} from './mp4-muxer.mjs';
+
+export const animationWidths = [640, 960, 1280, 1920, 2560, 3840];
+export const videoFrameRates = [24, 30, 60];
+export const gifMaxWidth = 1920;
+const gifFrameRate = 12;
 
 const massElements = [
   [1.008, 'H'], [12.011, 'C'], [14.007, 'N'], [15.999, 'O'],
@@ -171,6 +177,20 @@ export function exportDimensions(viewWidth, viewHeight, outputWidth) {
   return {width: Math.round(outputWidth), height: Math.round(outputWidth * viewHeight / viewWidth)};
 }
 
+// 3Dmol draws labels at a fixed CSS-pixel size, so exports scale the label texture with the image.
+export function scaledLabelStyle(style, scale) {
+  return {
+    ...style,
+    fontSize: style.fontSize * scale,
+    padding: style.padding * scale,
+    screenOffset: {x: style.screenOffset.x * scale, y: style.screenOffset.y * scale},
+  };
+}
+
+export function videoBitrate(width, height, fps) {
+  return Math.round(Math.min(80e6, Math.max(8e6, width * height * fps * 0.15)));
+}
+
 export function animationAngle(progress, {from, to, motion}) {
   const position = Math.max(0, Math.min(1, progress));
   return from + (to - from) * (motion === 'oscillate' ? 1 - Math.abs(2 * position - 1) : position);
@@ -275,13 +295,16 @@ if (typeof document !== 'undefined') {
     candy: {C: '#7f6384', H: '#fff3f8', O: '#ff729c', N: '#55b8e5'},
   };
   const atomOverrides = new Map();
+  const labelColors = new Map();
   let selectedAtom = -1;
   let animationBusy = false;
+  let exporting = false;
   let cancelPreview = null;
+  const webCodecs = typeof VideoEncoder === 'function' && typeof VideoFrame === 'function';
   const videoFormat = typeof MediaRecorder === 'function' && typeof MediaRecorder.isTypeSupported === 'function' && typeof HTMLCanvasElement.prototype.captureStream === 'function'
     ? [['video/mp4;codecs=avc1.42E01E', 'mp4'], ['video/webm;codecs=vp9', 'webm'], ['video/webm;codecs=vp8', 'webm'], ['video/webm', 'webm']].find(([mime]) => MediaRecorder.isTypeSupported(mime))
     : null;
-  if (!videoFormat) $('molecule-save-video').title = 'Video recording is unavailable in this browser.';
+  if (!webCodecs && !videoFormat) $('molecule-save-video').title = 'Video recording is unavailable in this browser.';
 
   function message(text, error = false) {
     status.textContent = text;
@@ -302,7 +325,15 @@ if (typeof document !== 'undefined') {
     if (atom) $('molecule-picked-color').value = atomOverrides.get(selectedAtom) || elementColors.get(atom.elem);
   }
 
-  function updateAtomLabels() {
+  function labelColor(atom) {
+    const mode = $('molecule-label-color-mode').value;
+    if (mode === 'atom') return colorHex(atom.color);
+    if (mode === 'element') return labelColors.get(atom.elem) || colorHex(atom.color);
+    return $('molecule-label-text-color').value;
+  }
+
+  // scale enlarges labels for high-resolution exports; spriteScale undoes the device pixel ratio so the larger texture stays sharp.
+  function updateAtomLabels(scale = 1, spriteScale = 1) {
     viewer.removeAllLabels();
     const enabled = $('molecule-labels').getAttribute('aria-pressed') === 'true';
     const atoms = modelAtoms.map((atom, index) => ({atom, index}));
@@ -310,24 +341,53 @@ if (typeof document !== 'undefined') {
     const eligible = $('molecule-label-scope').value === 'all' || !heavyAtoms.length ? atoms : heavyAtoms;
     // shortcut: sample labels above 120 atoms; use viewport culling if dense structures need every label.
     const stride = Math.max(1, Math.ceil(eligible.length / 120));
-    const labelStyle = {
+    const labelStyle = scaledLabelStyle({
       fontSize: Number($('molecule-label-size').value),
-      fontColor: $('molecule-label-text-color').value,
       backgroundColor: $('molecule-label-bg-color').value,
       backgroundOpacity: Number($('molecule-label-opacity').value),
-      alignment: 'bottomCenter', screenOffset: {x: 0, y: -10}, inFront: true,
+      alignment: 'bottomCenter', screenOffset: {x: 0, y: -10}, inFront: true, padding: 4,
+    }, scale);
+    const addLabel = (text, atom) => {
+      const label = viewer.addLabel(text, {...labelStyle, fontColor: labelColor(atom), position: atom}, undefined, true);
+      label.sprite.scale.set(spriteScale, spriteScale, 1);
     };
     if (enabled) for (let position = 0; position < eligible.length; position += stride) {
       const {atom, index} = eligible[position];
       if (index === selectedAtom) continue;
-      viewer.addLabel(atom.elem, {...labelStyle, position: atom}, undefined, true);
+      addLabel(atom.elem, atom);
     }
     if (selectedAtom >= 0) {
       const atom = modelAtoms[selectedAtom];
-      viewer.addLabel(`${atom.elem} ${atom.serial ?? selectedAtom + 1}`, {...labelStyle, position: atom}, undefined, true);
+      addLabel(`${atom.elem} ${atom.serial ?? selectedAtom + 1}`, atom);
     }
     $('molecule-label-note').hidden = !enabled || eligible.length <= 120;
     viewer.render();
+  }
+
+  function showLabelColors() {
+    const mode = $('molecule-label-color-mode').value;
+    const list = $('molecule-label-element-colors');
+    $('molecule-label-text-color-row').hidden = mode !== 'solid';
+    list.hidden = mode !== 'element';
+    list.replaceChildren();
+    if (mode !== 'element') return;
+    const elements = [...new Set(modelAtoms.map(atom => atom.elem))].sort();
+    if (!elements.length) list.textContent = 'Load a molecule to choose label colors.';
+    for (const elem of elements) {
+      if (!labelColors.has(elem)) labelColors.set(elem, elementColors.get(elem));
+      const label = document.createElement('label');
+      const input = document.createElement('input');
+      label.textContent = elem;
+      input.type = 'color';
+      input.value = labelColors.get(elem);
+      input.setAttribute('aria-label', `${elem} label text color`);
+      input.addEventListener('input', () => {
+        labelColors.set(elem, input.value);
+        if (hasModel) updateAtomLabels();
+      });
+      label.append(input);
+      list.append(label);
+    }
   }
 
   function showElementColors() {
@@ -354,7 +414,8 @@ if (typeof document !== 'undefined') {
   function applyStyle(model) {
     modelAtoms.forEach((atom, index) => { atom.color = atomOverrides.get(index) || elementColors.get(atom.elem); });
     model.setStyle({}, moleculeStyle($('molecule-style').value, Number($('molecule-atom-size').value), Number($('molecule-bond-radius').value), $('molecule-bond-mode').value, $('molecule-bond-color').value));
-    viewer.render();
+    if ($('molecule-label-color-mode').value === 'atom') updateAtomLabels();
+    else viewer.render();
   }
 
   function drawBox() {
@@ -367,23 +428,37 @@ if (typeof document !== 'undefined') {
     viewer.render();
   }
 
-  function renderPng(outputWidth) {
+  // Renders the WebGL canvas itself at the output size (not an upscaled screen copy), keeps its on-screen size, and scales labels to match.
+  async function withExportSize(outputWidth, render) {
     const canvas = viewer.getCanvas();
-    const size = exportDimensions(canvas.clientWidth, canvas.clientHeight, outputWidth);
-    const pixelRatio = canvas.width / canvas.clientWidth;
+    const cssWidth = canvas.clientWidth;
+    const cssHeight = canvas.clientHeight;
+    const size = exportDimensions(cssWidth, cssHeight, outputWidth);
+    const pixelRatio = canvas.width / cssWidth;
     const view = viewer.getView();
+    exporting = true;
     try {
       viewer.setWidth(Math.round(size.width / pixelRatio));
       viewer.setHeight(Math.round(size.height / pixelRatio));
+      canvas.style.width = `${cssWidth}px`;
+      canvas.style.height = `${cssHeight}px`;
+      updateAtomLabels(size.width / cssWidth, 1 / pixelRatio);
       viewer.setView(view);
       viewer.render();
-      const uri = viewer.pngURI();
-      return {uri, ...pngDimensions(uri)};
+      return await render(canvas, size);
     } finally {
+      exporting = false;
       viewer.resize();
       viewer.setView(view);
-      viewer.render();
+      updateAtomLabels();
     }
+  }
+
+  function renderPng(outputWidth) {
+    return withExportSize(outputWidth, () => {
+      const uri = viewer.pngURI();
+      return {uri, ...pngDimensions(uri)};
+    });
   }
 
   function download(uri, filename) {
@@ -405,23 +480,36 @@ if (typeof document !== 'undefined') {
     const motion = $('molecule-animation-motion').value;
     const duration = Number($('molecule-animation-duration').value);
     const width = Number($('molecule-animation-width').value);
+    const fps = Number($('molecule-animation-fps').value);
     if ([$('molecule-animation-from'), $('molecule-animation-to'), $('molecule-animation-duration')].some(input => !input.value.trim()) ||
         ![from, to].every(angle => Number.isFinite(angle) && angle >= -720 && angle <= 720) ||
-        !['one-way', 'oscillate'].includes(motion) || !Number.isFinite(duration) || duration < 1 || duration > 15 || ![640, 960].includes(width)) {
-      throw new Error('Choose angles from −720° to 720°, a duration of 1–15 seconds, and a valid width.');
+        !['one-way', 'oscillate'].includes(motion) || !Number.isFinite(duration) || duration < 1 || duration > 15 ||
+        !animationWidths.includes(width) || !videoFrameRates.includes(fps)) {
+      throw new Error('Choose angles from −720° to 720°, a duration of 1–15 seconds, and a valid width and frame rate.');
     }
-    return {from, to, motion, duration, width};
+    return {from, to, motion, duration, width, fps};
   }
 
-  function animationCanvas(width) {
-    const source = viewer.getCanvas();
-    const size = exportDimensions(source.clientWidth, source.clientHeight, width);
+  function animationCanvas(source, size, readPixels) {
     const canvas = document.createElement('canvas');
-    canvas.width = size.width;
+    canvas.width = 2 * Math.round(size.width / 2);
     canvas.height = 2 * Math.round(size.height / 2);
-    const context = canvas.getContext('2d', {willReadFrequently: true});
+    const context = canvas.getContext('2d', {willReadFrequently: readPixels});
     if (!context) throw new Error('Could not create an animation canvas.');
     return {source, canvas, context};
+  }
+
+  async function videoEncoding(width, height, fps) {
+    if (!webCodecs) return null;
+    const base = {width, height, framerate: fps, bitrate: videoBitrate(width, height, fps), latencyMode: 'quality'};
+    const candidates = [
+      ...['avc1.640034', 'avc1.640033', 'avc1.64002a', 'avc1.640028', 'avc1.4d0034', 'avc1.4d0033', 'avc1.4d0028'].map(codec => ({muxCodec: 'avc', config: {...base, codec, avc: {format: 'avc'}}})),
+      ...['vp09.00.51.08', 'vp09.00.41.08'].map(codec => ({muxCodec: 'vp9', config: {...base, codec}})),
+    ];
+    for (const candidate of candidates) {
+      try { if ((await VideoEncoder.isConfigSupported(candidate.config)).supported) return candidate; } catch { /* try the next codec */ }
+    }
+    return null;
   }
 
   function animationFrame(view, angle, output) {
@@ -449,11 +537,10 @@ if (typeof document !== 'undefined') {
     });
   }
 
-  async function renderGif(view, settings) {
-    const {duration, width} = settings;
-    const output = animationCanvas(width);
+  async function renderGif(view, settings, output) {
+    const {duration} = settings;
     const gif = GIFEncoder();
-    const frames = Math.round(duration * 12);
+    const frames = Math.round(duration * gifFrameRate);
     for (let index = 0; index < frames; index++) {
       animationFrame(view, animationAngle(index / (frames - 1), settings), output);
       const rgba = output.context.getImageData(0, 0, output.canvas.width, output.canvas.height).data;
@@ -470,13 +557,44 @@ if (typeof document !== 'undefined') {
     return new Blob([gif.bytes()], {type: 'image/gif'});
   }
 
-  async function renderVideo(view, settings) {
-    const {duration, width} = settings;
-    const output = animationCanvas(width);
-    animationFrame(view, animationAngle(0, settings), output);
-    const stream = output.canvas.captureStream(24);
+  // Encodes every frame at the chosen frame rate, so the result is smooth however long each high-resolution frame takes to render.
+  async function encodeVideo(view, settings, output, encoding) {
+    const {duration, fps} = settings;
+    const {width, height} = output.canvas;
+    const muxer = new Muxer({target: new ArrayBufferTarget(), video: {codec: encoding.muxCodec, width, height, frameRate: fps}, fastStart: 'in-memory'});
+    let failure = null;
+    const encoder = new VideoEncoder({output: (chunk, meta) => muxer.addVideoChunk(chunk, meta), error: error => { failure = error; }});
+    encoder.configure(encoding.config);
+    const frames = Math.max(2, Math.round(duration * fps));
     try {
-      const recorder = new MediaRecorder(stream, {mimeType: videoFormat[0]});
+      for (let index = 0; index < frames; index++) {
+        if (failure) throw failure;
+        animationFrame(view, animationAngle(index / (frames - 1), settings), output);
+        const frame = new VideoFrame(output.canvas, {timestamp: Math.round(index * 1e6 / fps), duration: Math.round(1e6 / fps)});
+        encoder.encode(frame, {keyFrame: index % (2 * fps) === 0});
+        frame.close();
+        while (encoder.encodeQueueSize > 4) await new Promise(resolve => setTimeout(resolve, 2));
+        if (index % 10 === 0) {
+          message(`Encoding video: ${Math.round((index + 1) / frames * 100)}%…`);
+          await new Promise(resolve => setTimeout(resolve, 0));
+        }
+      }
+      await encoder.flush();
+      if (failure) throw failure;
+      muxer.finalize();
+      return new Blob([muxer.target.buffer], {type: 'video/mp4'});
+    } finally {
+      if (encoder.state !== 'closed') encoder.close();
+    }
+  }
+
+  // Fallback for browsers without WebCodecs: records in real time, so very large frames may play back unevenly.
+  async function recordVideo(view, settings, output) {
+    const {duration, fps} = settings;
+    animationFrame(view, animationAngle(0, settings), output);
+    const stream = output.canvas.captureStream(fps);
+    try {
+      const recorder = new MediaRecorder(stream, {mimeType: videoFormat[0], videoBitsPerSecond: videoBitrate(output.canvas.width, output.canvas.height, fps)});
       return await new Promise((resolve, reject) => {
         const chunks = [];
         recorder.ondataavailable = event => { if (event.data.size) chunks.push(event.data); };
@@ -537,6 +655,7 @@ if (typeof document !== 'undefined') {
       updateAtomLabels();
     });
     showElementColors();
+    showLabelColors();
     applyStyle(model);
     drawBox();
     viewer.zoomTo();
@@ -546,7 +665,7 @@ if (typeof document !== 'undefined') {
     $('molecule-save-svg').disabled = false;
     $('molecule-save-pdf').disabled = false;
     $('molecule-save-gif').disabled = false;
-    $('molecule-save-video').disabled = !videoFormat;
+    $('molecule-save-video').disabled = !webCodecs && !videoFormat;
     $('molecule-preview').disabled = false;
     $('molecule-labels').disabled = false;
     $('molecule-spin').disabled = false;
@@ -675,6 +794,10 @@ if (typeof document !== 'undefined') {
     event.currentTarget.textContent = enabled ? 'Hide element labels' : 'Show element labels';
     updateAtomLabels();
   });
+  $('molecule-label-color-mode').addEventListener('change', () => {
+    showLabelColors();
+    if (hasModel) updateAtomLabels();
+  });
   for (const id of ['molecule-label-scope', 'molecule-label-size', 'molecule-label-text-color', 'molecule-label-bg-color', 'molecule-label-opacity']) {
     $(id).addEventListener('input', () => {
       $('molecule-label-size-value').textContent = `${$('molecule-label-size').value} px`;
@@ -695,11 +818,11 @@ if (typeof document !== 'undefined') {
     $('molecule-fullscreen').setAttribute('aria-pressed', String(active));
     requestAnimationFrame(() => { viewer?.resize(); viewer?.render(); });
   });
-  window.addEventListener('resize', () => viewer?.resize());
-  $('molecule-save').addEventListener('click', () => {
+  window.addEventListener('resize', () => { if (!exporting) viewer?.resize(); });
+  $('molecule-save').addEventListener('click', async () => {
     try {
       const requestedWidth = Number($('molecule-export-width').value);
-      const image = renderPng(requestedWidth);
+      const image = await renderPng(requestedWidth);
       download(image.uri, 'molecule.png');
       message(`Saved ${image.width} × ${image.height} PNG.${image.width < requestedWidth * 0.98 ? ' Browser size limit reached.' : ''}`);
     } catch { message('High-resolution image export failed. Try 2000 px.', true); }
@@ -709,7 +832,7 @@ if (typeof document !== 'undefined') {
     button.disabled = true;
     try {
       message(`Creating ${format}…`);
-      const image = renderPng(Number($('molecule-export-width').value));
+      const image = await renderPng(Number($('molecule-export-width').value));
       const blob = format === 'SVG' ? new Blob([imageSvg(image)], {type: 'image/svg+xml'}) : await imagePdf(image);
       downloadBlob(blob, `molecule.${format.toLowerCase()}`);
       message(`Saved ${image.width} × ${image.height} ${format} with the same 3D image as PNG.`);
@@ -728,7 +851,8 @@ if (typeof document !== 'undefined') {
     let view;
     try {
       const settings = animationSettings();
-      if (format === 'video' && !videoFormat) throw new Error('Video recording is unavailable in this browser.');
+      if (format === 'video' && !webCodecs && !videoFormat) throw new Error('Video recording is unavailable in this browser.');
+      if (format === 'GIF' && settings.width > gifMaxWidth) throw new Error(`GIF supports up to ${gifMaxWidth} px. Use Save video for larger sizes.`);
       animationBusy = true;
       viewer.spin(false);
       view = viewer.getView().slice();
@@ -738,16 +862,23 @@ if (typeof document !== 'undefined') {
         $('molecule-preview').textContent = 'Stop preview';
       }
       canvas.style.pointerEvents = 'none';
-      message(format === 'preview' ? 'Previewing rotation…' : format === 'GIF' ? 'Creating GIF…' : 'Recording video…');
+      message(format === 'preview' ? 'Previewing rotation…' : format === 'GIF' ? 'Creating GIF…' : 'Creating video…');
       if (format === 'preview') {
         const completed = await renderPreview(view, settings);
         message(completed ? 'Preview complete; original view restored.' : 'Preview stopped; original view restored.');
       } else {
-        const blob = format === 'GIF' ? await renderGif(view, settings) : await renderVideo(view, settings);
+        const {blob, extension, width, height} = await withExportSize(settings.width, async (source, size) => {
+          const output = animationCanvas(source, size, format === 'GIF');
+          const {width, height} = output.canvas;
+          if (format === 'GIF') return {blob: await renderGif(view, settings, output), extension: 'gif', width, height};
+          const encoding = await videoEncoding(width, height, settings.fps);
+          if (encoding) return {blob: await encodeVideo(view, settings, output, encoding), extension: 'mp4', width, height};
+          if (!videoFormat) throw new Error('This browser cannot encode video at this size. Try a smaller width.');
+          return {blob: await recordVideo(view, settings, output), extension: videoFormat[1], width, height};
+        });
         if (blob.size < 100) throw new Error('The recorded file is empty.');
-        const extension = format === 'GIF' ? 'gif' : videoFormat[1];
         downloadBlob(blob, `molecule-rotation.${extension}`);
-        message(`Saved ${settings.from}° to ${settings.to}° ${settings.motion === 'oscillate' ? 'back-and-forth motion' : 'rotation'} over ${settings.duration} s as ${extension.toUpperCase()} (${settings.width} px wide).`);
+        message(`Saved ${settings.from}° to ${settings.to}° ${settings.motion === 'oscillate' ? 'back-and-forth motion' : 'rotation'} over ${settings.duration} s as ${width} × ${height} ${extension.toUpperCase()}${format === 'video' ? ` at ${settings.fps} fps` : ''}.`);
       }
     } catch (error) { message(`${format === 'preview' ? 'Preview' : format + ' export'} failed: ${error.message}`, true); }
     finally {

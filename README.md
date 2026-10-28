@@ -34,6 +34,10 @@ structure from PubChem, then falls back to an RDKit API hosted separately from
 GitHub Pages. The free Render service is defined in `render.yaml`; set `rdkit_api`
 in `_config.yml` to its `/api/smiles-3d` URL after creating it. The ZDDP example uses
 an illustrative four-sulfur arrangement around zinc, not a measured structure.
+Exports render the 3D canvas itself at the chosen size, and labels scale with
+it. Rotation videos are encoded frame by frame with WebCodecs and packaged as MP4
+by the bundled `mp4-muxer` 5.2.2 (MIT, `assets/mp4-muxer.LICENSE.md`); browsers
+without WebCodecs fall back to real-time recording.
 Run `node scripts/test_molecule_viewer.mjs` for parser and export checks.
 
 ## Update content

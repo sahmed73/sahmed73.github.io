@@ -146,8 +146,10 @@ pre, code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-si
 #molecule-bond-color-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 14px; }
 #molecule-bond-color-row[hidden] { display: none; }
 .molecule-color-heading { font-size: .84rem; font-weight: 600; margin: 8px 0 5px; }
-#molecule-element-colors { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; color: var(--muted); font-size: .8rem; }
-#molecule-element-colors label { display: flex; align-items: center; justify-content: space-between; gap: 5px; }
+#molecule-element-colors, #molecule-label-element-colors { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; color: var(--muted); font-size: .8rem; }
+#molecule-label-element-colors { margin-bottom: 10px; }
+#molecule-label-element-colors[hidden], #molecule-label-text-color-row[hidden] { display: none; }
+#molecule-element-colors label, #molecule-label-element-colors label { display: flex; align-items: center; justify-content: space-between; gap: 5px; }
 .molecule-picked-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 7px; }
 .molecule-picked-row button { padding: 3px 6px; }
 .molecule-label-colors { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; margin-bottom: 10px; }
