@@ -29,6 +29,9 @@ class Page(HTMLParser):
             self.links.append(attrs["href"])
 
 
+# Paths published from other repositories under this domain (GitHub project pages).
+PROJECT_SITES = ("/molecule-viewer/",)
+
 root = Path(sys.argv[1] if len(sys.argv) > 1 else "_site").resolve()
 assert (root / "index.html").is_file(), "Build the site first"
 pages = {p.resolve(): Page(p) for p in root.rglob("*.html")
@@ -40,7 +43,7 @@ for path, page in pages.items():
     assert "main-content" in page.ids, f"Missing skip-link target: {path}"
     for href in page.links:
         url = urlsplit(href)
-        if url.scheme or url.netloc:
+        if url.scheme or url.netloc or url.path.startswith(PROJECT_SITES):
             continue
         target = (root / unquote(url.path).lstrip("/") if url.path.startswith("/")
                   else path.parent / unquote(url.path)) if url.path else path

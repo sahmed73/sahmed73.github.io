@@ -28,23 +28,19 @@ to the repository's publishing branch to update GitHub Pages.
 
 ## Molecule viewer
 
-The [molecule viewer](https://sahmed73.github.io/molecule-viewer/) is a static page with bundled PAO, ZDDP,
-and ADPA examples. Structure files are read in the browser. SMILES requests a 3D
-structure from PubChem, then falls back to an RDKit API hosted separately from
-GitHub Pages. The free Render service is defined in `render.yaml`; set `rdkit_api`
-in `_config.yml` to its `/api/smiles-3d` URL after creating it. The ZDDP example uses
-an illustrative four-sulfur arrangement around zinc, not a measured structure.
-Exports render the 3D canvas itself at the chosen size, and labels scale with
-it. Rotation videos are encoded frame by frame with WebCodecs and packaged as MP4
-by the bundled `mp4-muxer` 5.2.2 (MIT, `assets/mp4-muxer.LICENSE.md`); browsers
-without WebCodecs fall back to real-time recording.
-The optional Studio renderer (`assets/molecule-studio.mjs`) redraws the 3Dmol view
-with three.js r170 from jsDelivr (see the import map in `molecule-viewer.html`) for
-materials, extra lights, shadows, and ambient occlusion; 3Dmol still handles
-loading, picking, and rotation. `assets/molecule-scene.mjs` builds its geometry the
-same way 3Dmol draws each style, and `assets/molecule-labels.mjs` draws the labels
-for both renderers.
-Run `node scripts/test_molecule_viewer.mjs` for parser and export checks.
+The [molecule viewer](https://sahmed73.github.io/molecule-viewer/) lives in its own
+repository, [sahmed73/molecule-viewer](https://github.com/sahmed73/molecule-viewer).
+GitHub Pages publishes that repository at `/molecule-viewer/` on this site, so pushing
+to it updates the viewer without any change here. This repository only provides:
+
+- the navigation link (`header_pages` in `_config.yml`);
+- `assets/site-chrome.json`, the site's header and footer, which the viewer page loads
+  so it matches the rest of the site (it also uses `/assets/main.css`);
+- the RDKit SMILES service in `rdkit-api/`, deployed on Render from `render.yaml`. Its
+  allowed origins are in `rdkit-api/app.py`.
+
+`scripts/check_site.py` skips links to `/molecule-viewer/`, since that page is not part
+of this build.
 
 ## Update content
 

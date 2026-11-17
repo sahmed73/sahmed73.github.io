@@ -1,0 +1,11 @@
+---
+layout: null
+permalink: /assets/site-chrome.json
+---
+{%- comment -%}
+The molecule viewer (sahmed73/molecule-viewer, served at /molecule-viewer/) loads this
+file to show the website's current header and footer.
+{%- endcomment -%}
+{%- capture header -%}{% include header.html %}{%- endcapture -%}
+{%- capture footer -%}{% include footer.html %}{%- endcapture -%}
+{"header": {{ header | strip | jsonify }}, "footer": {{ footer | strip | jsonify }}}
