@@ -53,6 +53,19 @@ Most updates are edits to data files; the pages render from them.
 - `_config.yml`: set `google_scholar` (profile URL) or `cv` (e.g.
   `/assets/Shihab_Ahmed_CV.pdf`) to show those links; leave empty to hide them.
 
+## CV
+
+`assets/Shihab_Ahmed_CV.pdf` is rebuilt from the Overleaf project `Shihab_CV_Updated`
+by `.github/workflows/update-cv.yml`. The workflow runs daily at 13:00 UTC and on
+demand (Actions tab → *Update CV from Overleaf* → *Run workflow*). It clones the
+Overleaf project with the `OVERLEAF_GIT_TOKEN` repository secret, compiles `main.tex`
+with TeX Live, and commits the PDF only when the Overleaf project has changed (the
+last built Overleaf commit is stored in `.github/cv-source-commit`).
+
+Overleaf Git tokens expire after a year. When the workflow fails with an
+authentication error, create a new token in Overleaf (Account settings → Git
+integration) and run `gh secret set OVERLEAF_GIT_TOKEN --repo sahmed73/sahmed73.github.io`.
+
 ## Publish a review
 
 Create `_posts/YYYY-MM-DD-title.md` using an existing review as a template:

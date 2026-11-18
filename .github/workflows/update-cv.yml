@@ -1,0 +1,94 @@
+# Rebuild the website CV from the Overleaf project "Shihab_CV_Updated".
+# Runs daily and on demand (Actions tab -> Update CV from Overleaf -> Run workflow).
+# Needs the repository secret OVERLEAF_GIT_TOKEN (an Overleaf Git authentication token).
+name: Update CV from Overleaf
+
+on:
+  schedule:
+    - cron: "0 13 * * *" # daily at 13:00 UTC (5 AM PST / 6 AM PDT)
+  workflow_dispatch:
+    inputs:
+      force:
+        description: Rebuild even if the Overleaf project has not changed
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: update-cv
+  cancel-in-progress: false
+
+env:
+  OVERLEAF_PROJECT: 6a5efe2d15bb366a14c967dc
+  CV_PATH: assets/Shihab_Ahmed_CV.pdf
+  STATE_FILE: .github/cv-source-commit
+
+jobs:
+  update-cv:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch the CV source from Overleaf
+        env:
+          OVERLEAF_GIT_TOKEN: ${{ secrets.OVERLEAF_GIT_TOKEN }}
+        run: |
+          if [ -z "$OVERLEAF_GIT_TOKEN" ]; then
+            echo "::error::Add the OVERLEAF_GIT_TOKEN repository secret (Overleaf > Account settings > Git integration)."
+            exit 1
+          fi
+          git clone -q --depth 1 "https://git:${OVERLEAF_GIT_TOKEN}@git.overleaf.com/${OVERLEAF_PROJECT}" cv-source
+
+      - name: Check for changes
+        id: check
+        run: |
+          sha=$(git -C cv-source rev-parse HEAD)
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+          echo "epoch=$(git -C cv-source log -1 --format=%ct)" >> "$GITHUB_OUTPUT"
+          if [ "$sha" = "$(cat "$STATE_FILE" 2>/dev/null)" ] && [ "${{ inputs.force }}" != "true" ]; then
+            echo "Overleaf project unchanged ($sha); nothing to do."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install LaTeX
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q --no-install-recommends \
+            texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended latexmk
+
+      - name: Build the PDF
+        if: steps.check.outputs.changed == 'true'
+        working-directory: cv-source
+        env:
+          SOURCE_DATE_EPOCH: ${{ steps.check.outputs.epoch }}
+          FORCE_SOURCE_DATE: "1"
+        run: latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
+
+      - name: Commit the new CV
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          cp cv-source/main.pdf "$CV_PATH"
+          echo "${{ steps.check.outputs.sha }}" > "$STATE_FILE"
+          git config user.name "Shihab Ahmed"
+          git config user.email "sahmed73@ucmerced.edu"
+          git add "$CV_PATH" "$STATE_FILE"
+          if git diff --cached --quiet; then
+            echo "Built PDF is identical to the published one."
+            exit 0
+          fi
+          git commit -q -m "Update CV from Overleaf"
+          git pull -q --rebase origin master
+          git push -q origin HEAD:master
+          echo "pushed=true" >> "$GITHUB_ENV"
+
+      - name: Rebuild the website
+        if: env.pushed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X POST "repos/${{ github.repository }}/pages/builds" || echo "::warning::Could not request a Pages build; the next push will rebuild the site."
