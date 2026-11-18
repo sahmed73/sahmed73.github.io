@@ -14,7 +14,6 @@
         <a href="{{ nav_page.url | relative_url }}"{% if current %} aria-current="page"{% endif %}>{{ nav_page.nav_title | default: nav_page.title }}</a>
         {% endif %}
       {% endfor %}
-      {% if site.cv != "" %}<a href="{{ site.cv | relative_url }}">CV</a>{% endif %}
     </nav>
   </div>
 </header>

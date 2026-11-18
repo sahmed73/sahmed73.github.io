@@ -3,12 +3,24 @@ layout: page
 title: ML playground
 nav_title: Playground
 permalink: /ml-playground/
-description: "Machine-learning problems I solve for fun, beyond my research: cats versus dogs, flu-shot prediction, and handwritten digit recognition."
+description: "Machine-learning challenges I take on beyond my research: identifying molecules from mass spectra (CASMI 2026), cats versus dogs, flu-shot prediction, and handwritten digits."
 ---
 
-A place for the fun side of learning machine learning: small experiments, familiar datasets, and competition problems outside my research. They let me explore computer vision, tabular data, and model evaluation.
+A place for the fun side of learning machine learning: small experiments, familiar datasets, and competition problems outside my research. They let me explore chemistry, computer vision, tabular data, and model evaluation.
 
-The results below come from saved notebook outputs on local evaluation splits, not from competition leaderboards.
+## CASMI 2026: identifying molecules from mass spectra
+
+**The challenge.** In Enveda's CASMI 2026 competition on Kaggle, each unknown molecule comes only as its tandem mass spectra, the pattern of fragments it breaks into inside a mass spectrometer. The task is to name the molecule: return up to 25 candidate structures, ranked. Scoring uses mean reciprocal rank (MRR@25) on a hidden test set, so a correct answer ranked first counts fully, ranked second counts half, and so on.
+
+**What I built.** A spectrum-to-structure pipeline written from scratch. It works out the molecule's mass from the measured spectrum, pulls candidate structures of matching mass from large public chemical databases (COCONUT, PubChemLite, and PubChem), and ranks those candidates. For ranking, I trained my own transformer that reads spectrum peaks and predicts a molecular fingerprint, combined it with the pretrained MIST model, and added GLACIER, which predicts each candidate's spectrum so it can be compared with the measured one. Training and evaluation ran on the UC Merced GPU cluster through Slurm, and the final pipeline runs as an offline Kaggle notebook.
+
+**Result.** My first submission scored a public MRR@25 of **0.244** on Kaggle's hidden test set. That is well below what the same pipeline scored on my own validation data, a useful lesson that the hidden test molecules and spectra differ from my validation set more than I assumed. Closing that gap is my next step; the competition is still running.
+
+**What I explored.** Spectrum-to-structure machine learning, retrieving candidates versus generating new structures, combining pretrained and self-trained models, and why validation data must match the real test conditions.
+
+[Competition page](https://www.kaggle.com/competitions/enveda-CASMI26-molecule-id-mass-spectra)
+
+The other results below come from saved notebook outputs on local evaluation splits, not from competition leaderboards.
 
 ## Cats vs. dogs
 

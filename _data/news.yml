@@ -1,5 +1,8 @@
 # Newest first. Text is Markdown.
 
+- date: Nov 2026
+  text: Launched a [research digest](/digest/), daily two-minute summaries of new papers on lubricant chemistry, AI for chemistry and materials, and AI agents for research.
+
 - date: Oct 2026
   text: Finished writing our generative-AI paper on designing new lubricant antioxidants, now in internal review. The workflow mines the literature with an LLM (Llama 3), generates candidate molecules with a graph diffusion model (DiGress), screens them for synthesizability, toxicity, and O–H bond strength, and evaluates them with reactive molecular dynamics and machine learning.
 

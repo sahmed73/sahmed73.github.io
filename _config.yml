@@ -58,7 +58,7 @@ x_username: Shihab_arup
 orcid: 0009-0006-8230-9141
 web_of_science_id: JWO-9574-2024
 # Leave empty to hide the link.
-google_scholar: ""
+google_scholar: https://scholar.google.com/citations?user=mw8tNwoAAAAJ
 cv: /assets/Shihab_Ahmed_CV.pdf
 # Private stats page (/stats/) reads visit data from this Cloudflare Worker.
 stats_api: https://site-stats.site-stats.workers.dev

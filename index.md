@@ -31,35 +31,44 @@ I use generative AI, molecular simulation, and interpretable machine learning to
 
 I am a PhD candidate in the [Martini Research Group](https://faculty.ucmerced.edu/amartini/) at UC Merced, working with the Austrian Competence Center for Tribology (AC2T) and Chevron Oronite.
 
-<p class="availability"><strong>Open to research internships and collaborations</strong> in ML for chemistry and materials science. <a href="mailto:{{ site.email }}">Get in touch</a>.</p>
+<p class="availability"><strong>Seeking Summer 2027 internships</strong> in ML for chemistry, materials, and molecular discovery. <a href="mailto:{{ site.email }}">Get in touch</a>.</p>
 
 ## Selected projects
 
 <div class="featured-projects">
-  <article class="featured-project">
-    <p class="project-status">Generative AI · Manuscript in internal review</p>
-    <h3><a href="{{ '/research/#generative-ai-for-antioxidant-discovery' | relative_url }}">Generative AI for antioxidant discovery</a></h3>
-    <p>A graph diffusion model proposes new phenolic antioxidants, screening keeps the synthesizable, oil-compatible, low-toxicity ones, and reactive simulations rank them in a lubricant environment. Interpretable ML then shows why the best candidates work: they limit access to their reactive oxygen.</p>
-    <p class="project-path">Generate → Screen → Simulate → Explain</p>
-    <p class="project-links"><a href="{{ '/research/#generative-ai-for-antioxidant-discovery' | relative_url }}">Project overview</a></p>
+  <article class="featured-project with-figure">
+    <div class="project-text">
+      <p class="project-status">Generative AI · Manuscript in internal review</p>
+      <h3><a href="{{ '/research/#generative-ai-for-antioxidant-discovery' | relative_url }}">Generative AI for antioxidant discovery</a></h3>
+      <p>A graph diffusion model proposes new phenolic antioxidants, screening keeps the synthesizable, oil-compatible, low-toxicity ones, and reactive simulations rank them in a lubricant environment. Interpretable ML then shows why the best candidates work: they limit access to their reactive oxygen.</p>
+      <p class="project-path">Generate → Screen → Simulate → Explain</p>
+      <p class="project-links"><a href="{{ '/research/#generative-ai-for-antioxidant-discovery' | relative_url }}">Project overview</a></p>
+    </div>
+    <img class="project-figure" src="{{ '/assets/projects/hindered-phenol.svg' | relative_url }}" alt="A hindered phenol antioxidant: its reactive O–H oxygen (red) is shielded by two bulky tert-butyl groups (blue)." loading="lazy">
   </article>
-  <article class="featured-project">
-    <p class="project-status">Machine-learned potentials · Ongoing, with Chevron Oronite</p>
-    <h3><a href="{{ '/research/#how-lubricant-additives-interact' | relative_url }}">How lubricant additives interact</a></h3>
-    <p>I fine-tune pretrained machine-learned interatomic potentials, such as MACE and UMA, to model interactions between lubricant additives. The goal is to understand why some additive combinations reinforce each other while others interfere.</p>
-    <p class="project-links"><a href="{{ '/research/#how-lubricant-additives-interact' | relative_url }}">Project overview</a></p>
+  <article class="featured-project with-figure">
+    <div class="project-text">
+      <p class="project-status">Machine-learned potentials · Ongoing, with Chevron Oronite</p>
+      <h3><a href="{{ '/research/#how-lubricant-additives-interact' | relative_url }}">How lubricant additives interact</a></h3>
+      <p>I fine-tune pretrained machine-learned interatomic potentials, such as MACE and UMA, to model interactions between lubricant additives. The goal is to understand why some additive combinations reinforce each other while others interfere.</p>
+      <p class="project-links"><a href="{{ '/research/#how-lubricant-additives-interact' | relative_url }}">Project overview</a></p>
+    </div>
+    <img class="project-figure" src="{{ '/assets/projects/additive-pair.svg' | relative_url }}" alt="Two kinds of lubricant additive: a long-chain friction modifier (glycerol monooleate) and a hindered-phenol antioxidant." loading="lazy">
   </article>
-  <article class="featured-project">
-    <p class="project-status">Chemical data &amp; LLMs · Open-source software</p>
-    <h3><a href="{{ '/research/#chemical-literature-mining' | relative_url }}">Mining the chemical literature with a local LLM</a></h3>
-    <p>I built a pipeline that runs a local LLM on university GPU nodes to screen the scientific literature and extract reported lubricant antioxidants. It connects extracted names to PubChem and uses RDKit to filter molecular structures.</p>
-    <p class="project-links"><a href="https://github.com/sahmed73/llm-literature-mining">Code</a> · <a href="{{ '/perspectives/reading-a-million-papers-with-a-local-llm/' | relative_url }}">Methods, results, and limitations</a></p>
+  <article class="featured-project with-figure">
+    <div class="project-text">
+      <p class="project-status">Chemical data &amp; LLMs · Open-source software</p>
+      <h3><a href="{{ '/research/#chemical-literature-mining' | relative_url }}">Mining the chemical literature with a local LLM</a></h3>
+      <p>I built a pipeline that runs a local LLM on university GPU nodes to screen the scientific literature and extract reported lubricant antioxidants. It connects extracted names to PubChem and uses RDKit to filter molecular structures.</p>
+      <p class="project-links"><a href="https://github.com/sahmed73/llm-literature-mining">Code</a> · <a href="{{ '/perspectives/reading-a-million-papers-with-a-local-llm/' | relative_url }}">Methods, results, and limitations</a></p>
+    </div>
+    <img class="project-figure" src="{{ '/assets/projects/literature-antioxidants.svg' | relative_url }}" alt="Four antioxidants widely reported in the literature: propyl gallate, TBHQ, phenothiazine, and 4-methoxyphenol." loading="lazy">
   </article>
 </div>
 
 I also build research software, including an interactive [molecule viewer]({{ '/molecule-viewer/' | relative_url }}) for molecular structures and LAMMPS data, with image and rotation-video exports.
 
-Outside my research, I explore image classification and tabular prediction in my [ML playground]({{ '/ml-playground/' | relative_url }}).
+Outside my research, I take on machine-learning challenges, from identifying molecules in mass spectra to image classification, in my [ML playground]({{ '/ml-playground/' | relative_url }}).
 
 ## Skills in practice
 
