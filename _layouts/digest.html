@@ -1,0 +1,25 @@
+---
+layout: default
+---
+{%- assign slot = site.data.digest.slots | where: "id", page.slot | first -%}
+<article class="essay digest-post">
+  <p class="back"><a href="{{ '/digest/' | relative_url }}">← Research digest</a></p>
+  {%- if slot %}
+  <p class="digest-slot">{{ slot.label | escape }}</p>
+  {%- endif %}
+  <h1>{{ page.title }}</h1>
+  <p class="meta">{{ page.author | default: "Written by AI" }} · <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%B %-d, %Y' }}</time> · {{ page.reading_time | default: 2 }} min read</p>
+  <p class="digest-note">An AI picked this paper and wrote this summary, and it was published without human review. Check the original paper before you rely on or cite anything here.</p>
+  {{ content }}
+  <aside class="digest-source" aria-label="Source paper">
+    <p class="label">Source</p>
+    <p><a href="{{ page.source_url }}">{{ page.source_title | escape }}</a></p>
+    <p class="desc">{{ page.source_authors | escape }} · {{ page.source_venue | escape }} · {{ page.source_date | date: '%B %-d, %Y' }}</p>
+  </aside>
+  {%- if page.previous or page.next %}
+  <nav class="digest-nav" aria-label="More from the digest">
+    {%- if page.previous %}<a href="{{ page.previous.url | relative_url }}">← {{ page.previous.title }}</a>{% endif %}
+    {%- if page.next %}<a href="{{ page.next.url | relative_url }}">{{ page.next.title }} →</a>{% endif %}
+  </nav>
+  {%- endif %}
+</article>

@@ -1,0 +1,409 @@
+{
+  "_about": "Settings for the research digest (/digest/). The site reads the slot labels; scripts/digest/fetch_candidates.py reads everything else. Keyword weights: 3 = central to my work, 2 = close, 1 = useful context. Terms match whole words in titles and abstracts, case-insensitive, with an optional plural s. Each list in a slot's 'require' needs at least one hit; any 'exclude' hit drops the paper from that slot.",
+  "window_days": 7,
+  "per_slot": 20,
+  "slots": [
+    {
+      "id": "paper",
+      "label": "Paper of the day",
+      "goal": "The strongest recently published paper closest to my own research: lubricant oxidation and antioxidant additives, radical chemistry of phenolic and aminic antioxidants, reactive molecular dynamics (ReaxFF, REACTER), machine learning for tribology and lubricant chemistry, and machine-learning potentials for reactive chemistry.",
+      "keywords": {
+        "antioxidant": 3,
+        "phenolic antioxidant": 3,
+        "hindered phenol": 3,
+        "aminic antioxidant": 3,
+        "diphenylamine": 2,
+        "phenoxyl radical": 3,
+        "peroxyl radical": 3,
+        "alkoxyl radical": 2,
+        "hydroperoxide": 2,
+        "radical scavenging": 2,
+        "hydrogen atom transfer": 3,
+        "bond dissociation enthalpy": 3,
+        "bond dissociation energy": 3,
+        "O-H bond": 2,
+        "autoxidation": 3,
+        "lubricant oxidation": 3,
+        "oil oxidation": 3,
+        "thermo-oxidation": 3,
+        "thermo-oxidative": 3,
+        "thermal oxidation": 2,
+        "oxidative stability": 3,
+        "oxidation stability": 3,
+        "lubricant": 3,
+        "lubricant additive": 3,
+        "lubricating oil": 3,
+        "base oil": 3,
+        "polyalphaolefin": 3,
+        "ester oil": 2,
+        "engine oil": 2,
+        "grease": 1,
+        "ReaxFF": 3,
+        "reactive force field": 3,
+        "reactive molecular dynamics": 3,
+        "REACTER": 3,
+        "reaction pathway": 2,
+        "reaction network": 2,
+        "tribology": 3,
+        "tribological": 3,
+        "tribochemistry": 3,
+        "tribochemical": 3,
+        "tribofilm": 3,
+        "boundary lubrication": 3,
+        "friction": 2,
+        "wear": 1,
+        "machine learning": 2,
+        "neural network": 2,
+        "interatomic potential": 2,
+        "molecular dynamics": 2,
+        "density functional theory": 1,
+        "DFT": 1,
+        "lignin": 2
+      },
+      "require": [
+        [
+          "antioxidant",
+          "autoxidation",
+          "oxidation",
+          "oxidative",
+          "thermo-oxidation",
+          "thermo-oxidative",
+          "radical",
+          "peroxyl",
+          "phenoxyl",
+          "hydroperoxide",
+          "hydrogen atom transfer",
+          "bond dissociation",
+          "lubricant",
+          "lubricating",
+          "lubrication",
+          "base oil",
+          "polyalphaolefin",
+          "tribology",
+          "tribological",
+          "tribochemistry",
+          "tribochemical",
+          "tribofilm",
+          "friction",
+          "ReaxFF",
+          "reactive force field",
+          "reactive molecular dynamics",
+          "REACTER",
+          "lignin"
+        ]
+      ],
+      "exclude": [
+        "plant extract",
+        "extracts",
+        "essential oil",
+        "in vivo",
+        "in vitro",
+        "clinical",
+        "patients",
+        "mice",
+        "rats",
+        "dietary",
+        "food",
+        "cancer",
+        "tumor",
+        "tumour",
+        "cell viability",
+        "anti-inflammatory",
+        "gut",
+        "skin",
+        "wound",
+        "fruit",
+        "tea",
+        "honey",
+        "wine"
+      ],
+      "arxiv": {
+        "categories": [
+          "physics.chem-ph",
+          "cond-mat.mtrl-sci",
+          "cond-mat.soft",
+          "physics.comp-ph"
+        ],
+        "terms": [
+          "antioxidant",
+          "autoxidation",
+          "lubricant",
+          "tribology",
+          "tribological",
+          "ReaxFF",
+          "reactive molecular dynamics",
+          "reactive force field",
+          "peroxyl",
+          "bond dissociation",
+          "hydrogen atom transfer",
+          "friction"
+        ]
+      }
+    },
+    {
+      "id": "field",
+      "label": "AI for chemistry & materials",
+      "goal": "An important recent advance in machine learning or AI for chemistry and materials science, close to my methods: generative molecular design (graph diffusion, GANs), property prediction for molecules and materials, machine-learning interatomic potentials and foundation models, chemical datasets and benchmarks.",
+      "keywords": {
+        "machine learning": 2,
+        "deep learning": 2,
+        "neural network": 2,
+        "graph neural network": 3,
+        "message passing": 2,
+        "transformer": 1,
+        "generative model": 3,
+        "diffusion model": 3,
+        "graph diffusion": 3,
+        "flow matching": 2,
+        "molecular generation": 3,
+        "molecule generation": 3,
+        "inverse design": 3,
+        "de novo design": 3,
+        "generative adversarial network": 2,
+        "property prediction": 3,
+        "molecular property": 3,
+        "QSPR": 2,
+        "molecular representation": 2,
+        "uncertainty quantification": 2,
+        "active learning": 2,
+        "Bayesian optimization": 2,
+        "interatomic potential": 3,
+        "machine-learning potential": 3,
+        "machine learning potential": 3,
+        "machine-learned potential": 3,
+        "MLIP": 3,
+        "MACE": 3,
+        "equivariant": 2,
+        "universal potential": 3,
+        "foundation model": 3,
+        "materials discovery": 3,
+        "molecular discovery": 3,
+        "drug discovery": 1,
+        "retrosynthesis": 1,
+        "reaction prediction": 2,
+        "synthesizability": 2,
+        "virtual screening": 2,
+        "benchmark": 1,
+        "dataset": 1,
+        "density functional theory": 1,
+        "DFT": 1,
+        "molecular dynamics": 1
+      },
+      "require": [
+        [
+          "molecule",
+          "molecular",
+          "chemistry",
+          "chemical",
+          "material",
+          "materials",
+          "crystal",
+          "atomistic",
+          "interatomic",
+          "reaction",
+          "polymer"
+        ]
+      ],
+      "exclude": [
+        "patients",
+        "clinical",
+        "protein folding"
+      ],
+      "arxiv": {
+        "categories": [
+          "physics.chem-ph",
+          "cond-mat.mtrl-sci",
+          "cs.LG",
+          "physics.comp-ph"
+        ],
+        "terms": [
+          "molecular generation",
+          "inverse design",
+          "diffusion model",
+          "generative model",
+          "interatomic potential",
+          "machine learning potential",
+          "foundation model",
+          "property prediction",
+          "graph neural network",
+          "materials discovery"
+        ]
+      }
+    },
+    {
+      "id": "agents",
+      "label": "Agentic research",
+      "goal": "A recent paper or tool on AI that automates research in chemistry, materials, or molecular simulation: LLM agents and multi-agent systems, self-driving and autonomous labs, automated DFT and MD workflows, literature mining and information extraction with LLMs, and AI research assistants.",
+      "keywords": {
+        "agent": 1,
+        "agents": 1,
+        "agentic": 3,
+        "multi-agent": 3,
+        "LLM agent": 3,
+        "autonomous agent": 3,
+        "tool use": 2,
+        "tool-using": 2,
+        "large language model": 2,
+        "LLM": 2,
+        "language model": 1,
+        "GPT": 1,
+        "Claude": 1,
+        "self-driving lab": 3,
+        "self-driving laboratory": 3,
+        "autonomous laboratory": 3,
+        "autonomous lab": 3,
+        "robotic": 2,
+        "closed-loop": 2,
+        "automated workflow": 2,
+        "workflow automation": 3,
+        "high-throughput": 1,
+        "literature mining": 3,
+        "text mining": 2,
+        "information extraction": 3,
+        "data extraction": 2,
+        "knowledge graph": 1,
+        "research assistant": 2,
+        "AI scientist": 3,
+        "copilot": 2,
+        "AI agent": 3,
+        "language agent": 3
+      },
+      "require": [
+        [
+          "molecule",
+          "molecular",
+          "chemistry",
+          "chemical",
+          "chemist",
+          "material",
+          "materials",
+          "laboratory",
+          "synthesis",
+          "catalyst",
+          "catalysis",
+          "polymer",
+          "DFT",
+          "density functional theory",
+          "molecular dynamics",
+          "atomistic",
+          "crystal",
+          "reaction",
+          "spectroscopy"
+        ],
+        [
+          "agent",
+          "agentic",
+          "multi-agent",
+          "LLM",
+          "large language model",
+          "language model",
+          "self-driving",
+          "autonomous",
+          "robotic",
+          "automation",
+          "automated",
+          "closed-loop"
+        ]
+      ],
+      "exclude": [
+        "patients",
+        "clinical"
+      ],
+      "arxiv": {
+        "categories": [
+          "physics.chem-ph",
+          "cond-mat.mtrl-sci",
+          "cs.AI",
+          "cs.CL",
+          "cs.LG"
+        ],
+        "terms": [
+          "agent",
+          "agentic",
+          "multi-agent",
+          "self-driving lab",
+          "autonomous laboratory",
+          "LLM",
+          "large language model",
+          "literature mining",
+          "information extraction"
+        ]
+      }
+    }
+  ],
+  "journals": [
+    {
+      "name": "Tribology International",
+      "issn": "0301-679X"
+    },
+    {
+      "name": "Tribology Letters",
+      "issn": "1023-8883"
+    },
+    {
+      "name": "Wear",
+      "issn": "0043-1648"
+    },
+    {
+      "name": "Lubricants",
+      "issn": "2075-4442"
+    },
+    {
+      "name": "Friction",
+      "issn": "2223-7690"
+    },
+    {
+      "name": "Tribology Transactions",
+      "issn": "1040-2004"
+    },
+    {
+      "name": "Polymer Degradation and Stability",
+      "issn": "0141-3910"
+    },
+    {
+      "name": "The Journal of Physical Chemistry A",
+      "issn": "1089-5639"
+    },
+    {
+      "name": "Journal of Chemical Information and Modeling",
+      "issn": "1549-9596"
+    },
+    {
+      "name": "Journal of Chemical Theory and Computation",
+      "issn": "1549-9618"
+    },
+    {
+      "name": "npj Computational Materials",
+      "issn": "2057-3960"
+    },
+    {
+      "name": "Digital Discovery",
+      "issn": "2635-098X"
+    },
+    {
+      "name": "Nature Computational Science",
+      "issn": "2662-8457"
+    },
+    {
+      "name": "Nature Machine Intelligence",
+      "issn": "2522-5839"
+    },
+    {
+      "name": "Machine Learning: Science and Technology",
+      "issn": "2632-2153"
+    },
+    {
+      "name": "Chemical Science",
+      "issn": "2041-6520"
+    },
+    {
+      "name": "ACS Omega",
+      "issn": "2470-1343"
+    },
+    {
+      "name": "Fuel",
+      "issn": "0016-2361"
+    }
+  ],
+  "chemrxiv": true
+}

@@ -16,6 +16,27 @@ header_pages:
   - title: Molecule viewer
     url: /molecule-viewer/
   - blog.md
+  - digest.md
+
+# Research digest: daily AI-written paper summaries in _digest/ (see scripts/digest/README.md).
+collections:
+  digest:
+    output: true
+    permalink: /digest/:year/:month/:day/:title/
+
+defaults:
+  - scope:
+      path: ""
+      type: digest
+    values:
+      layout: digest
+      author: Written by AI
+      reading_time: 2
+
+feed:
+  collections:
+    digest:
+      path: /digest/feed.xml
 
 plugins:
   - jekyll-feed

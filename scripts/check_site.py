@@ -63,4 +63,8 @@ assert reviews, "Expected published posts"
 for review in reviews:
     expected = "/" + str(review.parent.relative_to(root)) + "/"
     assert expected in pages[(root / "blog/index.html").resolve()].links, f"Post missing from the blog page: {expected}"
-print(f"Passed: {len(pages)} pages, local links, citation anchors, review listings, headings, and image alt text.")
+digest_index = (root / "digest/index.html").resolve()
+for post in (p for p in pages if p.parent != digest_index.parent and "digest" in p.parts):
+    expected = "/" + str(post.parent.relative_to(root)) + "/"
+    assert expected in pages[digest_index].links, f"Post missing from the digest page: {expected}"
+print(f"Passed: {len(pages)} pages, local links, citation anchors, review and digest listings, headings, and image alt text.")

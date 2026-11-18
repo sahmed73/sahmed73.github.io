@@ -7,7 +7,11 @@
         <a href="{{ path.url | relative_url }}"{% if page.url == path.url %} aria-current="page"{% endif %}>{{ path.title }}</a>
         {% else %}
         {% assign nav_page = site.pages | where: 'path', path | first %}
-        <a href="{{ nav_page.url | relative_url }}"{% if page.url == nav_page.url or page.layout == 'post' and path == 'blog.md' %} aria-current="page"{% endif %}>{{ nav_page.nav_title | default: nav_page.title }}</a>
+        {% assign current = false %}
+        {% if page.url == nav_page.url %}{% assign current = true %}{% endif %}
+        {% if page.layout == 'post' and path == 'blog.md' %}{% assign current = true %}{% endif %}
+        {% if page.collection == 'digest' and path == 'digest.md' %}{% assign current = true %}{% endif %}
+        <a href="{{ nav_page.url | relative_url }}"{% if current %} aria-current="page"{% endif %}>{{ nav_page.nav_title | default: nav_page.title }}</a>
         {% endif %}
       {% endfor %}
       {% if site.cv != "" %}<a href="{{ site.cv | relative_url }}">CV</a>{% endif %}
