@@ -41,11 +41,26 @@ pre, code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-si
 .site-footer p { margin: 0; }
 
 /* Homepage */
-.intro { display: flex; align-items: center; gap: 28px; margin-bottom: 32px; }
+.intro { display: flex; align-items: flex-start; gap: 28px; margin-bottom: 32px; }
+.intro > div { min-width: 0; }
 .photo { width: 160px; height: 160px; flex-shrink: 0; border-radius: 4px; object-fit: cover; }
 .intro h1 { margin-bottom: .2em; }
 .intro p { margin: 0 0 .4em; }
 .intro .links { margin-top: .6em; }
+.intro .research-focus { color: var(--link); font-size: 1.1em; font-weight: 600; line-height: 1.35; margin-bottom: .6em; }
+.intro .research-profiles { font-size: .85em; }
+.availability { border-left: 3px solid var(--link); padding-left: 16px; }
+.featured-projects { margin-bottom: 1.5em; }
+.featured-project { padding: 20px 0; border-top: 1px solid var(--rule); }
+.featured-project h3 { margin-top: .3em; font-size: 1.15rem; }
+.featured-project p { margin-bottom: .6em; }
+.featured-project p:last-child { margin-bottom: 0; }
+.project-status, .project-path, .project-links { font-size: .85em; }
+.project-status { color: var(--muted); }
+.project-path { color: var(--muted); }
+.capabilities { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 28px; margin: 1.3em 0; }
+.capabilities dt { font-weight: 600; }
+.capabilities dd { margin: .25em 0 0; font-size: .92em; }
 
 /* Dated lists: news, talks, writing */
 .news, .talks, .posts { list-style: none; padding: 0; }
@@ -91,6 +106,7 @@ pre, code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-si
 .references li:target { background: #fff5d1; }
 .essay-figure { margin: 1.8em 0; }
 .essay-figure img { display: block; width: 100%; max-width: 560px; margin: 0 auto; }
+.essay-figure.research-workflow img { max-width: none; }
 .essay-figure figcaption { color: var(--muted); font-size: .85em; margin-top: .5em; text-align: center; }
 .essay table { width: 100%; border-collapse: collapse; margin: 1.5em 0; font-size: .9em; }
 .essay th, .essay td { text-align: left; padding: 6px 8px 6px 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
@@ -176,6 +192,7 @@ pre, code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-si
   .page-content { padding-top: 28px; }
   .intro { flex-direction: column; align-items: flex-start; gap: 16px; }
   .photo { width: 120px; height: 120px; }
+  .capabilities { grid-template-columns: 1fr; gap: 16px; }
   .news li, .talks li, .posts li { grid-template-columns: 1fr; gap: 0; margin-bottom: .9em; }
   .essay table { display: block; overflow-x: auto; font-size: .85em; }
 }

@@ -1,6 +1,6 @@
 theme: minima
 title: Shihab Ahmed
-description: Shihab Ahmed is a PhD candidate in mechanical engineering at UC Merced who uses reactive molecular dynamics and machine learning to study lubricant oxidation and antioxidant additives.
+description: Shihab Ahmed works on machine learning for chemistry and materials science and computational tribology, combining molecular design, chemical data, and reactive simulations.
 url: https://sahmed73.github.io
 baseurl: ""
 lang: en
@@ -10,8 +10,9 @@ author: Shihab Ahmed
 email: sahmed73@ucmerced.edu
 
 header_pages:
-  - publications.md
   - research.md
+  - publications.md
+  - ml-playground.md
   # Published from the separate sahmed73/molecule-viewer repository.
   - title: Molecule viewer
     url: /molecule-viewer/
