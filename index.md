@@ -17,6 +17,7 @@ redirect_from: /about/
       {%- if site.cv != "" %} · <a href="{{ site.cv | relative_url }}">CV (PDF)</a>{% endif %}
       · <a href="https://github.com/{{ site.github_username }}">GitHub</a>
       · <a href="https://www.linkedin.com/in/{{ site.linkedin_username }}/">LinkedIn</a>
+      {%- if site.x_username %} · <a href="https://x.com/{{ site.x_username }}">X</a>{% endif %}
     </p>
     <p class="research-profiles">
       <a href="https://orcid.org/{{ site.orcid }}">ORCID</a>
