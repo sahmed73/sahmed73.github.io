@@ -1,12 +1,12 @@
 ---
 layout: page
 title: ML playground
-nav_title: ML projects
+nav_title: Playground
 permalink: /ml-playground/
-description: "Small machine-learning projects beyond my research: cats versus dogs, flu-shot prediction, and handwritten digit recognition."
+description: "Machine-learning problems I solve for fun, beyond my research: cats versus dogs, flu-shot prediction, and handwritten digit recognition."
 ---
 
-A place for the fun side of learning machine learning: small experiments, familiar datasets, and competition problems outside my research. These projects let me explore computer vision, tabular data, and model evaluation.
+A place for the fun side of learning machine learning: small experiments, familiar datasets, and competition problems outside my research. They let me explore computer vision, tabular data, and model evaluation.
 
 The results below come from saved notebook outputs on local evaluation splits, not from competition leaderboards.
 
