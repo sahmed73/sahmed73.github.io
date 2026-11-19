@@ -91,12 +91,6 @@ Outside my research, I take on machine-learning challenges, from identifying mol
   </div>
 </dl>
 
-## Research and engineering background
-
-I work with Prof. Ashlie Martini at UC Merced, where I received my M.S. in Mechanical Engineering in 2026 and advanced to PhD candidacy in 2025. My research connects molecular modeling and machine learning with practical problems in lubricant oxidation and additive design. I have presented this work at TMS, the ACS Spring Meeting, and the Gordon Research Conference on Tribology, review manuscripts for the ASME Journal of Tribology and Tribology Letters, and mentor an undergraduate researcher in applied machine learning.
-
-Before UC Merced, I studied mechanical engineering at BUET, worked as an assistant manager in power plant commissioning at Bangladesh-India Friendship Power Company, and taught part-time at Daffodil International University.
-
 ## Selected publications
 
 <ol class="pubs">
