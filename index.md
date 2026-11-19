@@ -66,10 +66,6 @@ I am a PhD candidate in the [Martini Research Group](https://faculty.ucmerced.ed
   </article>
 </div>
 
-I also build research software, including an interactive [molecule viewer]({{ '/molecule-viewer/' | relative_url }}) for molecular structures and LAMMPS data, with image and rotation-video exports.
-
-Outside my research, I take on machine-learning challenges, from identifying molecules in mass spectra to image classification, in my [ML playground]({{ '/ml-playground/' | relative_url }}).
-
 ## Skills in practice
 
 <dl class="capabilities">
