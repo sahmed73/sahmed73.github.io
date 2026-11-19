@@ -5,6 +5,9 @@ layout: default
   <p class="back"><a href="{{ '/blog/' | relative_url }}">← Blog</a></p>
   <h1>{{ page.title }}</h1>
   <p class="meta">{{ page.author | default: site.author }} · <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%B %-d, %Y' }}</time> · {{ page.reading_time }} min read</p>
+  {%- unless page.ai_note == false %}
+  <p class="ai-note">This article was created using artificial intelligence. Please check the cited sources before relying on it.</p>
+  {%- endunless %}
   {{ content }}
   {%- assign others = site.posts | where_exp: "post", "post.url != page.url" %}
   {%- if others.size > 0 %}

@@ -130,7 +130,7 @@ pre, code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-si
 
 /* Research digest */
 .digest-slot { color: var(--muted); font-size: .78em; letter-spacing: .05em; text-transform: uppercase; margin: 0 0 .3em; }
-.digest-note { color: var(--muted); font-size: .88em; border-left: 3px solid var(--rule); padding-left: 12px; margin-bottom: 1.8em; }
+.digest-note, .ai-note { color: var(--muted); font-size: .88em; border-left: 3px solid var(--rule); padding-left: 12px; margin-bottom: 1.8em; }
 .digest-source { margin-top: 2.2em; padding-top: 1em; border-top: 1px solid var(--rule); font-size: .95em; overflow-wrap: anywhere; }
 .digest-source p { margin: 0 0 .2em; }
 .digest-source .label { font-weight: 600; }

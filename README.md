@@ -88,6 +88,9 @@ citations and a References section with matching `ref-1`, `ref-2`, etc. IDs.
 Separate published findings from proposed applications. Reading time is an
 editorial estimate; update it when revising the article.
 
+Every post shows a note under the byline saying the article was created using
+AI. For a post written without AI, add `ai_note: false` to its front matter.
+
 ## Visit summary
 
 `python3 scripts/visit_summary.py --days 30` prints visits, page views, top
