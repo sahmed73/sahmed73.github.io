@@ -27,7 +27,7 @@ I work in the Martini Research Group at UC Merced and collaborate with the Austr
 - **Machine learning agrees with the chemistry.** SHAP analysis of a neural network identified hydrogen-bond probability, steric shielding, and molecular mobility as the most influential factors. Masking substructures in a graph neural network independently linked amide, carboxylic acid, ketone, and aldehyde groups to slower reverse reactions.
 - **From screening to the lab.** The framework produces a ranked candidate library and practical design rules that point to concrete targets for synthesis and experimental testing.
 
-**Status.** The manuscript is in internal review. I presented the machine-learning side of this work at the TMS Annual Meeting 2026.
+**Status.** The manuscript is under review at a peer-reviewed journal. I presented the machine-learning side of this work at the TMS Annual Meeting 2026.
 
 Related explainer: [Can generative AI help design better lubricant molecules?]({{ '/perspectives/generative-ai-molecules-tribology/' | relative_url }}) · [Talks]({{ '/publications/#talks-and-posters' | relative_url }})
 

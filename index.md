@@ -38,7 +38,7 @@ I am a PhD candidate in the [Martini Research Group](https://faculty.ucmerced.ed
 <div class="featured-projects">
   <article class="featured-project with-figure">
     <div class="project-text">
-      <p class="project-status">Generative AI · Manuscript in internal review</p>
+      <p class="project-status">Generative AI · Manuscript under review</p>
       <h3><a href="{{ '/research/#generative-ai-for-antioxidant-discovery' | relative_url }}">Generative AI for antioxidant discovery</a></h3>
       <p>A graph diffusion model proposes new phenolic antioxidants, screening keeps the synthesizable, oil-compatible, low-toxicity ones, and reactive simulations rank them in a lubricant environment. Interpretable ML then shows why the best candidates work: they limit access to their reactive oxygen.</p>
       <p class="project-path">Generate → Screen → Simulate → Explain</p>
