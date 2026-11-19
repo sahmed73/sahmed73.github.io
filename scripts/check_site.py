@@ -2,6 +2,7 @@
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
+import re
 import sys
 
 
@@ -67,4 +68,17 @@ digest_index = (root / "digest/index.html").resolve()
 for post in (p for p in pages if p.parent != digest_index.parent and "digest" in p.parts):
     expected = "/" + str(post.parent.relative_to(root)) + "/"
     assert expected in pages[digest_index].links, f"Post missing from the digest page: {expected}"
-print(f"Passed: {len(pages)} pages, local links, citation anchors, review and digest listings, headings, and image alt text.")
+llms = root / "llms.txt"
+assert llms.is_file(), "Missing llms.txt"
+for href in re.findall(r"\]\((https://sahmed73\.github\.io/[^)\s]*)\)", llms.read_text()):
+    url = urlsplit(href)
+    if url.path.startswith(PROJECT_SITES):
+        continue
+    target = root / unquote(url.path).lstrip("/")
+    if target.is_dir():
+        target /= "index.html"
+    target = target.resolve()
+    assert target.is_file(), f"Broken link in llms.txt: {href}"
+    if url.fragment and target in pages:
+        assert unquote(url.fragment) in pages[target].ids, f"Broken anchor in llms.txt: {href}"
+print(f"Passed: {len(pages)} pages, local links, citation anchors, review and digest listings, headings, image alt text, and llms.txt links.")

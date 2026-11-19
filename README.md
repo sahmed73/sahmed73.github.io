@@ -90,6 +90,19 @@ editorial estimate; update it when revising the article.
 Every post shows a note under the byline saying the article was created using
 AI. For a post written without AI, add `ai_note: false` to its front matter.
 
+## AI and search discovery
+
+- `llms.txt` (served at `/llms.txt`, not linked from any page) is a plain-text
+  summary of the site for AI assistants: bio, projects, skills, publications,
+  talks, code, and profile links. Publications, talks, and blog posts fill in
+  from the data files; edit the project and repository lines by hand when they
+  change. `scripts/check_site.py` checks its links.
+- The homepage carries schema.org `Person` data (`_includes/person-jsonld.html`)
+  that ties the GitHub, LinkedIn, X, ORCID, Web of Science, and Scholar profiles
+  to this site.
+- `jekyll-sitemap` builds `/sitemap.xml`; `robots.txt` allows all crawlers and
+  points to it. Add `sitemap: false` to a page's front matter to leave it out.
+
 ## Visit summary
 
 `python3 scripts/visit_summary.py --days 30` prints visits, page views, top

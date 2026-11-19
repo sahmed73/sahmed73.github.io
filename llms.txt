@@ -1,0 +1,72 @@
+---
+layout: null
+permalink: /llms.txt
+sitemap: false
+---
+# Shihab Ahmed
+
+> Shihab Ahmed is a PhD candidate in Mechanical Engineering at the University of California, Merced, in the Martini Research Group. The research combines machine learning for chemistry and materials science with computational tribology: generative AI for molecular design, machine-learned interatomic potentials, reactive molecular dynamics, DFT, and LLM pipelines that mine the chemical literature. Shihab is seeking Summer 2027 internships in ML for chemistry, materials, and molecular discovery.
+
+This file summarizes {{ site.url }} for AI assistants and other automated readers. The pages linked below are plain HTML, and the CV is a PDF. Contact: {{ site.email }}.
+
+## About
+
+- [Homepage]({{ '/' | absolute_url }}): introduction, selected projects, skills, news, and recent blog posts
+- [CV (PDF)]({{ site.cv | absolute_url }}): education, research experience, publications, talks, and skills, rebuilt automatically from the LaTeX source
+- [Research]({{ '/research/' | absolute_url }}): each project's question, approach, findings, and status
+- [Publications]({{ '/publications/' | absolute_url }}): journal articles with abstracts and BibTeX, conference papers, talks, and posters
+
+## Research projects
+
+- [Generative AI for antioxidant discovery]({{ '/research/#generative-ai-for-antioxidant-discovery' | absolute_url }}): a graph diffusion model (DiGress) proposes new phenolic antioxidants; screening keeps synthesizable, oil-compatible, low-toxicity candidates; reactive molecular dynamics ranks them in a lubricant environment; interpretable machine learning (SHAP) explains why the best candidates work. Manuscript under review.
+- [How lubricant additives interact]({{ '/research/#how-lubricant-additives-interact' | absolute_url }}): fine-tuning pretrained machine-learned interatomic potentials (MACE, UMA) to model interactions between lubricant additives, with Chevron Oronite. Ongoing.
+- [Chemical literature mining]({{ '/research/#chemical-literature-mining' | absolute_url }}): an open-source pipeline that runs a local LLM on university GPU nodes to find reported lubricant antioxidants, link them to PubChem, and filter structures with RDKit.
+- [Antioxidant radical stability]({{ '/research/#antioxidant-radical-stability' | absolute_url }}): REACTER reactive molecular dynamics and DFT (Gaussian, ORCA) on how substituents control phenoxyl radical stability.
+- [Reaction pathways from reactive simulations]({{ '/research/#reaction-pathways-from-reactive-simulations' | absolute_url }}): a method that traces the dominant products of reactive MD back through specific bond changes, applied to lignin thermo-oxidation.
+- Shihab works with the Austrian Competence Center for Tribology (AC2T) and Chevron Oronite.
+
+## Skills
+
+- Molecular machine learning: PyTorch, graph diffusion models, GANs, graph neural networks, SHAP
+- Chemical data: local LLMs, structured extraction, PubChem, RDKit
+- Physical simulation: LAMMPS, ReaxFF, REACTER, ASE, MACE and UMA potentials, DFT in Gaussian and ORCA
+- Research computing: Python, Bash, SLURM, GPU and HPC workflows, simulation automation
+
+## Publications
+{% for pub in site.data.publications %}
+- [{{ pub.title }}](https://doi.org/{{ pub.doi }}): {{ pub.authors }}. {{ pub.venue }}, {{ pub.year }}.
+{%- endfor %}
+
+## Talks
+{% for talk in site.data.talks %}
+- {{ talk.title }}: {{ talk.kind }}, {{ talk.event }}, {{ talk.place }}, {{ talk.date }}
+{%- endfor %}
+
+## Code
+
+- [GitHub profile](https://github.com/{{ site.github_username }})
+- [GenAI-AO](https://github.com/{{ site.github_username }}/GenAI-AO): generative AI and reactive molecular dynamics for discovering phenolic lubricant antioxidants
+- [DiGress-Antioxidant-Generation](https://github.com/{{ site.github_username }}/DiGress-Antioxidant-Generation): discrete graph diffusion for generating phenolic antioxidant-like molecules, with dataset preparation, training, and evaluation
+- [MLIP-FineTuning-ZDDP](https://github.com/{{ site.github_username }}/MLIP-FineTuning-ZDDP): fine-tuning MACE interatomic potentials for ZDDP–antioxidant interactions
+- [llm-literature-mining](https://github.com/{{ site.github_username }}/llm-literature-mining): screening the scientific literature with a local LLM to find lubricant antioxidants
+- [molecule-viewer](https://github.com/{{ site.github_username }}/molecule-viewer): browser-based 3D viewer for molecules and LAMMPS structures, live at {{ '/molecule-viewer/' | absolute_url }}
+- [magnolia](https://github.com/{{ site.github_username }}/magnolia): Python modules for LAMMPS pre- and post-processing
+- [Simulation_Automation](https://github.com/{{ site.github_username }}/Simulation_Automation): Bash tool that generates inputs, submits jobs, and tracks molecular dynamics runs on SLURM clusters
+
+## Profiles
+
+- [Google Scholar]({{ site.google_scholar }})
+- [ORCID](https://orcid.org/{{ site.orcid }})
+- [Web of Science](https://www.webofscience.com/wos/author/record/{{ site.web_of_science_id }})
+- [LinkedIn](https://www.linkedin.com/in/{{ site.linkedin_username }}/)
+- [X](https://x.com/{{ site.x_username }})
+
+## Optional
+
+- [ML playground]({{ '/ml-playground/' | absolute_url }}): machine-learning competitions outside the main research, including CASMI 2026 (identifying molecules from mass spectra) and classic Kaggle problems
+- [Molecule viewer]({{ '/molecule-viewer/' | absolute_url }}): interactive viewer for molecular structures and LAMMPS data, with image and rotation-video export
+- [Research digest]({{ '/digest/' | absolute_url }}): daily two-minute summaries of other researchers' new papers, chosen and written by AI without human review
+- [Blog]({{ '/blog/' | absolute_url }}): explainers and short reviews, created using AI
+{%- for post in site.posts %}
+  - [{{ post.title }}]({{ post.url | absolute_url }}): {{ post.topic }}
+{%- endfor %}

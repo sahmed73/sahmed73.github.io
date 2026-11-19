@@ -1,0 +1,51 @@
+{%- comment -%}
+  Structured data for the homepage: tells search engines and AI tools that the
+  profiles below all belong to the same person.
+{%- endcomment -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  "url": {{ '/' | absolute_url | jsonify }},
+  "mainEntity": {
+    "@type": "Person",
+    "name": {{ site.author | jsonify }},
+    "url": {{ '/' | absolute_url | jsonify }},
+    "image": {{ '/assets/profile.jpg' | absolute_url | jsonify }},
+    "email": {{ site.email | prepend: 'mailto:' | jsonify }},
+    "jobTitle": "PhD Candidate, Mechanical Engineering",
+    "description": {{ site.description | jsonify }},
+    "affiliation": {
+      "@type": "CollegeOrUniversity",
+      "name": "University of California, Merced",
+      "url": "https://www.ucmerced.edu/"
+    },
+    "alumniOf": [
+      {"@type": "CollegeOrUniversity", "name": "University of California, Merced"},
+      {"@type": "CollegeOrUniversity", "name": "Bangladesh University of Engineering and Technology"}
+    ],
+    "knowsAbout": [
+      "Machine learning for chemistry",
+      "Machine learning for materials science",
+      "Generative molecular design",
+      "Graph diffusion models",
+      "Machine-learned interatomic potentials",
+      "Reactive molecular dynamics",
+      "Density functional theory",
+      "Large language models for literature mining",
+      "Computational tribology",
+      "Lubricant antioxidants"
+    ],
+    "sameAs": [
+      {{ site.github_username | prepend: 'https://github.com/' | jsonify }},
+      {{ site.linkedin_username | prepend: 'https://www.linkedin.com/in/' | append: '/' | jsonify }},
+      {{ site.x_username | prepend: 'https://x.com/' | jsonify }},
+      {{ site.orcid | prepend: 'https://orcid.org/' | jsonify }},
+      {{ site.web_of_science_id | prepend: 'https://www.webofscience.com/wos/author/record/' | jsonify }}
+      {%- if site.google_scholar != "" %},
+      {{ site.google_scholar | jsonify }}
+      {%- endif %}
+    ]
+  }
+}
+</script>
