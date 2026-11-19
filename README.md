@@ -103,6 +103,12 @@ AI. For a post written without AI, add `ai_note: false` to its front matter.
 - `jekyll-sitemap` builds `/sitemap.xml`; `robots.txt` allows all crawlers and
   points to it. Add `sitemap: false` to a page's front matter to leave it out.
 
+## Site icon
+
+`favicon.svg` is the browser-tab icon for pages. `python3 scripts/make_favicon.py`
+redraws `favicon.ico` (used for robots.txt, llms.txt, PDFs, and older browsers)
+and `apple-touch-icon.png` (iPhone home screen) from the same design.
+
 ## Visit summary
 
 `python3 scripts/visit_summary.py --days 30` prints visits, page views, top
