@@ -1,4 +1,4 @@
-# Journal articles, newest first. "selected: true" also lists the paper on the homepage.
+# Journal articles, newest first.
 # Both abstracts are reproduced from the published articles (CC BY 4.0).
 
 - title: Reactive MD screening of antioxidants for substituent-dependent phenoxyl radical stability
@@ -10,7 +10,6 @@
   year: 2026
   doi: 10.1021/acsomega.6c00592
   pdf: https://pubs.acs.org/doi/pdf/10.1021/acsomega.6c00592
-  selected: true
   abstract: >-
     Oxidation limits the performance and lifetime of lubricants, and phenolic antioxidants
     are commonly used to slow this process by scavenging hydrocarbon peroxyl radicals. The
@@ -51,7 +50,6 @@
   year: 2024
   doi: 10.1021/acs.jpca.4c00964
   pdf: https://pubs.acs.org/doi/pdf/10.1021/acs.jpca.4c00964
-  selected: true
   abstract: >-
     Thermo-oxidation of biomass is an important process that occurs through a variety of
     reaction pathways depending on the chemical nature of the molecules and reaction

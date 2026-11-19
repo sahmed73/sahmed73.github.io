@@ -48,7 +48,6 @@ Most updates are edits to data files; the pages render from them.
 
 - `_data/news.yml`: dated news items, newest first (Markdown allowed).
 - `_data/publications.yml`: journal articles with abstract, PDF, DOI, and BibTeX.
-  `selected: true` also lists a paper on the homepage.
 - `_data/talks.yml`: talks and posters.
 - `_config.yml`: set `google_scholar` (profile URL) or `cv` (e.g.
   `/assets/Shihab_Ahmed_CV.pdf`) to show those links; leave empty to hide them.

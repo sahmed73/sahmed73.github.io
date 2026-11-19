@@ -91,16 +91,6 @@ Outside my research, I take on machine-learning challenges, from identifying mol
   </div>
 </dl>
 
-## Selected publications
-
-<ol class="pubs">
-{%- for pub in site.data.publications %}{% if pub.selected %}
-  {% include publication.html pub=pub %}
-{%- endif %}{% endfor %}
-</ol>
-
-<p><a href="{{ '/publications/' | relative_url }}">All publications, abstracts, and talks</a></p>
-
 ## News
 
 <ul class="news">
