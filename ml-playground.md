@@ -8,6 +8,28 @@ description: "Machine-learning challenges I take on beyond my research: identify
 
 A place for the fun side of learning machine learning: small experiments, familiar datasets, and competition problems outside my research. They let me explore chemistry, computer vision, tabular data, and model evaluation.
 
+<section class="nox-invite" aria-labelledby="nox-invite-title">
+  <img src="{{ '/assets/pets/nox-idle.png' | relative_url }}" alt="Nox, a little moon fox with big ears and a gold-tipped tail" width="192" height="208">
+  <div>
+    <h2 id="nox-invite-title">Meet Nox</h2>
+    <p>A tiny moon fox with a very important request: head scratches.</p>
+    <button type="button" id="nox-open" class="nox-open" aria-haspopup="dialog" aria-controls="nox-dialog">Open Nox</button>
+  </div>
+</section>
+
+<dialog id="nox-dialog" class="nox-dialog" aria-labelledby="nox-title" aria-describedby="nox-message" data-sprites="{{ '/assets/pets/nox-sprites.webp' | relative_url }}">
+  <button type="button" id="nox-close" class="nox-close" aria-label="Close Nox">×</button>
+  <h2 id="nox-title">Hi, I'm Nox.</h2>
+  <p id="nox-message" class="nox-message" role="status" aria-live="polite" aria-atomic="true">Pet me, please!</p>
+  <button type="button" id="nox-pet" class="nox-pet" aria-label="Give Nox a head scratch">
+    <span id="nox-sprite" class="nox-sprite" aria-hidden="true" style="background-image: url('{{ '/assets/pets/nox-idle.png' | relative_url }}')"></span>
+  </button>
+  <p class="nox-hint">Click or tap Nox to give a head scratch.</p>
+  <p id="nox-count" class="nox-count">A little kindness goes a long way.</p>
+</dialog>
+<noscript><p>Enable JavaScript to play with Nox.</p></noscript>
+<script src="{{ '/assets/nox-pet.js' | relative_url }}" defer></script>
+
 ## CASMI 2026: identifying molecules from mass spectra
 
 **The challenge.** In Enveda's CASMI 2026 competition on Kaggle, each unknown molecule comes only as its tandem mass spectra, the pattern of fragments it breaks into inside a mass spectrometer. The task is to name the molecule: return up to 25 candidate structures, ranked. Scoring uses mean reciprocal rank (MRR@25) on a hidden test set, so a correct answer ranked first counts fully, ranked second counts half, and so on.
