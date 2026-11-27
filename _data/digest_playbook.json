@@ -1,0 +1,5 @@
+{
+  "_about": "Referee playbook for /digest/playbook/: what referees ask of computational-chemistry and MLIP papers, drawn from Paper dissection posts. A lesson is listed only when at least two different dissection posts support it; 'evidence' holds their file names without .md. Lessons are never deleted: set status to 'retired' with a retired_reason. Every addition or change gets a dated entry in 'changes'. Checked by scripts/digest/check_digest.py.",
+  "lessons": [],
+  "changes": []
+}

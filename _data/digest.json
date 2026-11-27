@@ -1,5 +1,5 @@
 {
-  "_about": "Settings for the research digest (/digest/). The site reads the slot labels; scripts/digest/fetch_candidates.py reads everything else. Keyword weights: 3 = central to my work, 2 = close, 1 = useful context. Terms match whole words in titles and abstracts, case-insensitive, with an optional plural s. Each list in a slot's 'require' needs at least one hit; any 'exclude' hit drops the paper from that slot. A slot with a 'retired' date takes no new posts; it stays so older posts keep their label.",
+  "_about": "Settings for the research digest (/digest/). The site reads the slot labels; scripts/digest/fetch_candidates.py reads everything else. Keyword weights: 3 = central to my work, 2 = close, 1 = useful context. Terms match whole words in titles and abstracts, case-insensitive, with an optional plural s. Each list in a slot's 'require' needs at least one hit; any 'exclude' hit drops the paper from that slot. A slot with a 'retired' date takes no new posts; it stays so older posts keep their label. Slots with 'kind': 'dissection' or 'weekly' are not keyword-scored: the dissection slot ranks papers that have published referee reports (see 'referee_journals'), and the weekly slot runs on Sundays only, in place of every daily slot.",
   "window_days": 7,
   "per_slot": 20,
   "slots": [
@@ -340,6 +340,131 @@
       }
     },
     {
+      "id": "dissection",
+      "label": "Paper dissection",
+      "kind": "dissection",
+      "reading_time": 5,
+      "goal": "One published computational-chemistry paper taken apart with its referee reports: what it claims, how the evidence holds up, what the referees challenged, and how the authors answered. Priority: machine-learning interatomic potential papers in Nature Communications or Nature, then MLIP papers in other journals that publish referee reports, then DFT, molecular dynamics, mechanism, free-energy and kinetics papers, and only as a last resort an MLIP paper with no published referee file. This slot is the one exception to the machine-learning rule: priority 3 papers need no ML component.",
+      "recent_days": 30,
+      "backlog_since": "2022-11-01",
+      "topics": {
+        "mlip": [
+          "interatomic potential",
+          "machine learning potential",
+          "machine-learning potential",
+          "machine-learned potential",
+          "machine learned potential",
+          "neural network potential",
+          "machine learning force field",
+          "machine-learning force field",
+          "machine-learned force field",
+          "neural network force field",
+          "MLIP",
+          "MLFF",
+          "MACE",
+          "NequIP",
+          "Allegro",
+          "DeePMD",
+          "deep potential",
+          "universal potential",
+          "atomistic foundation model",
+          "equivariant neural network",
+          "machine-learning molecular dynamics",
+          "machine learning molecular dynamics"
+        ],
+        "dft": [
+          "density functional theory",
+          "DFT",
+          "first-principles",
+          "first principles",
+          "ab initio",
+          "coupled cluster",
+          "quantum chemistry",
+          "quantum chemical",
+          "electronic structure"
+        ],
+        "md": [
+          "molecular dynamics",
+          "molecular simulation",
+          "free energy",
+          "free-energy",
+          "metadynamics",
+          "enhanced sampling",
+          "reaction mechanism",
+          "reaction pathway",
+          "kinetic",
+          "kinetics",
+          "transition state",
+          "ReaxFF",
+          "reactive force field"
+        ]
+      },
+      "context": [
+        "molecule",
+        "molecular",
+        "chemistry",
+        "chemical",
+        "material",
+        "materials",
+        "crystal",
+        "liquid",
+        "water",
+        "catalyst",
+        "catalysis",
+        "electrolyte",
+        "interface",
+        "surface",
+        "alloy",
+        "oxide",
+        "polymer",
+        "reaction",
+        "solvent",
+        "battery",
+        "phase",
+        "atomistic",
+        "lubricant",
+        "friction"
+      ],
+      "exclude": [
+        "protein",
+        "proteins",
+        "enzyme",
+        "patients",
+        "clinical",
+        "cancer",
+        "tumor",
+        "tumour",
+        "cell",
+        "cells",
+        "gene",
+        "genes",
+        "genomic",
+        "neuron",
+        "neurons",
+        "brain",
+        "drug",
+        "antibody",
+        "virus",
+        "bacteria",
+        "mice",
+        "in vivo",
+        "climate",
+        "ecosystem"
+      ],
+      "queries": {
+        "mlip": "machine learning interatomic potential neural network potential force field molecular dynamics",
+        "compchem": "density functional theory first-principles molecular dynamics free energy reaction mechanism kinetics simulation"
+      }
+    },
+    {
+      "id": "weekly",
+      "label": "Weekly summary",
+      "kind": "weekly",
+      "reading_time": 3,
+      "starts": "2026-11-29",
+      "goal": "Every Sunday, one page that pulls the week's posts together: the main findings, the threads that ran through them, and links to every post. On Sundays no other slot posts."
+    },
+    {
       "id": "field",
       "label": "AI for chemistry & materials",
       "retired": "2026-11-27",
@@ -420,5 +545,99 @@
       "issn": "0016-2361"
     }
   ],
-  "chemrxiv": true
+  "chemrxiv": true,
+  "referee_journals": {
+    "_about": "Journals that publish referee reports with the paper, checked on publisher pages. 'policy' is 'all' when every research article gets a referee file and 'opt-in' when authors choose. The fetch script reads only journals with 'fetch': true; the others are recorded for later.",
+    "checked": "2026-11-27",
+    "journals": [
+      {
+        "name": "Nature Communications",
+        "issn": "2041-1723",
+        "policy": "all",
+        "since": "2022-11-01",
+        "tier": 1,
+        "fetch": true,
+        "host": "www.nature.com",
+        "source": "https://www.nature.com/ncomms/editorial-policies/peer-review",
+        "note": "Transparent peer review for all research articles received from November 2022; opt-in from 2016 before that. Articles are CC BY or CC BY-NC-ND."
+      },
+      {
+        "name": "Nature",
+        "issn": "1476-4687",
+        "policy": "all",
+        "since": "2025-06-16",
+        "tier": 1,
+        "fetch": true,
+        "host": "www.nature.com",
+        "source": "https://www.nature.com/nature/editorial-policies/peer-review",
+        "note": "Peer review file published with all original research articles submitted on or after 16 June 2025."
+      },
+      {
+        "name": "npj Computational Materials",
+        "issn": "2057-3960",
+        "policy": "opt-in",
+        "tier": 2,
+        "fetch": true,
+        "host": "www.nature.com",
+        "source": "https://www.nature.com/nature-portfolio/editorial-policies/peer-review",
+        "note": "Nature Portfolio journal; its own policy page does not state its scheme, so the fetch script checks each article page."
+      },
+      {
+        "name": "Communications Chemistry",
+        "issn": "2399-3669",
+        "policy": "opt-in",
+        "tier": 2,
+        "fetch": true,
+        "host": "www.nature.com",
+        "source": "https://www.nature.com/commschem/editorial-policies/peer-review"
+      },
+      {
+        "name": "Nature Computational Science",
+        "issn": "2662-8457",
+        "policy": "opt-in",
+        "tier": 2,
+        "fetch": true,
+        "host": "www.nature.com",
+        "source": "https://www.nature.com/natcomputsci/editorial-policies/peer-review"
+      },
+      {
+        "name": "Nature Chemistry",
+        "issn": "1755-4349",
+        "policy": "opt-in",
+        "tier": 2,
+        "fetch": true,
+        "host": "www.nature.com",
+        "source": "https://www.nature.com/nchem/editorial-policies/peer-review"
+      },
+      {
+        "name": "Nature Materials",
+        "issn": "1476-4660",
+        "policy": "opt-in",
+        "tier": 2,
+        "fetch": true,
+        "host": "www.nature.com",
+        "source": "https://www.nature.com/nmat/editorial-policies/peer-review",
+        "note": "Authors opt in at the end of peer review, before acceptance."
+      },
+      {
+        "name": "Chemical Science",
+        "issn": "2041-6539",
+        "policy": "opt-in",
+        "tier": 2,
+        "fetch": false,
+        "host": "pubs.rsc.org",
+        "source": "https://www.rsc.org/news/2020/march/rsc-launches-transparent-peer-review",
+        "note": "RSC transparent peer review is opt-in; not fetched yet because pubs.rsc.org is not on the routine's allowlist."
+      }
+    ],
+    "no_referee_file": [
+      {
+        "name": "Journal of the American Chemical Society",
+        "issn": "1520-5126",
+        "tier": 4,
+        "note": "ACS journals do not publish referee reports. ACS ran an opt-in pilot only at ACS Central Science and The Journal of Physical Chemistry Letters, discontinued on 2026-01-30.",
+        "source": "https://axial.acs.org/publishing/transparent-peer-review-pilot"
+      }
+    ]
+  }
 }

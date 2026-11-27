@@ -2,12 +2,19 @@
 """Collect recent papers for the research digest.
 
     python3 scripts/digest/fetch_candidates.py [--days 7] [--out candidates.json]
+    python3 scripts/digest/fetch_candidates.py --dissection [--out dissection.json]
 
-Reads the slots, keywords, and journals from _data/digest.json. Queries arXiv,
-Crossref (the listed journals), and ChemRxiv (through Crossref), fills missing
-journal abstracts from OpenAlex when it can, scores every paper against every
-slot, removes papers already covered in _digest/, and writes the best
-candidates for each slot as JSON. Uses the Python standard library only.
+Default mode: reads the slots, keywords, and journals from _data/digest.json.
+Queries arXiv, Crossref (the listed journals), and ChemRxiv (through Crossref),
+fills missing journal abstracts from OpenAlex when it can, scores every paper
+against every keyword slot, removes papers already covered in _digest/, and
+writes the best candidates for each slot as JSON.
+
+--dissection: finds candidates for the Paper dissection slot. Searches the
+journals in 'referee_journals' through Crossref (recent papers first, then the
+backlog), classifies each paper as mlip / dft / md, opens the best article pages
+to find the published referee file, and writes a ranked list with priority
+tiers 1-4 (see ROUTINE.md). Uses the Python standard library only.
 """
 import argparse
 import datetime as dt
@@ -63,8 +70,9 @@ def term_pattern(term):
 
 
 def active_slots(config):
-    """Retired slots stay in the config only so older posts keep their label."""
-    return [slot for slot in config["slots"] if not slot.get("retired")]
+    """Keyword-scored slots in use. Retired slots stay in the config only so older posts
+    keep their label; slots with a 'kind' (dissection, weekly) are not keyword-scored."""
+    return [slot for slot in config["slots"] if not slot.get("retired") and not slot.get("kind")]
 
 
 def arxiv_papers(config, since):
@@ -188,14 +196,128 @@ def score(paper, slot, patterns):
     return total, [term for term, _ in sorted(hits, key=lambda h: -h[1])]
 
 
+REFEREE_LINK = re.compile(
+    r'href="(https://static-content\.springer\.com/esm/[^"]+?\.pdf)"[^>]*>\s*(?:<[^>]+>\s*)*'
+    r'((?:Transparent )?Peer Review File)', re.I)
+
+
+def referee_file(doi):
+    """Open a Nature Portfolio article page and return the URL of its peer review file, or ''."""
+    data = get(f"https://www.nature.com/articles/{doi.split('/', 1)[1]}", tries=2)
+    if not data:
+        return None  # page unreachable: unknown, not "no file"
+    match = REFEREE_LINK.search(data.decode("utf-8", "ignore"))
+    return match.group(1) if match else ""
+
+
+def topic_hits(text, patterns):
+    return {topic: [t for t, p in pats if p.search(text)] for topic, pats in patterns.items()}
+
+
+def dissection_candidates(config, today, check_pages=25):
+    slot = next(s for s in config["slots"] if s["id"] == "dissection")
+    referee = config["referee_journals"]
+    patterns = {topic: [(t, term_pattern(t)) for t in terms] for topic, terms in slot["topics"].items()}
+    context = [term_pattern(t) for t in slot["context"]]
+    exclude = [term_pattern(t) for t in slot["exclude"]]
+    recent_since = (today - dt.timedelta(days=slot["recent_days"])).isoformat()
+    seen_ids, seen_titles = seen_papers()
+
+    def search(issn, since, query, rows):
+        params = urllib.parse.urlencode({
+            "filter": f"issn:{issn},from-pub-date:{since},type:journal-article",
+            "query.bibliographic": query, "rows": rows,
+            "select": "DOI,title,abstract,author,container-title,published,type,URL",
+        })
+        data = get("https://api.crossref.org/works?" + params)
+        return json.loads(data)["message"]["items"] if data else []
+
+    found = {}
+    sources = [(j, True) for j in referee["journals"] if j.get("fetch")]
+    sources += [(j, False) for j in referee["no_referee_file"]]
+    for journal, has_files in sources:
+        windows = [(recent_since, True)]
+        if has_files and journal.get("policy") == "all":
+            windows.append((max(journal.get("since", slot["backlog_since"]), slot["backlog_since"]), False))
+        for since, recent in windows:
+            for query in slot["queries"].values():
+                for item in search(journal["issn"], since, query, 100 if recent else 200):
+                    paper = crossref_paper(item, journal["name"], True)
+                    paper["date"] = "-".join(f"{n:02d}" for n in (item.get("published") or {}).get("date-parts", [[0]])[0])
+                    if (paper["id"] in found or paper["id"].lower() in seen_ids or not paper["title"]
+                            or title_key(paper["title"]) in seen_titles or SKIP_TITLES.match(paper["title"])):
+                        continue
+                    paper.update(journal=journal, has_files=has_files, recent=paper["date"] >= recent_since)
+                    found[paper["id"]] = paper
+    papers = list(found.values())
+    fill_abstracts(papers)
+
+    ranked = []
+    for paper in papers:
+        text = f"{paper['title']} {paper['abstract']}".lower()
+        if any(p.search(text) for p in exclude) or not any(p.search(text) for p in context):
+            continue
+        hits = topic_hits(text, patterns)
+        topic = next((t for t in ("mlip", "dft", "md") if hits[t]), None)
+        if not topic:
+            continue
+        journal = paper.pop("journal")
+        if not paper.pop("has_files"):
+            if topic != "mlip" or not paper["recent"]:
+                continue
+            tier = 4
+        elif topic == "mlip":
+            tier = journal["tier"]  # 1 for Nature Communications and Nature, 2 for the others
+        else:
+            tier = 3
+        ranked.append({**paper, "tier": tier, "topic": topic, "topic_terms": hits[topic][:6],
+                       "referee_policy": journal.get("policy", "none"),
+                       "referee_note": journal.get("note", ""),
+                       "authors": paper["authors"][:6] + (["et al."] if len(paper["authors"]) > 6 else []),
+                       "abstract": paper["abstract"][:2500]})
+    # Priority tier first; within a tier, recent papers first, then the newest backlog paper.
+    ranked.sort(key=lambda p: p["date"], reverse=True)
+    ranked.sort(key=lambda p: (p["tier"], not p["recent"]))
+
+    checked = 0
+    for paper in ranked:
+        if paper["tier"] == 4:
+            paper["referee_file"] = "none"
+            continue
+        if checked >= check_pages:
+            paper["referee_file"] = "not checked"
+            continue
+        checked += 1
+        url = referee_file(paper["id"][4:])
+        paper["referee_file"] = url if url else ("unreachable" if url is None else "none")
+        time.sleep(1)
+    keep = [p for p in ranked if p["referee_file"].startswith("https://")]
+    keep += [p for p in ranked if p["tier"] == 4][:5]
+    return {"recent_since": recent_since, "papers_checked": len(papers), "pages_opened": checked,
+            "unreachable": sum(p["referee_file"] == "unreachable" for p in ranked),
+            "candidates": keep[:20]}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--days", type=int, help="look back this many days (default from _data/digest.json)")
     parser.add_argument("--per-slot", type=int, help="candidates kept per slot")
     parser.add_argument("--out", default="candidates.json", help="output JSON path")
+    parser.add_argument("--dissection", action="store_true", help="find Paper dissection candidates instead")
     args = parser.parse_args()
 
     config = json.loads(CONFIG.read_text())
+    if args.dissection:
+        result = dissection_candidates(config, dt.date.today())
+        result["generated"] = dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")
+        Path(args.out).write_text(json.dumps(result, indent=2, ensure_ascii=False) + "\n")
+        tiers = ", ".join(f"tier {t}: {sum(p['tier'] == t for p in result['candidates'])}" for t in (1, 2, 3, 4))
+        print(f"Checked {result['papers_checked']} papers, opened {result['pages_opened']} article pages "
+              f"({result['unreachable']} unreachable). Candidates with a referee file: {tiers}. Wrote {args.out}.")
+        if result["unreachable"] and not any(p["referee_file"].startswith("https://") for p in result["candidates"]):
+            print("warning: www.nature.com could not be reached; check the environment's network allowlist.",
+                  file=sys.stderr)
+        return
     days = args.days or config["window_days"]
     per_slot = args.per_slot or config["per_slot"]
     since = (dt.date.today() - dt.timedelta(days=days)).isoformat()

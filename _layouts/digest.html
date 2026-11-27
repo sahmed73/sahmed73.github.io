@@ -9,13 +9,29 @@ layout: default
   {%- endif %}
   <h1>{{ page.title }}</h1>
   <p class="meta">{{ page.author | default: "Written by AI" }} · <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%B %-d, %Y' }}</time> · {{ page.reading_time | default: 2 }} min read</p>
+  {%- if slot.kind == "weekly" %}
+  <p class="digest-note">An AI wrote this summary of the week's digest posts, and it was published without human review. Each post links to its source paper; rely on and cite those papers, not this page.</p>
+  {%- elsif slot.kind == "dissection" %}
+  <p class="digest-note">An AI picked this paper, read it with its published referee reports, and wrote this dissection; it was published without human review. Referee comments are paraphrased or quoted briefly from the journal's peer review file, and the section "Claude's reading" is interpretation, not the editors' or referees' reasons. Check the paper and the referee file before you rely on anything here.</p>
+  {%- else %}
   <p class="digest-note">An AI picked this paper and wrote this summary, and it was published without human review. Check the original paper before you rely on or cite anything here.</p>
+  {%- endif %}
   {{ content }}
+  {%- if page.source_url %}
   <aside class="digest-source" aria-label="Source paper">
     <p class="label">Source</p>
     <p><a href="{{ page.source_url }}">{{ page.source_title | escape }}</a></p>
     <p class="desc">{{ page.source_authors | escape }} · {{ page.source_venue | escape }} · {{ page.source_date | date: '%B %-d, %Y' }}</p>
+    {%- if slot.kind == "dissection" %}
+    {%- if page.referee_file and page.referee_file != "none" %}
+    <p class="desc">Referee reports: <a href="{{ page.referee_file }}">peer review file</a> ({{ page.review_rounds }} round{% if page.review_rounds != "1" and page.review_rounds != 1 %}s{% endif %} of review{% if page.referee_license %}; {{ page.referee_license | escape }}, credit to the anonymous referees{% endif %})</p>
+    {%- else %}
+    <p class="desc">No referee file published. {{ page.referee_note | escape }}</p>
+    {%- endif %}
+    <p class="desc"><a href="{{ '/digest/playbook/' | relative_url }}">Referee playbook</a>: lessons that recur across dissections.</p>
+    {%- endif %}
   </aside>
+  {%- endif %}
   {%- if page.previous or page.next %}
   <nav class="digest-nav" aria-label="More from the digest">
     {%- if page.previous %}<a href="{{ page.previous.url | relative_url }}">← {{ page.previous.title }}</a>{% endif %}

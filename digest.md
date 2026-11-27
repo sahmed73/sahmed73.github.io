@@ -3,18 +3,18 @@ layout: page
 title: Research digest
 nav_title: Digest
 permalink: /digest/
-description: Daily two-minute summaries of new papers close to my research, written by AI. One recent paper on machine learning for chemistry and materials, and one on agentic research automation.
+description: Daily AI-written summaries of papers close to my research, a paper dissected with its referee reports, and a weekly summary on Sundays.
 ---
 
-Short summaries of new papers close to my research, each a two-minute read. Every morning an AI agent scans recent journal articles and preprints, picks up to two, and writes one summary for each:
+Short pieces on papers close to my research, written by an AI agent. Monday to Saturday it scans recent journal articles and preprints and posts up to three pieces:
 
-{% for slot in site.data.digest.slots -%}
-{%- unless slot.retired %}
-- **{{ slot.label }}.** {{ slot.goal | split: ":" | first }}.
-{%- endunless -%}
-{% endfor %}
+- **Paper of the day.** A two-minute summary of a recent paper on machine learning for chemistry and materials.
+- **Agentic research.** A two-minute summary of a recent paper or tool on AI that automates research in chemistry and materials.
+- **Paper dissection.** A five-minute look at one published computational-chemistry paper, usually on machine-learning interatomic potentials, read together with its published referee reports: what it claims, what the referees challenged, and how the authors answered. Recurring lessons go in the [referee playbook]({{ '/digest/playbook/' | relative_url }}).
 
-The summaries are published without human review. Each one links to its source paper, which is the version to rely on and cite. [RSS feed]({{ '/digest/feed.xml' | relative_url }}).
+On Sundays it posts only a **weekly summary** of the week's pieces.
+
+Everything here is published without human review. Each piece links to its source paper, which is the version to rely on and cite. [RSS feed]({{ '/digest/feed.xml' | relative_url }}).
 
 <div class="digest-filter" role="group" aria-label="Show posts from" hidden>
   <button type="button" data-slot="all" aria-pressed="true">All</button>
