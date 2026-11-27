@@ -29,11 +29,13 @@ from the last 7 days, removes papers already covered in `_digest/`, and keeps th
 best-scoring candidates for each slot. If it fails or finds almost nothing, run it
 again with `--days 14`. Never commit the candidates file.
 
-## 3. Choose up to three papers
+## 3. Choose up to two papers
 
-Read the three slots and their goals in `_data/digest.json`: `paper` (Paper of the
-day), `field` (AI for chemistry & materials), and `agents` (Agentic research). For
-each slot, choose the single best paper for that slot's goal. Judge in this order:
+Read the active slots and their goals in `_data/digest.json`: `paper` (Paper of the
+day: machine learning for chemistry and materials, preferring work closest to my own
+research) and `agents` (Agentic research). Ignore any slot with a `retired` date; it
+takes no new posts. For each active slot, choose the single best paper for that
+slot's goal. Judge in this order:
 
 1. **Fit.** It matches the slot's goal, not just its keywords. Keyword scores are a
    rough filter; many high scorers are off-topic.
@@ -88,7 +90,7 @@ source_url: "https://doi.org/10.1021/acsomega.6c00592"
 
 - `date`: the current Pacific time from `TZ=America/Los_Angeles date "+%Y-%m-%d %H:%M:%S %z"`.
   It must not be in the future, or GitHub Pages will not publish the post.
-- `slot`: `paper`, `field`, or `agents`.
+- `slot`: `paper` or `agents`. (`field` is retired; never use it for a new post.)
 - `source_id`: `doi:` plus the lowercase DOI (no `/v2`-style version suffix for
   ChemRxiv), or `arxiv:` plus the arXiv ID without a version (`arxiv:2511.01234`).
 - `source_url`: `https://doi.org/<DOI>` or `https://arxiv.org/abs/<ID>`.

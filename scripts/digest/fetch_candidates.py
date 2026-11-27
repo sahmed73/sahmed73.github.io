@@ -62,9 +62,14 @@ def term_pattern(term):
     return re.compile(r"(?<![a-z0-9])" + re.escape(term.lower()) + r"(?:s|es)?(?![a-z0-9])")
 
 
+def active_slots(config):
+    """Retired slots stay in the config only so older posts keep their label."""
+    return [slot for slot in config["slots"] if not slot.get("retired")]
+
+
 def arxiv_papers(config, since):
     papers = []
-    for slot in config["slots"]:
+    for slot in active_slots(config):
         cats = " OR ".join(f"cat:{c}" for c in slot["arxiv"]["categories"])
         terms = " OR ".join(f'abs:"{t}"' if " " in t else f"abs:{t}" for t in slot["arxiv"]["terms"])
         query = urllib.parse.urlencode({
@@ -208,7 +213,7 @@ def main():
     fill_abstracts(unique)
 
     slots = {}
-    for slot in config["slots"]:
+    for slot in active_slots(config):
         patterns = {
             "keywords": [(t, w, term_pattern(t)) for t, w in slot["keywords"].items()],
             "require": [[term_pattern(t) for t in group] for group in slot["require"]],

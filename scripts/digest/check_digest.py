@@ -5,7 +5,8 @@
 
 Checks every file in _digest/: file name, front matter, slot, source fields,
 length (2-minute read), required sections, no images, no duplicate sources,
-and at most one post per slot and three posts per day. Exits 1 on any problem.
+and at most one post per slot and three posts per day. Slots with a 'retired'
+date in _data/digest.json take no posts from that date on. Exits 1 on any problem.
 """
 import json
 import re
@@ -14,7 +15,9 @@ from collections import Counter
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-SLOTS = {s["id"] for s in json.loads((ROOT / "_data" / "digest.json").read_text())["slots"]}
+CONFIG_SLOTS = json.loads((ROOT / "_data" / "digest.json").read_text())["slots"]
+SLOTS = {s["id"] for s in CONFIG_SLOTS}
+RETIRED = {s["id"]: s["retired"] for s in CONFIG_SLOTS if s.get("retired")}  # slot id -> retirement date
 REQUIRED = ["title", "description", "date", "slot", "source_id", "source_title",
             "source_authors", "source_venue", "source_date", "source_url"]
 SECTIONS = ["## What's new", "## Why it matters", "## Caveats"]
@@ -66,6 +69,8 @@ def main():
             say('date must look like "2026-11-19 07:00:00 -0800"')
         if fields.get("slot") not in SLOTS:
             say(f"slot must be one of {sorted(SLOTS)}")
+        elif fields["slot"] in RETIRED and day >= RETIRED[fields["slot"]]:
+            say(f"slot '{fields['slot']}' was retired on {RETIRED[fields['slot']]}; use one of {sorted(SLOTS - set(RETIRED))}")
         if not fields.get("source_url", "").startswith("https://"):
             say("source_url must be an https link to the paper")
         if not re.fullmatch(r"(doi:10\.\S+|arxiv:\S+)", fields.get("source_id", "")):

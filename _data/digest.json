@@ -1,12 +1,12 @@
 {
-  "_about": "Settings for the research digest (/digest/). The site reads the slot labels; scripts/digest/fetch_candidates.py reads everything else. Keyword weights: 3 = central to my work, 2 = close, 1 = useful context. Terms match whole words in titles and abstracts, case-insensitive, with an optional plural s. Each list in a slot's 'require' needs at least one hit; any 'exclude' hit drops the paper from that slot.",
+  "_about": "Settings for the research digest (/digest/). The site reads the slot labels; scripts/digest/fetch_candidates.py reads everything else. Keyword weights: 3 = central to my work, 2 = close, 1 = useful context. Terms match whole words in titles and abstracts, case-insensitive, with an optional plural s. Each list in a slot's 'require' needs at least one hit; any 'exclude' hit drops the paper from that slot. A slot with a 'retired' date takes no new posts; it stays so older posts keep their label.",
   "window_days": 7,
   "per_slot": 20,
   "slots": [
     {
       "id": "paper",
       "label": "Paper of the day",
-      "goal": "The strongest recently published paper that uses machine learning, ideally machine-learning interatomic potentials (MLIPs), in my own research area: lubricant oxidation and antioxidant additives, radical chemistry of phenolic and aminic antioxidants, reactive molecular dynamics (ReaxFF, REACTER), tribology and lubricant chemistry, and reactive chemistry. A paper with no machine-learning component does not fit this slot.",
+      "goal": "Machine learning for chemistry and materials, especially machine-learning interatomic potentials, with preference for work closest to my own research: lubricant oxidation and antioxidant additives, radical chemistry of phenolic and aminic antioxidants, reactive molecular dynamics (ReaxFF, REACTER), and tribology. Strong general advances also fit: generative molecular design, property prediction for molecules and materials, MLIPs and foundation models, and chemical datasets and benchmarks. A paper with no machine-learning component does not fit.",
       "keywords": {
         "antioxidant": 3,
         "phenolic antioxidant": 3,
@@ -67,7 +67,37 @@
         "molecular dynamics": 2,
         "density functional theory": 1,
         "DFT": 1,
-        "lignin": 2
+        "lignin": 2,
+        "graph neural network": 2,
+        "message passing": 2,
+        "transformer": 1,
+        "generative model": 2,
+        "diffusion model": 2,
+        "graph diffusion": 2,
+        "flow matching": 2,
+        "molecular generation": 2,
+        "molecule generation": 2,
+        "inverse design": 2,
+        "de novo design": 2,
+        "generative adversarial network": 2,
+        "property prediction": 2,
+        "molecular property": 2,
+        "QSPR": 2,
+        "molecular representation": 2,
+        "uncertainty quantification": 2,
+        "Bayesian optimization": 2,
+        "equivariant": 2,
+        "universal potential": 3,
+        "foundation model": 3,
+        "materials discovery": 2,
+        "molecular discovery": 2,
+        "drug discovery": 1,
+        "retrosynthesis": 1,
+        "reaction prediction": 2,
+        "synthesizability": 2,
+        "virtual screening": 2,
+        "benchmark": 1,
+        "dataset": 1
       },
       "require": [
         [
@@ -103,9 +133,22 @@
           "surrogate model",
           "Bayesian optimization",
           "QSPR",
-          "QSAR"
+          "QSAR",
+          "message passing",
+          "flow matching"
         ],
         [
+          "molecule",
+          "molecular",
+          "chemistry",
+          "chemical",
+          "material",
+          "materials",
+          "crystal",
+          "atomistic",
+          "interatomic",
+          "reaction",
+          "polymer",
           "antioxidant",
           "autoxidation",
           "oxidation",
@@ -159,14 +202,16 @@
         "fruit",
         "tea",
         "honey",
-        "wine"
+        "wine",
+        "protein folding"
       ],
       "arxiv": {
         "categories": [
           "physics.chem-ph",
           "cond-mat.mtrl-sci",
           "cond-mat.soft",
-          "physics.comp-ph"
+          "physics.comp-ph",
+          "cs.LG"
         ],
         "terms": [
           "antioxidant",
@@ -180,119 +225,7 @@
           "peroxyl",
           "bond dissociation",
           "hydrogen atom transfer",
-          "friction"
-        ]
-      }
-    },
-    {
-      "id": "field",
-      "label": "AI for chemistry & materials",
-      "goal": "An important recent advance in machine learning or AI for chemistry and materials science, close to my methods: generative molecular design (graph diffusion, GANs), property prediction for molecules and materials, machine-learning interatomic potentials and foundation models, chemical datasets and benchmarks.",
-      "keywords": {
-        "machine learning": 2,
-        "deep learning": 2,
-        "neural network": 2,
-        "graph neural network": 3,
-        "message passing": 2,
-        "transformer": 1,
-        "generative model": 3,
-        "diffusion model": 3,
-        "graph diffusion": 3,
-        "flow matching": 2,
-        "molecular generation": 3,
-        "molecule generation": 3,
-        "inverse design": 3,
-        "de novo design": 3,
-        "generative adversarial network": 2,
-        "property prediction": 3,
-        "molecular property": 3,
-        "QSPR": 2,
-        "molecular representation": 2,
-        "uncertainty quantification": 2,
-        "active learning": 2,
-        "Bayesian optimization": 2,
-        "interatomic potential": 3,
-        "machine-learning potential": 3,
-        "machine learning potential": 3,
-        "machine-learned potential": 3,
-        "MLIP": 3,
-        "MACE": 3,
-        "equivariant": 2,
-        "universal potential": 3,
-        "foundation model": 3,
-        "materials discovery": 3,
-        "molecular discovery": 3,
-        "drug discovery": 1,
-        "retrosynthesis": 1,
-        "reaction prediction": 2,
-        "synthesizability": 2,
-        "virtual screening": 2,
-        "benchmark": 1,
-        "dataset": 1,
-        "density functional theory": 1,
-        "DFT": 1,
-        "molecular dynamics": 1
-      },
-      "require": [
-        [
-          "molecule",
-          "molecular",
-          "chemistry",
-          "chemical",
-          "material",
-          "materials",
-          "crystal",
-          "atomistic",
-          "interatomic",
-          "reaction",
-          "polymer"
-        ],
-        [
-          "machine learning",
-          "machine-learning",
-          "machine learned",
-          "machine-learned",
-          "deep learning",
-          "neural network",
-          "graph neural network",
-          "GNN",
-          "message passing",
-          "interatomic potential",
-          "MLIP",
-          "MACE",
-          "NequIP",
-          "Allegro",
-          "DeePMD",
-          "deep potential",
-          "foundation model",
-          "universal potential",
-          "active learning",
-          "artificial intelligence",
-          "AI",
-          "large language model",
-          "LLM",
-          "generative model",
-          "diffusion model",
-          "flow matching",
-          "transformer",
-          "Bayesian optimization",
-          "Gaussian process",
-          "QSPR"
-        ]
-      ],
-      "exclude": [
-        "patients",
-        "clinical",
-        "protein folding"
-      ],
-      "arxiv": {
-        "categories": [
-          "physics.chem-ph",
-          "cond-mat.mtrl-sci",
-          "cs.LG",
-          "physics.comp-ph"
-        ],
-        "terms": [
+          "friction",
           "molecular generation",
           "inverse design",
           "diffusion model",
@@ -405,6 +338,12 @@
           "information extraction"
         ]
       }
+    },
+    {
+      "id": "field",
+      "label": "AI for chemistry & materials",
+      "retired": "2026-11-27",
+      "goal": "Retired on 2026-11-27 and merged into Paper of the day. Kept so older posts keep their label."
     }
   ],
   "journals": [

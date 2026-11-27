@@ -3,13 +3,15 @@ layout: page
 title: Research digest
 nav_title: Digest
 permalink: /digest/
-description: Daily two-minute summaries of new papers close to my research, written by AI. One recent paper close to my own work, one advance in AI for chemistry and materials, and one on agentic research automation.
+description: Daily two-minute summaries of new papers close to my research, written by AI. One recent paper on machine learning for chemistry and materials, and one on agentic research automation.
 ---
 
-Short summaries of new papers close to my research, each a two-minute read. Every morning an AI agent scans recent journal articles and preprints, picks up to three, and writes one summary for each:
+Short summaries of new papers close to my research, each a two-minute read. Every morning an AI agent scans recent journal articles and preprints, picks up to two, and writes one summary for each:
 
 {% for slot in site.data.digest.slots -%}
+{%- unless slot.retired %}
 - **{{ slot.label }}.** {{ slot.goal | split: ":" | first }}.
+{%- endunless -%}
 {% endfor %}
 
 The summaries are published without human review. Each one links to its source paper, which is the version to rely on and cite. [RSS feed]({{ '/digest/feed.xml' | relative_url }}).
